@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 .waiting-screen {
     display: flex;
     width: 100%;
@@ -49,5 +51,6 @@
     margin: 5px;
     text-align: left;
     padding: 50px;
+    font-family: 'Roboto', sans-serif;
   }
   
