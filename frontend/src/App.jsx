@@ -6,6 +6,8 @@ import { SidebarDC } from './components/Sidebar';
 import { CartButton } from './components/CartButton';
 import { PaymentChoice } from './components/PaymentChoice';
 
+
+
 function App() {
   const [cart, setCart] = React.useState([]);
 
