@@ -3,8 +3,8 @@ import '../css/WaitingScreen.css';
 
 export function WaitingScreen() {
 
-  const pendingOrders = ['1', '2', '3'];
-  const readyOrders = ['4', '5'];
+  const pendingOrders = ['101', '102', '103'];
+  const readyOrders = ['104', '105'];
 
   return (
     <div className="waiting-screen">
@@ -29,4 +29,4 @@ export function WaitingScreen() {
   );
 };
 
-// export default WaitingScreen;
+export default WaitingScreen;
