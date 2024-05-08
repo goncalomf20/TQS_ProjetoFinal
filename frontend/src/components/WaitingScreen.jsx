@@ -1,6 +1,8 @@
 import React from 'react';
+import '../css/WaitingScreen.css';
 
-const WaitingScreen = () => {
+export function WaitingScreen() {
+
   const pendingOrders = ['1', '2', '3'];
   const readyOrders = ['4', '5'];
 
@@ -27,4 +29,4 @@ const WaitingScreen = () => {
   );
 };
 
-export default WaitingScreen;
+// export default WaitingScreen;

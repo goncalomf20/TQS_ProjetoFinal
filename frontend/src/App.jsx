@@ -5,7 +5,7 @@ import { Checkout } from './components/Checkout';
 import { SidebarDC } from './components/Sidebar';
 import { CartButton } from './components/CartButton';
 import { PaymentChoice } from './components/PaymentChoice';
-
+import { WaitingScreen } from './components/WaitingScreen';
 
 
 function App() {
@@ -35,6 +35,7 @@ function App() {
             <Route path="/" element={<Kiosk onAddToCart={handleAddToCart} cart={cart} />} /> {/* Use element prop */}
             <Route path="/checkout" element={<Checkout cart={cart} />} />
             <Route path="/payment-choice" element={<PaymentChoice />} />
+            <Route path="/waiting-screen" element={<WaitingScreen />} />
           </Routes>
         </div>
         <CartButton cartQuantity={cartQuantity} />
