@@ -17,10 +17,13 @@ different sections, enabling a customer to order from a cafeteria, pastery or ev
 the process easier and quicker.
 
 ### The team:
-- [Gonçalo Ferreira - 107853](https://github.com/goncalomf20)
-- [Matilde Teixeira - 108193](https://github.com/matildetex)
-- [Sara Almeida - 108796](https://github.com/SardinhaAlmeida)
-- [João Carlos - 110555](https://github.com/JotaCLS)
+|NMec|Name|Email|Role|
+|:-:|:-:|:-:|:-:|
+|107853|[Gonçalo Ferreira](https://github.com/goncalomf20)|goncalomf@ua.pt|Architect|
+|108193|[Matilde Teixeira](https://github.com/matildetex)|matilde.teixeira@ua.pt|Team Manager|
+|108796|[Sara Almeida](https://github.com/SardinhaAlmeida)|sarafalmeida@ua.pt|Product Owner|
+|110555|[João Carlos](https://github.com/JotaCLS)|joao.carlos.santos@ua.pt|DevOps Master|
+
 
 ### Resources:
  - [Jira](https://tqs-finalproject2024.atlassian.net/jira/software/projects/TF/boards/2/backlog)
