@@ -51,7 +51,7 @@ function Kiosk({ onAddToCart, cart }) {
       ingredients: ['croissant', 'ham', 'cheese'],
     },
     {
-      id: 5,
+      id: 6,
       name: 'Large Coffee',
       image: '/src/assets/large_coffee.jpg',
       description: 'A large cup of freshly brewed coffee.',
@@ -60,13 +60,13 @@ function Kiosk({ onAddToCart, cart }) {
       ingredients: ['coffee', 'water', 'sugar'],
     },
     {
-      id: 5,
+      id: 7,
       name: 'Tuna Sandwich',
       image: '/src/assets/tuna_sandwich.jpg',
       description: 'A classic tuna sandwich with lettuce and mayo.',
       price: 1.99,
       category: 3,
-      ingredients: ['bread', 'tuna', 'lettuce'],
+      ingredients: ['bread', 'tuna', 'lettuce' , 'mayo' , 'tomato'],
     },
   ];
 

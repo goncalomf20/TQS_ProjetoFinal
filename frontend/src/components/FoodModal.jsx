@@ -61,7 +61,7 @@ export function FoodModal({ food, isOpen, onClose, onAddToCart }) {
           </div>
         </div>
 
-        <div className="flex justify-end p-4 border-t border-gray-200">
+        <div className="flex justify-end p-4 border-t border-gray-200">onClick={handleAddToCart}
           <button onClick={onClose} className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 dark:bg-gray-600 dark:text-white">
             Close
           </button>
