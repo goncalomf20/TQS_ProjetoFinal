@@ -50,12 +50,12 @@ public class OrderServiceTest {
         long orderId = 456L;
         Product product1 = new Product();
         product1.setName("Cappuccino");
-        product1.setPrice(2.5);
+        product1.setPrice(2.5f);
         product1.setIngredients(List.of("Coffee", "Milk", "Sugar"));
 
         Product product2 = new Product();
         product2.setName("Tuna Sandwich");
-        product2.setPrice(3.5);
+        product2.setPrice(3.5f);
         product2.setIngredients(List.of("Tuna", "Bread", "Lettuce", "Tomato"));
 
         OrderDetails orderDetails1 = new OrderDetails();
