@@ -10,7 +10,7 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "order")
+@Table(name = "`order`")
 public class Order {
 
 

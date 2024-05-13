@@ -1,63 +1,49 @@
 import { Sidebar } from "flowbite-react";
-import { BiSolidDrink } from "react-icons/bi";
+import {
+  BiSolidDrink,
+  BiChevronLeft,
+} from "react-icons/bi";
 import { IoFastFood } from "react-icons/io5";
 import { FaIceCream, FaHotdog } from "react-icons/fa";
-import { GiPriceTag } from "react-icons/gi";
-import React, { useState } from 'react';
+import { GiPriceTag, GiCakeSlice } from "react-icons/gi";
+import { IoCafeSharp } from "react-icons/io5";
+import { Link } from "react-router-dom"; // For navigation with React Router
+import React from "react"; // No need for useState anymore
 
 export function SidebarDC() {
-  const [isExpanded, setIsExpanded] = useState(false);
+  // Sidebar will always be expanded, so remove the state
+  const sidebarStyle = "w-52"; // Fixed expanded width
 
-  const toggleSidebar = () => {
-    setIsExpanded((prevExpanded) => !prevExpanded);
-  };
-
-  const sidebarStyle = isExpanded ? "w-40" : "w-14"; // Adjust width based on state
+  const items = [
+    { id: 1, name: "Drinks", icon: BiSolidDrink },
+    { id: 2, name: "Foods", icon: IoFastFood },
+    { id: 3, name: "Snacks", icon: FaHotdog },
+    { id: 4, name: "Desserts", icon: FaIceCream },
+    { id: 5, name: "Pastry", icon: GiCakeSlice },
+    { id: 6, name: "Coffee", icon: IoCafeSharp },
+    { id: 7, name: "Promotions", icon: GiPriceTag },
+  ];
 
   return (
     <Sidebar
-      aria-label="Sidebar with logo branding example"
-      onClick={toggleSidebar} // Toggle sidebar on click
-      className={`transition-all duration-200 ${sidebarStyle} flex flex-col items-center`} // Center the icons horizontally
-      style={{ height: "100vh" }} // Ensure full height for vertical centering
+      aria-label="Always expanded sidebar"
+      className={`transition-all duration-200 ${sidebarStyle} flex flex-col`} // Always expanded
+      style={{ height: "100vh" }} // Ensuring full height for sidebar
     >
-      <Sidebar.Items className="flex flex-col flex-1 justify-center"> {/* Vertical centering */}
+      <Sidebar.Items className="flex flex-col flex-1 justify-start mt-10"> {/* Sidebar items */}
         <Sidebar.ItemGroup>
-          <Sidebar.Item
-            href="#"
-            icon={BiSolidDrink}
-            className="w-full flex justify-center hover:bg-gray-100 dark:hover:bg-gray-800" // Center the icon
-          >
-            {isExpanded && <span className="px-2">Drinks</span>} {/* Show text only if expanded */}
-          </Sidebar.Item>
-          <Sidebar.Item
-            href="#"
-            icon={IoFastFood}
-            className="w-full flex justify-center hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            {isExpanded && <span className="px-2">Foods</span>}
-          </Sidebar.Item>
-          <Sidebar.Item
-            href="#"
-            icon={FaHotdog}
-            className="w-full flex justify-center hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            {isExpanded && <span className="px-2">Snacks</span>}
-          </Sidebar.Item>
-          <Sidebar.Item
-            href="#"
-            icon={FaIceCream}
-            className="w-full flex justify-center hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            {isExpanded && <span className="px-2">Desserts</span>}
-          </Sidebar.Item>
-          <Sidebar.Item
-            href="#"
-            icon={GiPriceTag}
-            className="w-full flex justify-center hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            {isExpanded && <span className="px-2">Promotions</span>}
-          </Sidebar.Item>
+          {items.map((item) => (
+            <Link
+              key={item.id}
+              to={`/?category=${item.id}`} // Update URL with query parameter
+              className="w-full py-4 flex justify-start items-center hover:bg-gray-200 dark:hover:bg-gray-800"
+            >
+              <item.icon className="text-3xl" /> {/* Icon size */}
+              <span className="px-4 text-lg"> {/* No condition for expansion */}
+                {item.name} {/* Display item name */}
+              </span>
+            </Link>
+          ))}
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>

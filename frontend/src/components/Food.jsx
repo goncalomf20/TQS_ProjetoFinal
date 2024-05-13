@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FoodModal } from './FoodModal'; // Import the FoodModal component
 
 export function FoodCard({ food, onAddToCart }) {
-  const addToCheckout = () => {
-    if (onAddToCart) {
-      onAddToCart(food.id, food.price); // Pass the food_id and price
-    }
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+
+  const openModal = () => {
+    setIsModalOpen(true); // Open the modal
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false); // Close the modal
   };
 
   return (
@@ -21,17 +26,23 @@ export function FoodCard({ food, onAddToCart }) {
         <p className="text-gray-700 dark:text-gray-400">
           {food.description}
         </p>
-        {/* Display the price */}
         <div className="mt-2 text-lg text-gray-900 dark:text-white">
           Price: ${food.price.toFixed(2)}
         </div>
         <button
-          onClick={addToCheckout}
+          onClick={openModal} // Open modal instead of going to checkout
           className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
-          Add to Checkout
+          View Details
         </button>
       </div>
+
+      {/* Render the FoodModal when isModalOpen is true */}
+      <FoodModal
+        food={food}
+        isOpen={isModalOpen}
+        onClose={closeModal} // Function to close the modal
+      />
     </div>
   );
 }
