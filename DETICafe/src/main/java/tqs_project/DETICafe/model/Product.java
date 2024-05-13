@@ -27,9 +27,9 @@ public class Product {
     @Column(name = "price", nullable = false)
     private double price;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    private Long category_id;
+    private Category category;
 
     
 }

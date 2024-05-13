@@ -1,5 +1,7 @@
 package tqs_project.DETICafe.model;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,13 +14,16 @@ import lombok.*;
 public class Order {
 
 
+    public Order(List<OrderDetails> orderDetailsList) {
+        this.orderDetails = orderDetailsList;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long order_id;
+    private Long orderId;
 
-    @OneToMany
-    @JoinColumn(name = "order_details_id")
-    private Long order_details_id;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderDetails> orderDetails;
 
     
 }

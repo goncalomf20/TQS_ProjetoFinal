@@ -17,14 +17,20 @@ public class OrderDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long order_details_id;
+    private Long orderDetailsId;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     @Column
     private List<String> customizations;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
     
-    @OneToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Long product_id;
+    
     
 
 }
