@@ -25,7 +25,7 @@ public class Product {
     private List<String> ingredients;
 
     @Column(name = "price", nullable = false)
-    private double price;
+    private float price;
 
     @ManyToMany
     @JoinColumn(name = "category_id", nullable = false)
