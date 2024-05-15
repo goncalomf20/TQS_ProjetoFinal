@@ -12,7 +12,7 @@ WORKDIR /app
 # Copy the application files
 COPY . .
 
-EXPOSE 8081
+EXPOSE 8080
 
 # Set the entry point
 ENTRYPOINT ["./mvnw", "spring-boot:run"]
