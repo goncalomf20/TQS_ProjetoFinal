@@ -84,7 +84,9 @@ create_tables = [
     """
     CREATE TABLE IF NOT EXISTS `order` (
         order_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        customer_id BIGINT,
         order_details_id BIGINT,
+        FOREIGN KEY (customer_id) REFERENCES customer (costumer_id),
         FOREIGN KEY (order_details_id) REFERENCES order_details(order_details_id)
     );
     """,
@@ -106,12 +108,11 @@ for query in create_tables:
 
 
 # Insert initial data
-# insert_data = """
-#         INSERT INTO 
-#         VALUES 
-#         """
+insert_data =  """
+        INSERT INTO category (name) VALUES ('Drinks'), ('Foods'), ('Snacks'), ('Desserts'), ('Pastery'), ('Coffee'), ('Promotions');
+        """        
 
-# cursor.execute(insert_data)
+cursor.execute(insert_data)
 
 print("Tables created successfully.")
 
