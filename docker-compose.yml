@@ -1,26 +1,37 @@
 version: '3.8'
 
 services:
-  db_mysql:
-    image: mysql:latest
-    env_file:
-      - .env
+  db:
+    image: mysql:8.0
+    container_name: db_mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: tqs_project
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
     ports:
-      - ${MYSQL_PORT}:${MYSQL_PORT}
+      - "3306:3306"
     volumes:
-      - data:/var/lib/mysql
-      
-  init_mysql_db:
-    depends_on:
-      - db_mysql
+      - db_data:/var/lib/mysql
+  
+  spring-app:
+    container_name: spring-app
     build:
-      context: init_db
+      context: ./deticafe
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "8081:8081"
+
+  react-app:
+    container_name: react-app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
 
 volumes:
-  data:
-    driver: local
+  db_data:
+
