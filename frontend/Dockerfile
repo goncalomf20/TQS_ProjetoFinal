@@ -1,0 +1,20 @@
+# Use an official Node.js runtime as the base image
+FROM node:17-alpine
+
+# Set the working directory in the Docker image
+WORKDIR /app
+
+# Copy the application files to the Docker image
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application files to the Docker image
+COPY . .
+
+# Expose the port that Vite uses
+EXPOSE 5173
+
+# Start the application
+CMD ["npm", "run", "dev", "--", "--host"]
