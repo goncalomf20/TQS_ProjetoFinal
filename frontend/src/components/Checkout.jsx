@@ -79,10 +79,38 @@ export function Checkout() {
   const handleRemoveItem = (id) => {
     setCart(cart.filter((item) => item.id !== id)); // Remove item from the cart
   };
-
+  
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2); // Calculate total price
   };
+
+    const postCart = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/order/createOrder', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(cart),
+        });
+        if (response.ok) {
+          // Cart successfully posted
+          console.log('Cart posted successfully');
+        } else {
+          // Error posting cart
+          console.error('Error posting cart');
+        }
+      } catch (error) {
+        console.error('Error posting cart:', error);
+      }
+    };
+
+
+
+  const handleClick = () => {
+    postCart();
+    
+  }
 
   return (
     <div className="p-6 bg-gray-100 dark:bg-gray-900 min-h-screen">
@@ -147,8 +175,8 @@ export function Checkout() {
 
       <button
         className="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        onClick={() => navigate('/payment-choice')} // Navigate to payment
-      >
+        onClick={handleClick()} 
+              >
         Proceed to Payment
       </button>
     </div>

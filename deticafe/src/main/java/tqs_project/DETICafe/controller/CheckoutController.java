@@ -7,6 +7,7 @@ import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ import tqs_project.DETICafe.service.OrderService;
 
 @RestController
 @RequestMapping("/api/order")
+@CrossOrigin(origins = "*")
 public class CheckoutController {
 
     private final OrderService orderService;
@@ -30,9 +32,11 @@ public class CheckoutController {
     }
 
     @PostMapping("/createOrder")
-    public ResponseEntity<Long> createOrder(@RequestBody List<OrderDetails> orderDetailsList) {
-        Long orderId = orderService.createOrder(orderDetailsList);
-        return new ResponseEntity<Long>(orderId, HttpStatus.OK);
+    public ResponseEntity<String> createOrder(@RequestBody Object orderDetailsList) {
+        System.out.println(orderDetailsList);
+        return new ResponseEntity<String>("ok", HttpStatus.OK);
+        // Long orderId = orderService.createOrder(orderDetailsList);
+        // return new ResponseEntity<Long>(orderId, HttpStatus.OK);
     }
 
 
