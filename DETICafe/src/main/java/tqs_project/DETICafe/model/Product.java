@@ -25,11 +25,11 @@ public class Product {
     private List<String> ingredients;
 
     @Column(name = "price", nullable = false)
-    private double price;
+    private float price;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    private Long category_id;
+    private Category category;
 
     
 }

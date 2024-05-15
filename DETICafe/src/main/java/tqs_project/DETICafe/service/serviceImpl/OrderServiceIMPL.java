@@ -1,0 +1,30 @@
+package tqs_project.DETICafe.service.serviceImpl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import tqs_project.DETICafe.model.OrderDetails;
+import tqs_project.DETICafe.service.OrderService;
+import tqs_project.DETICafe.model.Order;
+import tqs_project.DETICafe.repository.OrderRepo;
+
+
+@Service
+public class OrderServiceIMPL implements OrderService {
+
+    OrderRepo orderRepo;
+
+    public Long createOrder(List<OrderDetails> orderDetailsList) {
+        Order order = new Order(orderDetailsList);
+        orderRepo.saveOrder(order);
+
+        return order.getOrderId();
+
+    }
+
+    public Order getOrder(Long id) {
+        return orderRepo.getOrderById(id);
+    }
+    
+}
