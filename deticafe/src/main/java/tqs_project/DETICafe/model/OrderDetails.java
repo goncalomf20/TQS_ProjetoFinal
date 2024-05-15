@@ -11,7 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-
+@ToString
 @Table(name = "order_details")
 public class OrderDetails {
 
