@@ -24,13 +24,13 @@ cursor = conn.cursor()
 
 # Drop tables
 drop_tables = [
+    "DROP TABLE IF EXISTS status",
+    "DROP TABLE IF EXISTS `order`",
+    "DROP TABLE IF EXISTS order_details",
+    "DROP TABLE IF EXISTS product",
     "DROP TABLE IF EXISTS category",
     "DROP TABLE IF EXISTS customer",
-    "DROP TABLE IF EXISTS staff",
-    "DROP TABLE IF EXISTS product",
-    "DROP TABLE IF EXISTS order_details",
-    "DROP TABLE IF EXISTS `order`",
-    "DROP TABLE IF EXISTS status"
+    "DROP TABLE IF EXISTS staff"
 ]
 
 for query in drop_tables:
