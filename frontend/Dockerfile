@@ -5,14 +5,16 @@ FROM node:17-alpine
 WORKDIR /app
 
 # Copy the application files to the Docker image
-COPY package.json .
+COPY package*.json ./
 
+# Install dependencies
+RUN npm install
 
 # Copy the rest of the application files to the Docker image
 COPY . .
 
+# Expose the port that Vite uses
+EXPOSE 5173
 
 # Start the application
-
-CMD ["npm", "install"]
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev", "--", "--host"]
