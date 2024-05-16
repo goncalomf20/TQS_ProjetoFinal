@@ -29,5 +29,5 @@ jobs:
         distribution: 'temurin'
         
     - name: Build and run unit tests with Maven
-      run: cd DETICafe && mvn clean test
+      run: cd deticafe && mvn clean test
       continue-on-error: false
