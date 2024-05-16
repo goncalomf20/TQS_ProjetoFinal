@@ -8,7 +8,7 @@ import tqs_project.DETICafe.model.Product;
 @Service
 public interface ProductService {
 
-    public Product getProductById(Long id);
+    public Product getProductById(int id);
     public Product getProductByName(String name);
     public List<Product> getAllProducts();
     

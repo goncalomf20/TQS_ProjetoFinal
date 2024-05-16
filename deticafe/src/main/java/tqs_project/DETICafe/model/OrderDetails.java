@@ -20,16 +20,17 @@ public class OrderDetails {
     @Column(name = "oder_details_id")
     private Long orderDetailsId;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
-
     @Column(name = "customizations")
     private List<String> customizations;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    public OrderDetails(List<String> customizations, Product product) {
+        this.customizations = customizations;
+        this.product = product;
+    }
     
     
     

@@ -69,7 +69,7 @@ public class ProductService_UnitTest {
     @Test
     @DisplayName("Test getProductById with valid id")
     void testGetProductByIdValidId() {
-        Long id = 1L;
+        int id = 1;
         Product found = productService.getProductById(id);
         assertNotNull(found);
         assertEquals(id, found);
@@ -82,7 +82,7 @@ public class ProductService_UnitTest {
     @Test
     @DisplayName("Test getProductById with invalid id")
     void testGetProductByIdInvalidId() {
-        Long id = 0L;
+        int id = 0;
         Product found = productService.getProductById(id);
         assertEquals(null, found);
     }
