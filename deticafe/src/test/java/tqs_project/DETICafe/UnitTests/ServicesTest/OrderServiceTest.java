@@ -26,11 +26,7 @@ import tqs_project.DETICafe.model.OrderDetails;
 import tqs_project.DETICafe.model.Product;
 import tqs_project.DETICafe.repository.OrderRepo;
 import tqs_project.DETICafe.repository.ProductRepo;
-import tqs_project.DETICafe.service.serviceImpl.OrderServiceIMPL;
-
-
-
-
+import tqs_project.DETICafe.service.serviceImpl.OrderServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceTest {
@@ -42,7 +38,7 @@ public class OrderServiceTest {
     private OrderRepo orderRepo;
 
     @InjectMocks
-    private OrderServiceIMPL orderService;
+    private OrderServiceImpl orderService;
 
     @Test
     public void getOrderTest() {
@@ -65,7 +61,7 @@ public class OrderServiceTest {
 
         Order expectedOrder = new Order(orderId, List.of(orderDetails1, orderDetails2));
 
-        when(orderRepo.getOrderById(orderId)).thenReturn(expectedOrder);
+        when(orderRepo.findByOrderId(orderId)).thenReturn(expectedOrder);
 
         Order retrievedOrder = orderService.getOrder(orderId);
 
@@ -84,7 +80,7 @@ public class OrderServiceTest {
             Order order = invocation.getArgument(0);
             order.setOrderId(123L); // Simula a geração de um ID pelo repositório
             return null;
-        }).when(orderRepo).saveOrder(any(Order.class));
+        }).when(orderRepo).save(any(Order.class));
 
         // When
         Long orderId = orderService.createOrder(orderDetailsList);

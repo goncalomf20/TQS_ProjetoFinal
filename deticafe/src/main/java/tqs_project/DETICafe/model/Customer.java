@@ -15,7 +15,8 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long costumer_id;
+    @Column(name = "costumer_id")
+    private Long costumerId;
 
     @Column(name = "nmec", nullable = false)
     private int nmec;

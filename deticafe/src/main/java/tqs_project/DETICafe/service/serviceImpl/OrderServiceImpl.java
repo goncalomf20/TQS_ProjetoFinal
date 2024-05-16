@@ -11,20 +11,19 @@ import tqs_project.DETICafe.repository.OrderRepo;
 
 
 @Service
-public class OrderServiceIMPL implements OrderService {
+public class OrderServiceImpl implements OrderService {
 
     OrderRepo orderRepo;
 
     public Long createOrder(List<OrderDetails> orderDetailsList) {
         Order order = new Order(orderDetailsList);
-        orderRepo.saveOrder(order);
+        orderRepo.save(order);
 
         return order.getOrderId();
-
     }
 
     public Order getOrder(Long id) {
-        return orderRepo.getOrderById(id);
+        return orderRepo.findByOrderId(id);
     }
     
 }
