@@ -17,14 +17,14 @@ public class OrderServiceIMPL implements OrderService {
 
     public Long createOrder(List<OrderDetails> orderDetailsList) {
         Order order = new Order(orderDetailsList);
-        orderRepo.saveOrder(order);
+        orderRepo.save(order);
 
         return order.getOrderId();
 
     }
 
     public Order getOrder(Long id) {
-        return orderRepo.getOrderById(id);
+        return orderRepo.findByOrderId(id);
     }
     
 }

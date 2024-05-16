@@ -65,7 +65,7 @@ public class OrderServiceTest {
 
         Order expectedOrder = new Order(orderId, List.of(orderDetails1, orderDetails2));
 
-        when(orderRepo.getOrderById(orderId)).thenReturn(expectedOrder);
+        when(orderRepo.findByOrderId(orderId)).thenReturn(expectedOrder);
 
         Order retrievedOrder = orderService.getOrder(orderId);
 
@@ -84,7 +84,7 @@ public class OrderServiceTest {
             Order order = invocation.getArgument(0);
             order.setOrderId(123L); // Simula a geração de um ID pelo repositório
             return null;
-        }).when(orderRepo).saveOrder(any(Order.class));
+        }).when(orderRepo).save(any(Order.class));
 
         // When
         Long orderId = orderService.createOrder(orderDetailsList);
