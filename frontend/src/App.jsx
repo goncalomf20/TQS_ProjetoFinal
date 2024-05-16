@@ -10,11 +10,25 @@ import KioskSide from './KioskSide';
 
 function App() {
   const [cart, setCart] = React.useState([]);
+  const handleAddToCart = (food, selectedItems) => { // Accept price as a parameter
+    const updatedCart = [...cart];
+
+    const existingItem = updatedCart.find((item) => item.id === food.id);
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      updatedCart.push({ "name": food.name ,"food_id": food.id , "quantity": 1, "price": food.price , "orderDetails" : selectedItems }); // Use the passed price
+    }
+    
+    console.log(updatedCart);
+    
+    setCart(updatedCart);
+  };
 
   return (
     <Router>
       <Routes> 
-        <Route path="/" element={<KioskSide />} />
+        <Route path="/" element={<KioskSide cart={cart} addOnCart={handleAddToCart}/>} />
         <Route path="/waiting-screen" element={<WaitingScreen />} />
         <Route path="/checkout" element={<Checkout cart={cart} />} />
         <Route path="/payment-choice" element={<PaymentChoice />} />
