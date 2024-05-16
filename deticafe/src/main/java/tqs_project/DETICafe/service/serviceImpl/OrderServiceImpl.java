@@ -11,7 +11,7 @@ import tqs_project.DETICafe.repository.OrderRepo;
 
 
 @Service
-public class OrderServiceIMPL implements OrderService {
+public class OrderServiceImpl implements OrderService {
 
     OrderRepo orderRepo;
 
@@ -20,7 +20,6 @@ public class OrderServiceIMPL implements OrderService {
         orderRepo.save(order);
 
         return order.getOrderId();
-
     }
 
     public Order getOrder(Long id) {

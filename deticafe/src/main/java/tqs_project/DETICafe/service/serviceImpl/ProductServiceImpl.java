@@ -6,7 +6,7 @@ import tqs_project.DETICafe.model.Product;
 import tqs_project.DETICafe.service.ProductService;
 
 @Service
-public class ProductServiceIMPL implements ProductService{
+public class ProductServiceImpl implements ProductService{
     
     public Product findProductById(Long id) {
         return null;

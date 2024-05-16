@@ -26,11 +26,7 @@ import tqs_project.DETICafe.model.OrderDetails;
 import tqs_project.DETICafe.model.Product;
 import tqs_project.DETICafe.repository.OrderRepo;
 import tqs_project.DETICafe.repository.ProductRepo;
-import tqs_project.DETICafe.service.serviceImpl.OrderServiceIMPL;
-
-
-
-
+import tqs_project.DETICafe.service.serviceImpl.OrderServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceTest {
@@ -42,7 +38,7 @@ public class OrderServiceTest {
     private OrderRepo orderRepo;
 
     @InjectMocks
-    private OrderServiceIMPL orderService;
+    private OrderServiceImpl orderService;
 
     @Test
     public void getOrderTest() {
