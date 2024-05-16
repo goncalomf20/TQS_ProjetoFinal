@@ -16,7 +16,8 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long product_id;
+    @Column(name = "product_id")
+    private Long productId;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -25,11 +26,18 @@ public class Product {
     private List<String> ingredients;
 
     @Column(name = "price", nullable = false)
-    private float price;
+    private double price;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id")
     private Category category;
+
+    public Product(String name, List<String> ingredients, double price, Category category) {
+        this.name = name;
+        this.ingredients = ingredients;
+        this.price = price;
+        this.category = category;
+    }
 
     
 }

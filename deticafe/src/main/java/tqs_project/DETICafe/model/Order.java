@@ -20,10 +20,12 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "order_id")
     private Long orderId;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    // @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany
+    @JoinColumn(name = "order_details_id", nullable = false)
     private List<OrderDetails> orderDetails;
-
     
 }

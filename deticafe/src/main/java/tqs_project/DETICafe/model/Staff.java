@@ -14,7 +14,8 @@ public class Staff{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long staff_id;
+    @Column(name = "staff_id")
+    private Long staffId;
 
     @Column(name = "name", nullable = false)
     private String name;

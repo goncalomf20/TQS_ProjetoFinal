@@ -3,23 +3,20 @@ import { FaTimes } from 'react-icons/fa';
 
 export function FoodModal({ food, isOpen, onClose, onAddToCart }) {
   const [selectedIngredients, setSelectedIngredients] = useState(
-    food.ingredients || []
-  ); // Initialize with food's ingredients
-
+    food.ingredients.reduce((acc, ingredient) => {
+      acc[ingredient] = true;
+      return acc;
+    }, {})
+  );
+  
   const toggleIngredient = (ingredient) => {
-    if (selectedIngredients.includes(ingredient)) {
-      setSelectedIngredients(
-        selectedIngredients.filter((item) => item !== ingredient)
-      ); // Remove ingredient if it's already selected
-    } else {
-      setSelectedIngredients([...selectedIngredients, ingredient]); // Add ingredient if it's not selected
-    }
+    setSelectedIngredients(prevIngredients => {
+      return { ...prevIngredients, [ingredient]: !prevIngredients[ingredient] };
+    });
   };
 
-  const handleAddToCart = () => {
-    if (onAddToCart) {
-      onAddToCart(food, selectedIngredients); // Pass food and selected ingredients
-    }
+  const addCart = () => {
+    onAddToCart(food, selectedIngredients); // Pass food and selected ingredients
   };
 
   if (!isOpen) {
@@ -50,7 +47,7 @@ export function FoodModal({ food, isOpen, onClose, onAddToCart }) {
                 <li key={index} className="flex items-center my-2">
                   <input
                     type="checkbox"
-                    checked={selectedIngredients.includes(ingredient)} // Checkbox state based on selected ingredients
+                    checked={selectedIngredients[ingredient]} // Checkbox state based on selected ingredients
                     onChange={() => toggleIngredient(ingredient)} // Toggle ingredient selection
                     className="mr-2"
                   />
@@ -61,11 +58,11 @@ export function FoodModal({ food, isOpen, onClose, onAddToCart }) {
           </div>
         </div>
 
-        <div className="flex justify-end p-4 border-t border-gray-200">onClick={handleAddToCart}
+        <div className="flex justify-end p-4 border-t border-gray-200">
           <button onClick={onClose} className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 dark:bg-gray-600 dark:text-white">
             Close
           </button>
-          <button onClick={handleAddToCart} className="bg-blue-500 text-white px-4 py-2 rounded ml-2 hover:bg-blue-600">
+          <button onClick={addCart} className="bg-blue-500 text-white px-4 py-2 rounded ml-2 hover:bg-blue-600">
             Add to Cart
           </button>
         </div>

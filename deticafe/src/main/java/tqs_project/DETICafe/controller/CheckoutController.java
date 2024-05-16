@@ -2,8 +2,10 @@ package tqs_project.DETICafe.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.aspectj.weaver.ast.Or;
+import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import tqs_project.DETICafe.DTO.OrderDetailsDTO;
 import tqs_project.DETICafe.model.Order;
 import tqs_project.DETICafe.model.OrderDetails;
+import tqs_project.DETICafe.model.Product;
+import tqs_project.DETICafe.repository.ProductRepo;
 import tqs_project.DETICafe.service.OrderService;
+import tqs_project.DETICafe.service.ProductService;
 
 @RestController
 @RequestMapping("/api/order")
@@ -25,18 +31,47 @@ import tqs_project.DETICafe.service.OrderService;
 public class CheckoutController {
 
     private final OrderService orderService;
+    private final ProductService productService;
+
 
     @Autowired
-    public CheckoutController(OrderService orderService) {
+    public CheckoutController(OrderService orderService, ProductService productService) {
         this.orderService = orderService;
+        this.productService = productService;
     }
 
     @PostMapping("/createOrder")
-    public ResponseEntity<String> createOrder(@RequestBody Object orderDetailsList) {
-        System.out.println(orderDetailsList);
-        return new ResponseEntity<String>("ok", HttpStatus.OK);
-        // Long orderId = orderService.createOrder(orderDetailsList);
-        // return new ResponseEntity<Long>(orderId, HttpStatus.OK);
+    public ResponseEntity<String> createOrder(@RequestBody List<OrderDetailsDTO> orderDetailsList) {
+        List<OrderDetails> orderDetails = new ArrayList<>();
+        for (OrderDetailsDTO orderDetailsDTO : orderDetailsList) {
+            List<String> costumizations = new ArrayList<>();
+            System.out.println(orderDetailsDTO.getName() + " name");
+            System.out.println(orderDetailsDTO.getQuantity() + " quantity");
+            System.out.println(orderDetailsDTO.getFoodId() + " foodId");
+            System.out.println(orderDetailsDTO.getOrderDetails() + " orderDetails");
+
+            Product product = productService.getProductById(201);
+            System.out.println(product.getName() + " product name");
+
+            for (Entry<String, Boolean> entry : orderDetailsDTO.getOrderDetails().entrySet()) {
+                System.out.println(entry.getKey() + " key");
+                System.out.println(entry.getValue() + " value");
+                if (entry.getValue()) {
+                    costumizations.add(entry.getKey());
+                }
+            }
+
+            OrderDetails orderDetail = new OrderDetails(1l ,costumizations, product);
+            orderDetails.add(orderDetail);
+        }
+
+        Order order = new Order(orderDetails);
+
+        System.out.println(order.getOrderDetails());
+
+        
+
+        return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 
 

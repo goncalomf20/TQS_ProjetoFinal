@@ -11,6 +11,7 @@ export function FoodCard({ food, onAddToCart }) {
   const closeModal = () => {
     setIsModalOpen(false); // Close the modal
   };
+  
 
   return (
     <div className="max-w-sm rounded-lg shadow-md overflow-hidden bg-white dark:bg-gray-800 hover:shadow-lg transition-shadow">
@@ -41,7 +42,8 @@ export function FoodCard({ food, onAddToCart }) {
       <FoodModal
         food={food}
         isOpen={isModalOpen}
-        onClose={closeModal} // Function to close the modal
+        onClose={closeModal}
+        onAddToCart={onAddToCart} // Function to close the modal
       />
     </div>
   );
