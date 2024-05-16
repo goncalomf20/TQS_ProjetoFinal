@@ -19,8 +19,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import tqs_project.DETICafe.model.Order;
-import tqs_project.DETICafe.model.OrderDetails;
-import tqs_project.DETICafe.service.OrderService;
+import tqs_project.DETICafe.model.OrderDetails; 
+import tqs_project.DETICafe.service.serviceImpl.OrderServiceImpl;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -30,7 +30,7 @@ public class CheckoutController_UnitTest {
     private MockMvc mockMvc;
     
     @MockBean
-    private OrderService orderService;
+    private OrderServiceImpl orderService;
 
     @Test
     public void createOrderTest() throws Exception {

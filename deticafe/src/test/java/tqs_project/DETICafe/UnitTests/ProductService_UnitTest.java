@@ -17,17 +17,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
 import tqs_project.DETICafe.repository.ProductRepo;
-import tqs_project.DETICafe.service.ProductService;
-
+import tqs_project.DETICafe.service.serviceImpl.ProductServiceImpl;
 import tqs_project.DETICafe.model.Category;
 import tqs_project.DETICafe.model.Product;
 
@@ -39,7 +30,7 @@ public class ProductService_UnitTest {
     private ProductRepo product_repository;
 
     @InjectMocks
-    private ProductService productService;
+    private ProductServiceImpl productService;
 
     @BeforeEach
     void setUp() {
