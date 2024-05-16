@@ -42,22 +42,11 @@ public class CheckoutController {
 
     @PostMapping("/createOrder")
     public ResponseEntity<String> createOrder(@RequestBody List<OrderDetailsDTO> orderDetailsList) {
-        List<OrderDetails> orderDetails = new ArrayList<>();
         for (OrderDetailsDTO orderDetailsDTO : orderDetailsList) {
-            List <String> customizations = new ArrayList<>();
-            System.out.println(orderDetailsDTO.getId());
-            OrderDetails orderDetail = new OrderDetails();
-            Product produto = productService.getProductById(orderDetailsDTO.getId());
-            orderDetail.setProduct(produto);
-            for (Entry<String, String> entry : orderDetailsDTO.getIngredients().entrySet()) {
-                String ingredient = entry.getKey();
-                String value = entry.getValue();
-                if ("yes".equals(value)) {
-                    customizations.add(ingredient);
-                }
-            }
-            orderDetail.setCustomizations(customizations);
-            orderDetails.add(orderDetail);
+            System.out.println(orderDetailsDTO.getName() + " name");
+            System.out.println(orderDetailsDTO.getQuantity() + " quantity");
+            System.out.println(orderDetailsDTO.getProdcutId() + " foodId");
+            System.out.println(orderDetailsDTO.getOrderDetails() + " orderDetails");
         }
 
         

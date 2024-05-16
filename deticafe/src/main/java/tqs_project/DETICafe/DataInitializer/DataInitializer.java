@@ -39,7 +39,7 @@ public class DataInitializer implements CommandLineRunner {
         categories.add(new Category("Foods"));
         categories.add(new Category("Snacks"));
         categories.add(new Category("Desserts"));
-        categories.add(new Category("Pastry"));
+        categories.add(new Category("Pastery"));
         categories.add(new Category("Coffee"));
         categories.add(new Category("Promotions"));
 
@@ -53,7 +53,7 @@ public class DataInitializer implements CommandLineRunner {
         ingredients.add("croissant");
         ingredients.add("ham");
         ingredients.add("cheese");
-        products.add(new Product("Ham and Cheese Croissant", ingredients, 3.99, categoryRepository.findByName("Pastry")));
+        products.add(new Product("Ham and Cheese Croissant", ingredients, 3.99, categoryRepository.findByName("Pastery")));
 
         productRepository.saveAll(products);
     }

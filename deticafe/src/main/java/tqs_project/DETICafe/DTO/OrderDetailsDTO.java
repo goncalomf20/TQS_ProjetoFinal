@@ -9,8 +9,8 @@ import java.util.Map;
 @Getter
 @Setter
 public class OrderDetailsDTO {
-    private Long id;
+    private int prodcutId;
     private Integer quantity;
     private String name;
-    private Map<String, String> ingredients;
+    private Map<String, Boolean> orderDetails;
 }
