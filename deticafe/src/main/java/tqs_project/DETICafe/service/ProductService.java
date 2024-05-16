@@ -1,5 +1,6 @@
 package tqs_project.DETICafe.service;
 
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 import tqs_project.DETICafe.model.Product;
@@ -7,6 +8,8 @@ import tqs_project.DETICafe.model.Product;
 @Service
 public interface ProductService {
 
-    public Product findProductById(Long id);
+    public Product getProductById(Long id);
+    public Product getProductByName(String name);
+    public List<Product> getAllProducts();
     
 }

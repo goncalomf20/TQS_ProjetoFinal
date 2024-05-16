@@ -10,24 +10,10 @@ services:
       MYSQL_PASSWORD: password
     ports:
       - "3306:3306"
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "-ppassword"]
-      start_period: 10s
-      interval: 10s
-      timeout: 5s
-      retries: 5
     volumes:
       - data:/var/lib/mysql
     networks:
       - deticafe-network
-
-  init_mysql_db:
-    depends_on:
-      - db_mysql
-        # condition: service_healthy
-    build:
-      context: ./init_db
-      dockerfile: Dockerfile
 
   spring-app:
     container_name: spring-app
@@ -35,8 +21,7 @@ services:
       context: ./deticafe
       dockerfile: Dockerfile
     depends_on:
-      db_mysql:
-        condition: service_healthy
+      - db_mysql
     ports:
       - "8080:8080"
     environment:
@@ -57,9 +42,9 @@ services:
       - deticafe-network
 
 volumes:
-    data:
-      driver: local
-
+  data:
+    driver: local
+      
 networks:
   deticafe-network:
     driver: bridge

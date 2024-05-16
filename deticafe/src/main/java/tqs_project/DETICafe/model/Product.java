@@ -26,11 +26,18 @@ public class Product {
     private List<String> ingredients;
 
     @Column(name = "price", nullable = false)
-    private float price;
+    private double price;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    public Product(String name, List<String> ingredients, double price, Category category) {
+        this.name = name;
+        this.ingredients = ingredients;
+        this.price = price;
+        this.category = category;
+    }
 
     
 }

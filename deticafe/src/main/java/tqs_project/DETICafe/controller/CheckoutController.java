@@ -47,7 +47,7 @@ public class CheckoutController {
             List <String> customizations = new ArrayList<>();
             System.out.println(orderDetailsDTO.getId());
             OrderDetails orderDetail = new OrderDetails();
-            Product produto = productService.findProductById(orderDetailsDTO.getId());
+            Product produto = productService.getProductById(orderDetailsDTO.getId());
             orderDetail.setProduct(produto);
             for (Entry<String, String> entry : orderDetailsDTO.getIngredients().entrySet()) {
                 String ingredient = entry.getKey();

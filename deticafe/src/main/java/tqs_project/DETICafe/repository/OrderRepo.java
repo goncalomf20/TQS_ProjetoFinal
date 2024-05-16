@@ -5,8 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import tqs_project.DETICafe.model.Order;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 @Repository
 public interface OrderRepo extends JpaRepository<Order, Long>{
 

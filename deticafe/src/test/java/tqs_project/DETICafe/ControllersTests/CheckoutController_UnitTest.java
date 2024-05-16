@@ -1,4 +1,4 @@
-package tqs_project.DETICafe.UnitTests.ControllersTest;
+package tqs_project.DETICafe.ControllersTests;
 
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
@@ -24,7 +24,7 @@ import tqs_project.DETICafe.service.OrderService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CheckOutControllerTest {
+public class CheckoutController_UnitTest {
 
     @Autowired
     private MockMvc mockMvc;

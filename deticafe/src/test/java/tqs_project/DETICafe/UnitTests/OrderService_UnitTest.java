@@ -1,4 +1,4 @@
-package tqs_project.DETICafe.UnitTests.ServicesTest;
+package tqs_project.DETICafe.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -29,7 +29,7 @@ import tqs_project.DETICafe.repository.ProductRepo;
 import tqs_project.DETICafe.service.serviceImpl.OrderServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-public class OrderServiceTest {
+public class OrderService_UnitTest {
 
     @Mock(lenient = true)
     private ProductRepo ProductRepo;
