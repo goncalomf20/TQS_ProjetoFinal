@@ -51,6 +51,7 @@ public class CheckoutController {
             System.out.println(orderDetailsDTO.getOrderDetails() + " orderDetails");
 
             Product product = productService.getProductById(orderDetailsDTO.getFoodId());
+            System.out.println(product.getName() + " product name");
 
             for (Entry<String, Boolean> entry : orderDetailsDTO.getOrderDetails().entrySet()) {
                 System.out.println(entry.getKey() + " key");
@@ -60,7 +61,7 @@ public class CheckoutController {
                 }
             }
 
-            OrderDetails orderDetail = new OrderDetails(costumizations, product);
+            OrderDetails orderDetail = new OrderDetails(1l ,costumizations, product);
             orderDetails.add(orderDetail);
         }
 
