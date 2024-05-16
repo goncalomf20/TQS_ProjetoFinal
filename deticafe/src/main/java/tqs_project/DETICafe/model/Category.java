@@ -14,8 +14,13 @@ public class Category {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long category_id;
+    @Column(name = "category_id")
+    private Long categoryId;
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    public Category(String name) {
+        this.name = name;
+    }
 }

@@ -2,67 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
-export function Checkout() {
-  const navigate = useNavigate(); // Correctly use useNavigate for routing
-
-  const [cart, setCart] = React.useState([]);
-
-  // Initialize cart items (ensuring consistent IDs and quantities)
-  React.useEffect(() => {
-    const initialCart = [
-      {
-        id: 1,
-        quantity: 2,
-        name: 'Pizza',
-        image: '/src/assets/pizza.jpeg',
-        price: 11.99,
-        ingredients: {
-          cheese: 'yes',
-          tomato_sauce: 'yes',
-          flour: 'yes',
-        },
-      },
-      {
-        id: 5,
-        quantity: 1,
-        name: 'Ham and Cheese Croissant',
-        image: '/src/assets/ham_and_cheese.jpeg',
-        price: 3.99,
-        ingredients: {
-          croissant: 'yes',
-          ham: 'yes',
-          cheese: 'yes',
-        },
-      },
-      {
-        id: 6,
-        quantity: 1,
-        name: 'Large Coffee',
-        image: '/src/assets/large_coffee.jpg',
-        price: 1.99,
-        ingredients: {
-          coffee: 'yes',
-          water: 'yes',
-          sugar: 'no',
-        },
-      },
-      {
-        id: 7,
-        quantity: 1,
-        name: 'Tuna Sandwich',
-        image: '/src/assets/tuna_sandwich.jpg',
-        price: 1.99,
-        ingredients: {
-          bread: 'yes',
-          tuna: 'yes',
-          lettuce: 'yes',
-          mayo: 'yes',
-          tomato: 'no',
-        },
-      },
-    ];
-    setCart(initialCart); // Set the cart state
-  }, []); // Run once on component mount
+export function Checkout({cart}) {
 
   const handleQuantityChange = (id, quantity) => {
     if (quantity === 0) {
@@ -109,7 +49,6 @@ export function Checkout() {
 
   const handleClick = () => {
     postCart();
-    
   }
 
   return (
@@ -137,9 +76,9 @@ export function Checkout() {
                 <div className="flex mt-2">
                   <span className="mr-2">Ingredients:</span>
                   <ul className="flex flex-wrap">
-                    {Object.entries(item.ingredients).map(([key, value]) => (
+                    {Object.entries(item.orderDetails).map(([key, value]) => (
                       <li key={key} className="flex items-center mr-4">
-                        {value === 'yes' ? (
+                        {value === true ? (
                           <FaCheckCircle className="text-green-500 mr-2" />
                         ) : (
                           <FaTimesCircle className="text-red-500 mr-2" />
@@ -175,7 +114,7 @@ export function Checkout() {
 
       <button
         className="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        onClick={handleClick()} 
+        onClick={handleClick} 
               >
         Proceed to Payment
       </button>
