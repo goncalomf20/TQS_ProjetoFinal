@@ -4,11 +4,6 @@ import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 export function Checkout({cart}) {
 
-  // Initialize cart items (ensuring consistent IDs and quantities)
-  React.useEffect(() => {
-   
-  }, []);
-
   const handleQuantityChange = (id, quantity) => {
     if (quantity === 0) {
       setCart(cart.filter((item) => item.id !== id)); // Remove item from the cart
@@ -54,7 +49,6 @@ export function Checkout({cart}) {
 
   const handleClick = () => {
     postCart();
-    
   }
 
   return (
@@ -120,7 +114,7 @@ export function Checkout({cart}) {
 
       <button
         className="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        onClick={handleClick()} 
+        onClick={handleClick} 
               >
         Proceed to Payment
       </button>

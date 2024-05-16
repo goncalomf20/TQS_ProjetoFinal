@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db_mysql:
-    image: mysql:latest
+    image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: tqs_project
