@@ -45,7 +45,7 @@ public class CheckoutController {
         for (OrderDetailsDTO orderDetailsDTO : orderDetailsList) {
             System.out.println(orderDetailsDTO.getName() + " name");
             System.out.println(orderDetailsDTO.getQuantity() + " quantity");
-            System.out.println(orderDetailsDTO.getProdcutId() + " foodId");
+            System.out.println(orderDetailsDTO.getFoodId() + " foodId");
             System.out.println(orderDetailsDTO.getOrderDetails() + " orderDetails");
         }
 

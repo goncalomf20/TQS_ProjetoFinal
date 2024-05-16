@@ -9,7 +9,7 @@ import java.util.Map;
 @Getter
 @Setter
 public class OrderDetailsDTO {
-    private int prodcutId;
+    private int foodId;
     private Integer quantity;
     private String name;
     private Map<String, Boolean> orderDetails;
