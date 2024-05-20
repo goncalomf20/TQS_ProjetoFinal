@@ -1,15 +1,13 @@
 version: '3.8'
 
 services:
-
-  db:
-    image: mysql:8.0
+  db_mysql:
+    image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: tqs_project
       MYSQL_USER: user
       MYSQL_PASSWORD: password
-
     ports:
       - "3306:3306"
     volumes:
