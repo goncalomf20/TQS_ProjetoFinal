@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
 
-  db:
+  db_mysql:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
