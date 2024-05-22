@@ -34,7 +34,6 @@ public class CheckoutController {
     private final ProductService productService;
 
 
-    @Autowired
     public CheckoutController(OrderService orderService, ProductService productService) {
         this.orderService = orderService;
         this.productService = productService;
