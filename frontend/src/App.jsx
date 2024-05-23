@@ -13,11 +13,11 @@ function App() {
   const handleAddToCart = (food, selectedItems) => { // Accept price as a parameter
     const updatedCart = [...cart];
 
-    const existingItem = updatedCart.find((item) => item.id === food.id);
+    const existingItem = updatedCart.find((item) => item.productId === food.productId);
     if (existingItem) {
       existingItem.quantity += 1;
     } else {
-      updatedCart.push({ "name": food.name ,"foodId": food.id , "quantity": 1, "price": food.price , "orderDetails" : selectedItems }); // Use the passed price
+      updatedCart.push({ "name": food.name ,"foodId": food.productId , "quantity": 1, "price": food.price , "orderDetails" : selectedItems }); // Use the passed price
     }
     
     console.log(updatedCart);

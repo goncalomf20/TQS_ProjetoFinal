@@ -24,9 +24,6 @@ export function FoodCard({ food, onAddToCart }) {
         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
           {food.name}
         </h3>
-        <p className="text-gray-700 dark:text-gray-400">
-          {food.description}
-        </p>
         <div className="mt-2 text-lg text-gray-900 dark:text-white">
           Price: ${food.price.toFixed(2)}
         </div>

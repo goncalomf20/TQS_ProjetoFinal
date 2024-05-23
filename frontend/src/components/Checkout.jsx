@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import io from 'socket.io-client';
 
 export function Checkout({cart}) {
 
@@ -25,6 +26,7 @@ export function Checkout({cart}) {
   };
 
     const postCart = async () => {
+      const socket = io('http://localhost:8080');
       try {
         const response = await fetch('http://localhost:8080/api/order/createOrder', {
           method: 'POST',
@@ -36,6 +38,11 @@ export function Checkout({cart}) {
         if (response.ok) {
           // Cart successfully posted
           console.log('Cart posted successfully');
+          if (io && io.connected) {
+            io.emit('orderPosted', cart);
+          } else {
+            console.error('Socket.IO client not connected');
+          }
         } else {
           // Error posting cart
           console.error('Error posting cart');

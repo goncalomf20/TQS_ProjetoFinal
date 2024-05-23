@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.aspectj.weaver.ast.Or;
-import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +20,6 @@ import tqs_project.DETICafe.DTO.OrderDetailsDTO;
 import tqs_project.DETICafe.model.Order;
 import tqs_project.DETICafe.model.OrderDetails;
 import tqs_project.DETICafe.model.Product;
-import tqs_project.DETICafe.repository.ProductRepo;
 import tqs_project.DETICafe.service.OrderService;
 import tqs_project.DETICafe.service.ProductService;
 
@@ -32,6 +30,8 @@ public class CheckoutController {
 
     private final OrderService orderService;
     private final ProductService productService;
+    @Autowired
+    private SimpMessagingTemplate template;
 
 
     @Autowired
@@ -50,7 +50,7 @@ public class CheckoutController {
             System.out.println(orderDetailsDTO.getFoodId() + " foodId");
             System.out.println(orderDetailsDTO.getOrderDetails() + " orderDetails");
 
-            Product product = productService.getProductById(201);
+            Product product = productService.getProductById(orderDetailsDTO.getFoodId());
             System.out.println(product.getName() + " product name");
 
             for (Entry<String, Boolean> entry : orderDetailsDTO.getOrderDetails().entrySet()) {
@@ -70,10 +70,9 @@ public class CheckoutController {
         System.out.println(order.getOrderDetails());
 
         
-
+        template.convertAndSend("/topic/orders", order); 
         return new ResponseEntity<>("ok", HttpStatus.OK);
     }
-
 
     @GetMapping("/getOrder")
     public ResponseEntity<Order> getOrder(@RequestParam Long id) {

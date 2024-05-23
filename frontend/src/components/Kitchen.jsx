@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'; // Import useState and useEffect
+import { io } from 'socket.io-client'; 
 
 const Kitchen = () => {
-  const orders = [
-    { id: 101, details: ['Chesse and ham croissant', 'Large coffee'], status: 'pending' },
-    { id: 102, details: ['Tuna Sandwich(-tomato)', 'Water'], status: 'pending' },
-    { id: 103, details: ['Espresso'], status: 'pending' },
-  ];
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const socket = io('http://localhost:8080'); // Adjust the URL as necessary
+
+    socket.on('orderPosted', (newOrder) => {
+      setOrders((prevOrders) => [...prevOrders, newOrder]);
+    });
+
+    return () => {
+      socket.off('orderPosted');
+    };
+  }, []);
 
   const handleOrderReady = (orderId) => {
     console.log(`Order ${orderId} is ready`);
+    // Handle marking order as ready
   };
 
   return (
@@ -30,5 +40,5 @@ const Kitchen = () => {
     </div>
   );
 };
-  
+
 export default Kitchen;
