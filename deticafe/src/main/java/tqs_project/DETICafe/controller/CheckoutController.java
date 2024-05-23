@@ -20,6 +20,7 @@ import tqs_project.DETICafe.DTO.OrderDetailsDTO;
 import tqs_project.DETICafe.model.Order;
 import tqs_project.DETICafe.model.OrderDetails;
 import tqs_project.DETICafe.model.Product;
+import tqs_project.DETICafe.repository.OrderRepo;
 import tqs_project.DETICafe.service.OrderService;
 import tqs_project.DETICafe.service.ProductService;
 
@@ -30,14 +31,17 @@ public class CheckoutController {
 
     private final OrderService orderService;
     private final ProductService productService;
+    private final OrderRepo orderRepo;
+
     @Autowired
     private SimpMessagingTemplate template;
 
 
     @Autowired
-    public CheckoutController(OrderService orderService, ProductService productService) {
+    public CheckoutController(OrderService orderService, ProductService productService, OrderRepo orderRepo) {
         this.orderService = orderService;
         this.productService = productService;
+        this.orderRepo = orderRepo;
     }
 
     @PostMapping("/createOrder")
@@ -66,11 +70,20 @@ public class CheckoutController {
         }
 
         Order order = new Order(orderDetails);
+        orderRepo.save(order);
 
         System.out.println(order.getOrderDetails());
+        System.out.println(order.getOrderId());
+
+        if (order!= null && order.getOrderId()!= null) {
+            template.convertAndSend("/topic/orders", order.getOrderId());
+        } else {
+            // Log ou trate o caso em que a ordem ou o ID da ordem é nulo
+            System.err.println("Erro: A ordem ou o ID da ordem é nulo.");
+        }
+        
 
         
-        template.convertAndSend("/topic/orders", order); 
         return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 
