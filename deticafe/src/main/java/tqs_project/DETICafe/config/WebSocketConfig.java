@@ -1,4 +1,4 @@
-package tqs_project.DETICafe.Config;
+package tqs_project.DETICafe.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -12,12 +12,17 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
+        // Set the prefix for destinations that the WebSocket server can publish to
         config.enableSimpleBroker("/topic");
+
+        // Set the prefix for destinations that are handled by methods annotated with @MessageMapping
         config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").withSockJS();
+        registry.addEndpoint("/ws")
+        .setAllowedOriginPatterns("*")    
+        .withSockJS();
     }
 }

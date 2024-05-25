@@ -3,15 +3,14 @@ package tqs_project.DETICafe.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.*;
 
 import tqs_project.DETICafe.DTO.OrderDetailsDTO;
 import tqs_project.DETICafe.model.Order;
 import tqs_project.DETICafe.model.OrderDetails;
 import tqs_project.DETICafe.model.Product;
+import tqs_project.DETICafe.model.Status;
 import tqs_project.DETICafe.repository.OrderRepo;
 import tqs_project.DETICafe.service.OrderService;
 import tqs_project.DETICafe.service.ProductService;
@@ -57,6 +56,8 @@ public class CheckoutController {
         }
 
         Order order = new Order(orderDetails);
+        
+        order.setStatus(Status.PICKED_UP_CLIENT);
         orderRepo.save(order);
 
         System.out.println("Order created: " + order.getOrderId() + "with details: " + orderDetailsList.toString());
@@ -71,5 +72,11 @@ public class CheckoutController {
     public ResponseEntity<Order> getOrder(@RequestParam Long id) {
         Order order = orderService.getOrder(id);
         return new ResponseEntity<Order>(order, HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllOrders")
+    public ResponseEntity<List<Order>> getAllOrders() {
+        List<Order> orders = orderService.getAllOrders();
+        return new ResponseEntity<List<Order>>(orders, HttpStatus.OK);
     }
 }

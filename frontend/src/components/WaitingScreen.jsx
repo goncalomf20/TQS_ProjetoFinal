@@ -1,35 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import '../css/WaitingScreen.css';
-import { io } from 'socket.io-client';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
 
 export function WaitingScreen() {
   const [pendingOrders, setPendingOrders] = useState([]);
   const [readyOrders, setReadyOrders] = useState([]);
 
   useEffect(() => {
-    // Altere o endpoint para o seu endpoint WebSocket correto
-    const socket = io('http://localhost:8080/websocket');
-
-    socket.on('connect', () => {
-      console.log('Conectado ao servidor');
-      socket.emit('subscribe', '/topic/orders'); // Subscrever-se ao tópico
+    fetch('http://localhost:8080/api/order/getAllOrders')
+      .then(response => response.json())
+      .then(data => {
+        // Add all orders to the pendingOrders array
+        const pending = data.map(order => order.name);
+        setPendingOrders(pending);
+      })
+      .catch(error => {
+        console.error('Error fetching orders:', error);
+      });
+  
+    const socket = new SockJS('http://localhost:8080/ws');
+    const client = Stomp.over(socket);
+  
+    client.connect({}, () => {
+      console.log('Connected to the WebSocket server');
+      client.subscribe('/topic/orders', (message) => {
+        const order = JSON.parse(message.body);
+        console.log('Order received:', order);
+  
+        // Always add the order to the pendingOrders array
+        setPendingOrders((prev) => [...prev, order.name]);
+      });
+    }, (error) => {
+      console.error('Error connecting to WebSocket', error);
     });
-
-    socket.on('/topic/orders', (data) => {
-      console.log('Dados recebidos:', data);
-      // Supondo que 'data' contenha informações sobre a ordem, como status e ID
-      if (data.status === 'preparing') {
-        setPendingOrders(prevOrders => [...prevOrders, data.id]);
-      } else if (data.status === 'ready') {
-        setReadyOrders(prevOrders => [...prevOrders, data.id]);
-      }
-    });
-
+  
+    // Cleanup WebSocket connection on component unmount
     return () => {
-      socket.disconnect();
+      if (client) {
+        client.disconnect(() => {
+          console.log('Disconnected from WebSocket');
+        });
+      }
     };
   }, []);
-
+  
   return (
     <div className="waiting-screen">
       <div className="pending-orders">
@@ -51,6 +66,6 @@ export function WaitingScreen() {
       </div>
     </div>
   );
-};
+}
 
 export default WaitingScreen;
