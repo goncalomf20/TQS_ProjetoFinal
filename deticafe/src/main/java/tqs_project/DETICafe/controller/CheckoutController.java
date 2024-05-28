@@ -62,7 +62,6 @@ public class CheckoutController {
 
         Order order = new Order(orderDetails);
         
-        order.setStatus(Status.PICKED_UP_CLIENT);
         orderRepo.save(order);
 
         System.out.println("Order created: " + order.getOrderId() + "with details: " + orderDetailsList.toString());

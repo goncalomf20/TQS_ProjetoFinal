@@ -16,12 +16,6 @@ public class Order {
         this.orderDetails = orderDetailsList;
     }
 
-    // New constructor to match the test case expectation
-    public Order(Long orderId, List<OrderDetails> orderDetailsList) {
-        this.orderId = orderId;
-        this.orderDetails = orderDetailsList;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_id")
