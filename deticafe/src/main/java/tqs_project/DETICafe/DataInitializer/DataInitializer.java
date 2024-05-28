@@ -49,10 +49,6 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void initializeProducts() {
-<<<<<<< TF-40-Takeaway-Interface
-=======
-        // productRepository.deleteAll(); // para limpar a base de dados
->>>>>>> development
 
         List<Product> products = new ArrayList<>();
 
@@ -67,11 +63,7 @@ public class DataInitializer implements CommandLineRunner {
         List<String> ingredients9 = Arrays.asList("milk", "coffee", "foam");
         List<String> ingredients10 = Arrays.asList("fruit mix", "yogurt", "honey");
         
-<<<<<<< TF-40-Takeaway-Interface
         products.add(new Product("Ham and Cheese Croissant", ingredients1, 3.99, categoryRepository.findByName("Pastry")));
-=======
-        products.add(new Product("Ham and Cheese Croissant", ingredients1, 3.99, categoryRepository.findByName("Pastery")));
->>>>>>> development
         products.add(new Product("Large Coffee", ingredients2, 1.99, categoryRepository.findByName("Coffee")));
         products.add(new Product("Pizza", ingredients3, 5.99, categoryRepository.findByName("Foods")));
         products.add(new Product("Salmon Sushi", ingredients4, 4.99, categoryRepository.findByName("Foods")));
@@ -90,11 +82,7 @@ public class DataInitializer implements CommandLineRunner {
 
         List<String> ingredients13 = Arrays.asList("croissant", "butter", "sugar");
         List<String> ingredients14 = Arrays.asList("flour", "sugar", "butter");
-<<<<<<< TF-40-Takeaway-Interface
         products.add(new Product("Butter Croissant", ingredients13, 2.99, categoryRepository.findByName("Pastry")));
-=======
-        products.add(new Product("Butter Croissant", ingredients13, 2.99, categoryRepository.findByName("Pastery")));
->>>>>>> development
         products.add(new Product("Shortbread Cookies", ingredients14, 3.99, categoryRepository.findByName("Snacks")));
 
         List<String> ingredients15 = Arrays.asList("cheese", "ham", "baguette");
@@ -120,12 +108,7 @@ public class DataInitializer implements CommandLineRunner {
         List<String> ingredients23 = Arrays.asList("flour", "chocolate chips", "butter");
         List<String> ingredients24 = Arrays.asList("flour", "sugar", "butter", "cinnamon");
         products.add(new Product("Chocolate Chip Cookies", ingredients23, 2.99, categoryRepository.findByName("Snacks")));
-<<<<<<< TF-40-Takeaway-Interface
         products.add(new Product("Cinnamon Rolls", ingredients24, 3.99, categoryRepository.findByName("Pastry")));
-=======
-        products.add(new Product("Cinnamon Rolls", ingredients24, 3.99, categoryRepository.findByName("Pastery")));
->>>>>>> development
-
         List<String> ingredients25 = Arrays.asList("chocolate");
         products.add(new Product("Chocolate mousse", ingredients25, 1.50, categoryRepository.findByName("Desserts")));
 

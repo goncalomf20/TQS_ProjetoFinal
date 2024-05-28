@@ -30,5 +30,6 @@ public class ProductsController {
         List<Product> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
     }
-    
+
 }
+

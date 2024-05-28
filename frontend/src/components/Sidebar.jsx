@@ -17,9 +17,15 @@ export function SidebarDC() {
   useEffect(() => {
     fetch("http://localhost:8080/api/category/getAllCategories")
       .then((response) => response.json())
-      .then((data) => setCategories(data)); // Set categories from API response
-  }
-  , []); 
+      .then((data) => {
+        console.log(data); // Log the data to see its structure
+        setCategories(data); // Set categories from API response
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+      });
+  }, []);
+  
 
   return (
     <Sidebar

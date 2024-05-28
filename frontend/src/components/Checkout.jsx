@@ -1,6 +1,5 @@
 import React from 'react';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
-
 export function Checkout({cart}) {
 
   const handleQuantityChange = (id, quantity) => {

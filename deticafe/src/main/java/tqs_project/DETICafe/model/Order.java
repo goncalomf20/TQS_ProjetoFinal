@@ -12,9 +12,13 @@ import lombok.*;
 @Entity
 @Table(name = "`order`")
 public class Order {
-
-
     public Order(List<OrderDetails> orderDetailsList) {
+        this.orderDetails = orderDetailsList;
+    }
+
+    // New constructor to match the test case expectation
+    public Order(Long orderId, List<OrderDetails> orderDetailsList) {
+        this.orderId = orderId;
         this.orderDetails = orderDetailsList;
     }
 
@@ -23,10 +27,10 @@ public class Order {
     @Column(name = "order_id")
     private Long orderId;
 
-    // @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @OneToMany
     @JoinColumn(name = "order_details_id", nullable = false)
     private List<OrderDetails> orderDetails;
+
 
     @Override
     public int hashCode() {
@@ -61,4 +65,5 @@ public class Order {
 
     
     
+
 }
