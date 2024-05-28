@@ -21,9 +21,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public Long createOrder(List<OrderDetails> orderDetailsList) {
+        if (orderDetailsList == null || orderDetailsList.isEmpty()) {
+            return null;
+        }
         Order order = new Order(orderDetailsList);
         orderRepo.save(order);
-
         return order.getOrderId();
     }
 
@@ -34,6 +36,7 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getAllOrders() {
         return orderRepo.findAll();
     }
+
 
     public void deleteAllOrders() {
         orderRepo.deleteAll();

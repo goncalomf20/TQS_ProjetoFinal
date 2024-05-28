@@ -1,25 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
-const FoodModal = ({ food, isOpen, onClose, addToCart }) => {
-  const [selectedIngredients, setSelectedIngredients] = useState([]);
+const FoodModal = ({ food, isOpen, onClose, handleAddToCart }) => {
+  const [selectedIngredients, setSelectedIngredients] = useState({});
 
   useEffect(() => {
     if (food) {
-      setSelectedIngredients(food.ingredients || []);
+      const initialIngredients = food.ingredients.reduce((acc, ingredient) => {
+        acc[ingredient] = true;
+        return acc;
+      }, {});
+      setSelectedIngredients(initialIngredients);
     }
   }, [food]);
 
   const toggleIngredient = (ingredient) => {
-    setSelectedIngredients((prevIngredients) =>
-      prevIngredients.includes(ingredient)
-        ? prevIngredients.filter((item) => item !== ingredient) // Remove if selected
-        : [...prevIngredients, ingredient] // Add if not selected
-    );
+    setSelectedIngredients(prevIngredients => {
+      return { ...prevIngredients, [ingredient]: !prevIngredients[ingredient] };
+    });
   };
 
-  if (!isOpen || !food) {
-    return null; // Don't render if modal isn't open or no food
+  const addCart = () => {
+    handleAddToCart(food, selectedIngredients);
+  };
+
+  if (!isOpen) {
+    return null; // Don't render if modal is not open
   }
 
   return (
@@ -38,7 +44,6 @@ const FoodModal = ({ food, isOpen, onClose, addToCart }) => {
           <div className="mt-4 text-lg font-bold text-gray-900 dark:text-white">
             Price: ${food.price.toFixed(2)}
           </div>
-
           <div className="mt-4">
             <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Ingredients</h4>
             <ul className="mt-2">
@@ -46,7 +51,7 @@ const FoodModal = ({ food, isOpen, onClose, addToCart }) => {
                 <li key={index} className="flex items-center my-2">
                   <input
                     type="checkbox"
-                    checked={selectedIngredients.includes(ingredient)}
+                    checked={selectedIngredients[ingredient]}
                     onChange={() => toggleIngredient(ingredient)} // Toggle selection
                     className="mr-2"
                   />
@@ -66,7 +71,7 @@ const FoodModal = ({ food, isOpen, onClose, addToCart }) => {
           </button>
           <button
             onClick={() => {
-              addToCart({ ...food, selectedIngredients });
+              addCart(); // Add to cart
               onClose(); // Close the modal after adding to cart
             }}
             className="bg-blue-500 text-white px-4 py-2 rounded ml-2 hover:bg-blue-600"

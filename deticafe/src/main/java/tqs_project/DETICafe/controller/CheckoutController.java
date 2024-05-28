@@ -1,5 +1,9 @@
 package tqs_project.DETICafe.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +47,7 @@ public class CheckoutController {
         for (OrderDetailsDTO orderDetailsDTO : orderDetailsList) {
             List<String> customizations = new ArrayList<>();
             Product product = productService.getProductById(orderDetailsDTO.getFoodId());
+
 
             for (Entry<String, Boolean> entry : orderDetailsDTO.getOrderDetails().entrySet()) {
                 if (entry.getValue()) {
