@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react'; // Import useState and useEffect
+import React, { useState, useEffect } from 'react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
 const Kitchen = () => {
   const [orders, setOrders] = useState([]);
-  
   const [client, setClient] = useState(null);
   const [connected, setConnected] = useState(false);
 
@@ -18,7 +17,7 @@ const Kitchen = () => {
         stompClient.subscribe('/topic/orders', (message) => {
           const order = JSON.parse(message.body);
           console.log('Order received:', order);
-
+          if (order.status === 'PREPARING') {
           setOrders((prev) => {
             // Deduplicate orders based on orderId
             if (!prev.some(existingOrder => existingOrder.orderId === order.orderId)) {
@@ -26,7 +25,10 @@ const Kitchen = () => {
             }
             return prev;
           });
-        }); 
+        } else if (order.status === 'READY') {
+          setOrders((prev) => prev.filter(existingOrder => existingOrder.orderId !== order.orderId));
+        }
+        });
         setClient(stompClient);
         setConnected(true);
       }, (error) => {
@@ -47,7 +49,13 @@ const Kitchen = () => {
 
   const handleOrderReady = (orderId) => {
     console.log(`Order ${orderId} is ready`);
-    // Handle marking order as ready
+
+    const updatedOrder = orders.find(order => order.orderId === orderId);
+    if (updatedOrder) {
+      updatedOrder.status = 'READY';
+      client.send('/app/wsorder', {}, JSON.stringify(updatedOrder));
+      setOrders(prevOrders => prevOrders.filter(order => order.orderId !== orderId));
+    }
   };
 
   return (
