@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db_mysql:
-    image: mysql:latest
+    image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: tqs_project
@@ -38,6 +38,18 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5173:5173"
+    networks:
+      - deticafe-network
+
+  takeaway-app:
+    container_name: takeaway-app
+    build:
+      context: ./takeaway
+      dockerfile: Dockerfile
+    ports:
+      - "5174:5174"
+    depends_on:
+      - react-app
     networks:
       - deticafe-network
 
