@@ -6,45 +6,64 @@ import Stomp from 'stompjs';
 export function WaitingScreen() {
   const [pendingOrders, setPendingOrders] = useState([]);
   const [readyOrders, setReadyOrders] = useState([]);
+  const [client, setClient] = useState(null);
+  const [connected, setConnected] = useState(false);
+
+  // useEffect(() => {
+  //   fetch('http://localhost:8080/api/order/getAllOrders')
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       // Add all orders to the pendingOrders array
+  //       const pending = data.map(order => order.orderId);
+  //       setPendingOrders(pending);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching orders:', error);
+  //     });
+  // }, []);
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/order/getAllOrders')
-      .then(response => response.json())
-      .then(data => {
-        // Add all orders to the pendingOrders array
-        const pending = data.map(order => order.name);
-        setPendingOrders(pending);
-      })
-      .catch(error => {
-        console.error('Error fetching orders:', error);
-      });
-  
-    const socket = new SockJS('http://localhost:8080/ws');
-    const client = Stomp.over(socket);
-  
-    client.connect({}, () => {
-      console.log('Connected to the WebSocket server');
-      client.subscribe('/topic/orders', (message) => {
-        const order = JSON.parse(message.body);
-        console.log('Order received:', order);
-  
-        // Always add the order to the pendingOrders array
-        setPendingOrders((prev) => [...prev, order.name]);
-      });
-    }, (error) => {
-      console.error('Error connecting to WebSocket', error);
-    });
-  
-    // Cleanup WebSocket connection on component unmount
-    return () => {
-      if (client) {
-        client.disconnect(() => {
-          console.log('Disconnected from WebSocket');
+    if (!connected) {
+      const socket = new SockJS('http://localhost:8080/ws');
+      const stompClient = Stomp.over(socket);
+
+      stompClient.connect({}, () => {
+        console.log('Connected to the WebSocket server');
+        stompClient.subscribe('/topic/orders', (message) => {
+          const order = JSON.parse(message.body);
+          console.log('Order received:', order.orderId);
+
+          setPendingOrders((prev) => {
+            // Deduplicate orders
+            if (!prev.includes(order.orderId)) {
+              return [...prev, order.orderId];
+            }
+            return prev;
+          });
         });
-      }
-    };
-  }, []);
-  
+        setClient(stompClient);
+        setConnected(true);
+      }, (error) => {
+        console.error('Error connecting to WebSocket', error);
+      });
+
+      // Cleanup WebSocket connection on component unmount
+      return () => {
+        if (client) {
+          client.disconnect(() => {
+            console.log('Disconnected from WebSocket');
+          }, (error) => {
+            console.error('Error disconnecting from WebSocket', error);
+          });
+        }
+      };
+    }
+  }, [connected, client]);
+
+  useEffect(() => {
+    console.log('Pending orders:', pendingOrders);
+  }, [pendingOrders]);
+
   return (
     <div className="waiting-screen">
       <div className="pending-orders">

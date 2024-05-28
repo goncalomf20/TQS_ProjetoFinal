@@ -13,4 +13,5 @@ public interface OrderService {
     public Long createOrder(List<OrderDetails> orderDetailsList);
     public Order getOrder(Long id);
     public List<Order> getAllOrders();
+    public void deleteAllOrders();
 }

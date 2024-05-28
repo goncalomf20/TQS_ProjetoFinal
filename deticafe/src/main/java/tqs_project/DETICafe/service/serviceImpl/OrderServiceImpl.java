@@ -34,5 +34,9 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getAllOrders() {
         return orderRepo.findAll();
     }
+
+    public void deleteAllOrders() {
+        orderRepo.deleteAll();
+    }
     
 }
