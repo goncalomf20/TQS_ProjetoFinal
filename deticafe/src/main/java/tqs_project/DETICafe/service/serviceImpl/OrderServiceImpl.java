@@ -16,14 +16,20 @@ public class OrderServiceImpl implements OrderService {
     OrderRepo orderRepo;
 
     public Long createOrder(List<OrderDetails> orderDetailsList) {
+        if (orderDetailsList == null || orderDetailsList.isEmpty()) {
+            return null;
+        }
         Order order = new Order(orderDetailsList);
         orderRepo.save(order);
-
         return order.getOrderId();
     }
 
     public Order getOrder(Long id) {
         return orderRepo.findByOrderId(id);
+    }
+
+    public List<Order> getAllOrders() {
+        return orderRepo.findAll();
     }
     
 }
