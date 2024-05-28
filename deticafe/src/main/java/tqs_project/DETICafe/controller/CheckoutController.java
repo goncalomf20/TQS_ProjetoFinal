@@ -61,12 +61,13 @@ public class CheckoutController {
         }
 
         Order order = new Order(orderDetails);
+        order.setStatus(Status.PREPARING);
+        orderRepo.save(order);
         
         orderRepo.save(order);
-
         System.out.println("Order created: " + order.getOrderId() + "with details: " + orderDetailsList.toString());
 
-        // Enviar ordem via WebSocket
+
         template.convertAndSend("/topic/orders", order);
 
         return new ResponseEntity<>("ok", HttpStatus.OK);
