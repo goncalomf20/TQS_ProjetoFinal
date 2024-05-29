@@ -30,4 +30,12 @@ public class Staff{
     @Enumerated(EnumType.STRING)
     private Type type;
 
+    public Staff(String name, String phone_number, String email, Type type) {
+        this.name = name;
+        this.phone_number = phone_number;
+        this.email = email;
+        this.type = type;
+    }
+
+    
 }

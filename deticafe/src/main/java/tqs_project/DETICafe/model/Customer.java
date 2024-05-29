@@ -30,5 +30,12 @@ public class Customer {
     @Column(name = "email", nullable = false)
     private String email;
 
+    public Customer(int nmec, String name, String phone_number, String email) {
+        this.nmec = nmec;
+        this.name = name;
+        this.phone_number = phone_number;
+        this.email = email;
+    }
+
     
 }

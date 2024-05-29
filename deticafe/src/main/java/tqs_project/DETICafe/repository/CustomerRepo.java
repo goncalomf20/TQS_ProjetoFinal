@@ -8,5 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
 public interface CustomerRepo extends JpaRepository<Customer, Long>{
+
+    Customer findByName(String name);
     
 }
