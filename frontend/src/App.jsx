@@ -4,8 +4,10 @@ import { Checkout } from './components/Checkout';
 import { PaymentChoice } from './components/PaymentChoice';
 import { WaitingScreen } from './components/WaitingScreen';
 import  Kitchen  from './components/Kitchen';
+import  Receipt  from './components/Receipt';
 import  Service  from './components/Service';
 import KioskSide from './KioskSide';
+import CardPayment from './components/CardPayment';
 
 
 function App() {
@@ -32,8 +34,10 @@ function App() {
         <Route path="/waiting-screen" element={<WaitingScreen />} />
         <Route path="/checkout" element={<Checkout cart={cart} />} />
         <Route path="/payment-choice" element={<PaymentChoice />} />
+        <Route path="/pay-with-card" element={<CardPayment />} />
         <Route path="/kitchen" element={<Kitchen />} />
         <Route path="/service" element={<Service />} /> {/* Add params */}
+        <Route path="/receipt" element={<Receipt/>} />
       </Routes>
     </Router>
   );
