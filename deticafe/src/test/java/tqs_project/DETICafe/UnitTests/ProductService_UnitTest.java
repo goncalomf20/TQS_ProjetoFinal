@@ -51,7 +51,6 @@ class ProductService_UnitTest {
 
     @Test
     @DisplayName("Test getProducts")
-    @Disabled("Not implemented yet")
     void testGetProducts() {
         List<Product> found = productService.getAllProducts();
         assertNotNull(found);
@@ -81,7 +80,6 @@ class ProductService_UnitTest {
     }
 
     @Test
-    @Disabled("Not implemented yet")
     @DisplayName("Test getProductByName with valid name")
     void testGetProductByNameValidName() {
         String name = "Ham and Cheese Croissant";
@@ -95,7 +93,6 @@ class ProductService_UnitTest {
     }
 
     @Test
-    @Disabled("Not implemented yet")
     @DisplayName("Test getProductByName with invalid name")
     void testGetProductByNameInvalidName() {
         String name = "Invalid Product";
