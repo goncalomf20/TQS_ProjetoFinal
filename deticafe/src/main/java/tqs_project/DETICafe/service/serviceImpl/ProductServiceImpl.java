@@ -34,4 +34,9 @@ public class ProductServiceImpl implements ProductService{
         return productRepo.findAll();
     }
 
+    @Override
+    public Product addProduct(Product product) {
+        return productRepo.save(product);
+    }
+
 }  
