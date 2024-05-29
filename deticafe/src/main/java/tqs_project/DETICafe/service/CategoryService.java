@@ -11,5 +11,7 @@ public interface CategoryService {
 
     public List<Category> getAllCategories();
 
+    public Category addCategory(Category category);
+
 }
 
