@@ -42,7 +42,7 @@ public class CheckoutController {
     }
 
     @PostMapping("/createOrder")
-    public ResponseEntity<String> createOrder(@RequestBody List<OrderDetailsDTO> orderDetailsList) {
+    public ResponseEntity<Long> createOrder(@RequestBody List<OrderDetailsDTO> orderDetailsList) {
         List<OrderDetails> orderDetails = new ArrayList<>();
         for (OrderDetailsDTO orderDetailsDTO : orderDetailsList) {
             List<String> customizations = new ArrayList<>();
@@ -69,7 +69,7 @@ public class CheckoutController {
         // Enviar ordem via WebSocket
         template.convertAndSend("/topic/orders", order);
 
-        return new ResponseEntity<>("ok", HttpStatus.OK);
+        return new ResponseEntity<>(order.getOrderId(), HttpStatus.OK);
     }
 
     @GetMapping("/getOrder")

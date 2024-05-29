@@ -29,7 +29,7 @@ const Service = () => {
 
     return (
         <>
-            <div className="flex items-center justify-center pt-10">
+            <div className="flex items-center justify-center pt-10">    
                 <h1 className="text-4xl font-bold">Orders</h1>
             </div>
             <div className='grid p-20 gap-10 grid-cols-5'>
