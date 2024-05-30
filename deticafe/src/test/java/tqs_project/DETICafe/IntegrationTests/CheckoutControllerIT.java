@@ -63,25 +63,26 @@ class CheckoutControllerIT {
     }
 
     @Test
-    @Disabled
-    void whenCreateOrder_thenReturnOk() {
+    void whenCreateOrder_thenShowConfirmedOrder() {
         List<OrderDetailsDTO> orderDetailsList = new ArrayList<>();
         Map<String, Boolean> orderDetailsMap = new HashMap<>();
         orderDetailsMap.put("Extra cheese", true);
         orderDetailsMap.put("Spicy", false);
-
+    
         OrderDetailsDTO dto = new OrderDetailsDTO();
         dto.setName("Pizza");
         dto.setQuantity(1);
         dto.setFoodId(201);
         dto.setOrderDetails(orderDetailsMap);
-
+    
         orderDetailsList.add(dto);
-
-        ResponseEntity<OrderDetailsDTO> response = restTemplate
-            .postForEntity(("/api/createOrder"), orderDetailsList, OrderDetailsDTO.class);
-
-            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    
+        ResponseEntity<Long> response = restTemplate
+            .postForEntity("/api/order/createOrder", orderDetailsList, Long.class);
+    
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody()).isInstanceOf(Long.class);
     }
 
     @Test
