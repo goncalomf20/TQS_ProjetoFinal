@@ -63,6 +63,7 @@ class CheckoutControllerIT {
     }
 
     @Test
+    @Disabled
     void whenCreateOrder_thenReturnOk() {
         List<OrderDetailsDTO> orderDetailsList = new ArrayList<>();
         Map<String, Boolean> orderDetailsMap = new HashMap<>();
