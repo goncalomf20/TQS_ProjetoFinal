@@ -21,6 +21,11 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepo.findAll();
     }
 
+    @Override
+    public Category addCategory(Category category) {
+        return categoryRepo.save(category);
+    }
+
 }
 
 

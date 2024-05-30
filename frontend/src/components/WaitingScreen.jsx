@@ -9,19 +9,6 @@ export function WaitingScreen() {
   const [client, setClient] = useState(null);
   const [connected, setConnected] = useState(false);
 
-  // useEffect(() => {
-  //   fetch('http://localhost:8080/api/order/getAllOrders')
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       // Add all orders to the pendingOrders array
-  //       const pending = data.map(order => order.orderId);
-  //       setPendingOrders(pending);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching orders:', error);
-  //     });
-  // }, []);
-
   useEffect(() => {
     if (!connected) {
       const socket = new SockJS('http://localhost:8080/ws');
@@ -31,15 +18,24 @@ export function WaitingScreen() {
         console.log('Connected to the WebSocket server');
         stompClient.subscribe('/topic/orders', (message) => {
           const order = JSON.parse(message.body);
-          console.log('Order received:', order.orderId);
+          console.log('Order received:', order);
 
-          setPendingOrders((prev) => {
-            // Deduplicate orders
-            if (!prev.includes(order.orderId)) {
-              return [...prev, order.orderId];
-            }
-            return prev;
-          });
+          if (order.status === 'PREPARING') {
+            setPendingOrders((prev) => {
+              if (!prev.some(o => o.orderId === order.orderId)) {
+                return [...prev, order];
+              }
+              return prev;
+            });
+          } else if (order.status === 'READY') {
+            setPendingOrders((prev) => prev.filter(o => o.orderId !== order.orderId));
+            setReadyOrders((prev) => {
+              if (!prev.some(o => o.orderId === order.orderId)) {
+                return [...prev, order];
+              }
+              return prev;
+            });
+          }
         });
         setClient(stompClient);
         setConnected(true);
@@ -70,7 +66,7 @@ export function WaitingScreen() {
         <h2 className="title">Preparing</h2>
         <div className="order-container">
           {pendingOrders.map((order, index) => (
-            <div key={index} className="order">{order}</div>
+            <div key={index} className="order">{order.orderId}</div>
           ))}
         </div>
       </div>
@@ -79,7 +75,7 @@ export function WaitingScreen() {
         <h2 className="title">Ready</h2>
         <div className="order-container">
           {readyOrders.map((order, index) => (
-            <div key={index} className="order">{order}</div>
+            <div key={index} className="order">{order.orderId}</div>
           ))}
         </div>
       </div>

@@ -11,5 +11,6 @@ public interface ProductService {
     public Product getProductById(int id);
     public Product getProductByName(String name);
     public List<Product> getAllProducts();
+    public Product addProduct(Product product);
     
 }

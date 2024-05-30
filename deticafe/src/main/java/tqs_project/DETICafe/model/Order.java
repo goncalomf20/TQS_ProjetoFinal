@@ -16,6 +16,10 @@ public class Order {
         this.orderDetails = orderDetailsList;
     }
     
+    public Order(Long orderId, List<OrderDetails> orderDetailsList) {
+        this.orderId = orderId;
+        this.orderDetails = orderDetailsList;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_id")
@@ -24,6 +28,9 @@ public class Order {
     @OneToMany
     @JoinColumn(name = "order_details_id", nullable = false)
     private List<OrderDetails> orderDetails;
+
+    @Column(name="status_order")
+    private Status status;
 
 
     @Override
