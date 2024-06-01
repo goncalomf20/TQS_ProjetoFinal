@@ -1,17 +1,18 @@
 name: Deploy
+
 on:
   push:
       branches:
         - main
         - TF-16-Set-Up-CD-Pipeline
 
-    pull_request:
-      branches:
-        - main
-        - TF-16-Set-Up-CD-Pipeline
-      types: [opened, synchronize, reopened]
+  pull_request:
+    branches:
+      - main
+      - TF-16-Set-Up-CD-Pipeline
+    types: [opened, synchronize, reopened]
 
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   acceptance_test:
