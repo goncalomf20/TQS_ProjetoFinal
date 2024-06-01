@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - TF-16-Set-Up-CD-Pipeline
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
