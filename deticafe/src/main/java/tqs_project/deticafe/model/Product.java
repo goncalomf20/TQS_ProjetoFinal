@@ -1,7 +1,6 @@
 package tqs_project.deticafe.model;
 
 import java.util.List;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +9,6 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-
 @Table(name = "product")
 public class Product {
 
@@ -22,6 +20,7 @@ public class Product {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @ElementCollection // To handle list of basic types
     @Column(name = "ingredients", nullable = false)
     private List<String> ingredients;
 
@@ -38,6 +37,4 @@ public class Product {
         this.price = price;
         this.category = category;
     }
-
-    
 }

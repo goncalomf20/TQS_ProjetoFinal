@@ -17,13 +17,13 @@ public class OrderDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "oder_details_id")
+    @Column(name = "order_details_id")
     private Long orderDetailsId;
 
     @Column(name = "customizations")
     private List<String> customizations;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
 

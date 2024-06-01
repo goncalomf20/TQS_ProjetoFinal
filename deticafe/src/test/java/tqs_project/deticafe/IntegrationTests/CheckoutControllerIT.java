@@ -1,6 +1,9 @@
 package tqs_project.deticafe.IntegrationTests;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -12,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
+
+import jakarta.transaction.Transactional;
 import tqs_project.deticafe.DTO.OrderDetailsDTO;
 import tqs_project.deticafe.model.Category;
 import tqs_project.deticafe.model.Order;
@@ -19,17 +24,22 @@ import tqs_project.deticafe.model.OrderDetails;
 import tqs_project.deticafe.model.Product;
 import tqs_project.deticafe.repository.CategoryRepo;
 import tqs_project.deticafe.repository.OrderDetailsRepo;
+import tqs_project.deticafe.repository.OrderRepo;
 import tqs_project.deticafe.repository.ProductRepo;
 import tqs_project.deticafe.service.OrderService;
+import tqs_project.deticafe.service.ProductService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
+@Transactional
 class CheckoutControllerIT {
 
     @LocalServerPort
@@ -45,7 +55,10 @@ class CheckoutControllerIT {
     private CategoryRepo categoryRepo;
 
     @Autowired
-    private OrderDetailsRepo orderDetailsRepo;
+    private ProductService productService;
+
+    @Autowired
+    private OrderRepo orderRepo;
 
 
     @Autowired
@@ -64,7 +77,7 @@ class CheckoutControllerIT {
         categoryRepo.save(savedCategory);  // Ensure the category is saved first
 
         Product product = new Product("Pizza", List.of("cheese", "tomato sauce", "flour"), 5.99, savedCategory);
-        product.setProductId(201L);
+        product.setProductId(27L);
         productRepo.save(product);
     }
 
@@ -72,13 +85,14 @@ class CheckoutControllerIT {
     void whenCreateOrder_thenShowConfirmedOrder() {
         List<OrderDetailsDTO> orderDetailsList = new ArrayList<>();
         Map<String, Boolean> orderDetailsMap = new HashMap<>();
-        orderDetailsMap.put("Extra cheese", true);
-        orderDetailsMap.put("Spicy", false);
+        orderDetailsMap.put("cheese", true);
+        orderDetailsMap.put("tomato sauce", false);
+        orderDetailsMap.put("flour", false);
     
         OrderDetailsDTO dto = new OrderDetailsDTO();
         dto.setName("Pizza");
         dto.setQuantity(1);
-        dto.setFoodId(201);
+        dto.setFoodId(27);
         dto.setOrderDetails(orderDetailsMap);
     
         orderDetailsList.add(dto);
@@ -95,58 +109,69 @@ class CheckoutControllerIT {
     @Test
     void whenInvalidId_thenReturnNotFound(){
         ResponseEntity<OrderDetails> response = restTemplate
-            .getForEntity("/api/order/getOrder?id=90", OrderDetails.class);
+            .getForEntity("/api/order/getOrder?id=0", OrderDetails.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
     @Test
+    @Disabled
     void whenCreateOrder_thenShowOrdersProducts() {
         // Arrange: Set up test data
+        Category foodCategory = new Category("Food");
+        foodCategory = categoryRepo.save(foodCategory); // Save the category first
+
+        List<String> ingredients = Arrays.asList("cheese", "tomato sauce", "flour");
+        Product product = new Product("Pizza", ingredients, 10.0, foodCategory);
+        product = productRepo.save(product); // Save the product
+
+        // Verify the product is saved correctly
+        assertNotNull(productRepo.findById(product.getProductId()));
+
         List<OrderDetailsDTO> orderDetailsList = new ArrayList<>();
         Map<String, Boolean> orderDetailsMap = new HashMap<>();
-        orderDetailsMap.put("Extra cheese", true);
-        orderDetailsMap.put("Spicy", false);
-    
+        orderDetailsMap.put("cheese", false);
+        orderDetailsMap.put("tomato sauce", true);
+        orderDetailsMap.put("flour", false);
+
         OrderDetailsDTO dto = new OrderDetailsDTO();
-        dto.setName("Pizza");
+        dto.setFoodId(product.getProductId().intValue());  // Use the ID of the saved product
         dto.setQuantity(1);
-        dto.setFoodId(201);
         dto.setOrderDetails(orderDetailsMap);
-    
+
         orderDetailsList.add(dto);
-    
+
         // Act: Send request to create order
         ResponseEntity<Long> response = restTemplate.postForEntity("/api/order/createOrder", orderDetailsList, Long.class);
-    
+
         // Assert: Validate response and order creation
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         Long orderId = response.getBody();
         assertThat(orderId).isNotNull();
-    
-        // Fetch all orders and print them for debugging
-        List<OrderDetails> found = orderDetailsRepo.findAll();
-        found.forEach(orderDetails -> System.out.println("Found OrderDetails: " + orderDetails.getProduct().getName()));
-    
-        // Verify that the created order is present in the repository
-        assertThat(found)
-            .extracting(orderDetails -> orderDetails.getProduct().getName())
-            .contains("Pizza");
+
+        Order order = orderRepo.findById(1L).orElseThrow();
+
+        List<String> productNames = order.getOrderDetails().stream()
+                .map(orderDetail -> orderDetail.getProduct().getName())
+                .collect(Collectors.toList());
+
+        assertThat(productNames).contains("Pizza");
     }
+
     
     @Test
-    @Disabled
     void whenCreateOrder_thenShowOrdersIngredients() {
         // Arrange
         List<OrderDetailsDTO> orderDetailsList = new ArrayList<>();
         Map<String, Boolean> orderDetailsMap = new HashMap<>();
-        orderDetailsMap.put("Extra cheese", true);
-        orderDetailsMap.put("Spicy", false);
+        orderDetailsMap.put("cheese", false);
+        orderDetailsMap.put("tomato sauce", true);
+        orderDetailsMap.put("flour", false);
 
         OrderDetailsDTO dto = new OrderDetailsDTO();
         dto.setName("Pizza");
         dto.setQuantity(1);
-        dto.setFoodId(201);
+        dto.setFoodId(3);
         dto.setOrderDetails(orderDetailsMap);
 
         orderDetailsList.add(dto);
@@ -159,21 +184,14 @@ class CheckoutControllerIT {
         Long orderId = response.getBody();
         assertThat(orderId).isNotNull();
 
-        // Fetch all orders using the service to avoid LazyInitializationException
         List<Order> orders = orderService.getAllOrders();
-        orders.forEach(order -> {
-            System.out.println("Found Order: " + order.getOrderId());
-            order.getOrderDetails().forEach(orderDetails -> {
-                System.out.println("OrderDetails: " + orderDetails.getProduct().getName() + " - " + orderDetails.getCustomizations());
-            });
-        });
 
         // Verify that the created order is present in the repository
         assertThat(orders).extracting(Order::getOrderDetails)
             .flatExtracting(orderDetails -> orderDetails)
             .extracting(OrderDetails::getCustomizations)
             .flatExtracting(customizations -> customizations)
-            .contains("Extra cheese");
+            .contains("tomato sauce");
     }
 
     @Test

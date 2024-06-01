@@ -46,35 +46,47 @@ public class CheckoutController {
     @PostMapping("/createOrder")
     public ResponseEntity<Long> createOrder(@RequestBody List<OrderDetailsDTO> orderDetailsList) {
         List<OrderDetails> orderDetails = new ArrayList<>();
+        
         for (OrderDetailsDTO orderDetailsDTO : orderDetailsList) {
             List<String> customizations = new ArrayList<>();
-            Product product = productService.getProductById(orderDetailsDTO.getFoodId());
-            System.out.println(product);
-
-
+            
+            // Adicione logs para depuração
+            System.out.println("Food ID: " + orderDetailsDTO.getFoodId());
+            
+            Product product = productService.getProductById(Integer.valueOf(orderDetailsDTO.getFoodId()));
+    
+            // Verifique se o produto é nulo
+            if (product == null) {
+                System.out.println("Product not found for ID: " + orderDetailsDTO.getFoodId());
+                continue;
+            }
+            System.out.println("Product" + product.getName());
+    
             for (Entry<String, Boolean> entry : orderDetailsDTO.getOrderDetails().entrySet()) {
                 if (entry.getValue()) {
                     customizations.add(entry.getKey());
                 }
             }
-
+    
             OrderDetails orderDetail = new OrderDetails(customizations, product);
+            
             System.out.println("OrderDetail created: " + orderDetail.toString());
+            
             orderDetails.add(orderDetail);
         }
-
+    
         Order order = new Order(orderDetails);
         order.setStatus(Status.PREPARING);
         orderRepo.save(order);
         
-        orderRepo.save(order);
+        // Adicione logs para depuração
         System.out.println("Order created: " + order.getOrderId() + "with details: " + orderDetailsList.toString());
-
-
+    
         template.convertAndSend("/topic/orders", order);
-
+    
         return new ResponseEntity<>(order.getOrderId(), HttpStatus.OK);
     }
+    
 
     @GetMapping("/getOrder")
     public ResponseEntity<Order> getOrder(@RequestParam Long id) {

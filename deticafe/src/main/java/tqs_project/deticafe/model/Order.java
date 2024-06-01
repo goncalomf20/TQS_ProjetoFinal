@@ -20,18 +20,17 @@ public class Order {
         this.orderId = orderId;
         this.orderDetails = orderDetailsList;
     }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_id")
     private Long orderId;
 
-    @OneToMany
-    @JoinColumn(name = "order_details_id", nullable = false)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<OrderDetails> orderDetails;
 
-    @Column(name="status_order")
+    @Column(name = "status_order")
     private Status status;
-
 
     @Override
     public int hashCode() {
@@ -63,8 +62,4 @@ public class Order {
             return false;
         return true;
     }
-
-    
-    
-
 }
