@@ -80,7 +80,6 @@ class CategoryControllerIT {
             ResponseEntity<Category> response = restTemplate
                 .postForEntity("/api/category/addCategory?categoryName={categoryName}", null, Category.class, params);
 
-            System.out.println(response.getStatusCode());
 
             assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
             assertThat(response.getBody().getName()).isEqualTo("NewCategory");

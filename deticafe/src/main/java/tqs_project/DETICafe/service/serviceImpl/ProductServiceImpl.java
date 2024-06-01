@@ -1,9 +1,13 @@
 package tqs_project.deticafe.service.serviceImpl;
 
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import tqs_project.deticafe.model.Category;
 import tqs_project.deticafe.model.Product;
+import tqs_project.deticafe.repository.CategoryRepo;
 import tqs_project.deticafe.repository.ProductRepo;
 import tqs_project.deticafe.service.ProductService;
 
@@ -11,10 +15,12 @@ import tqs_project.deticafe.service.ProductService;
 public class ProductServiceImpl implements ProductService{
     
     ProductRepo productRepo;
+    CategoryRepo categoryRepo;
 
 
-    public ProductServiceImpl(ProductRepo productRepo) {
+    public ProductServiceImpl(ProductRepo productRepo, CategoryRepo categoryRepo) {
         this.productRepo = productRepo;
+        this.categoryRepo = categoryRepo;
     }
 
 
@@ -35,8 +41,15 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product addProduct(Product product) {
-        return productRepo.save(product);
+    public Product addProduct(String name, List<String> description, double price, String categoryName) {
+        Category category = categoryRepo.findByName(categoryName);
+        if (category == null) {
+            throw new IllegalArgumentException("Category not found");
+        }
+        Product product = new Product(name, description, price, category);
+        productRepo.save(product);
+        return product;
+        
     }
 
 }  
