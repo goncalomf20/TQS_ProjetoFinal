@@ -48,7 +48,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Deploy with docker-compose
-      working-directory: ./HW1
+      working-directory: .
       run: |
         docker compose -f compose.prod.yml pull
         docker compose -f compose.prod.yml up -d --remove-orphans
