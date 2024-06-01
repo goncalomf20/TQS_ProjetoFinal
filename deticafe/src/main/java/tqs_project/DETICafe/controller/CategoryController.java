@@ -1,4 +1,4 @@
-package tqs_project.DETICafe.controller;
+package tqs_project.deticafe.controller;
 
 import java.util.List;
 
@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import tqs_project.DETICafe.model.Category;
-import tqs_project.DETICafe.service.CategoryService;
+import tqs_project.deticafe.model.Category;
+import tqs_project.deticafe.service.CategoryService;
 
 @RestController
 @RequestMapping("/api/category")
@@ -34,10 +35,11 @@ public class CategoryController {
     }
 
     @PostMapping("/addCategory")
-    public ResponseEntity<Category> addCategory(Category category) {
-        Category newCategory = categoryService.addCategory(category);
+    public ResponseEntity<Category> addCategory(@RequestParam String categoryName) {
+        Category newCategory = categoryService.addCategory(categoryName);
         return ResponseEntity.ok(newCategory);
     }
+
 
 }
    

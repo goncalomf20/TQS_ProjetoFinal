@@ -1,4 +1,4 @@
-package tqs_project.DETICafe.config;
+package tqs_project.deticafe.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

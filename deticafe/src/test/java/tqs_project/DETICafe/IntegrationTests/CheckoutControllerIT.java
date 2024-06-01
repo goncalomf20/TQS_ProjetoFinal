@@ -1,4 +1,4 @@
-package tqs_project.DETICafe.IntegrationTests;
+package tqs_project.deticafe.IntegrationTests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,13 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-import tqs_project.DETICafe.DTO.OrderDetailsDTO;
-import tqs_project.DETICafe.model.Category;
-import tqs_project.DETICafe.model.OrderDetails;
-import tqs_project.DETICafe.model.Product;
-import tqs_project.DETICafe.repository.CategoryRepo;
-import tqs_project.DETICafe.repository.OrderDetailsRepo;
-import tqs_project.DETICafe.repository.ProductRepo;
+import tqs_project.deticafe.DTO.OrderDetailsDTO;
+import tqs_project.deticafe.model.Category;
+import tqs_project.deticafe.model.OrderDetails;
+import tqs_project.deticafe.model.Product;
+import tqs_project.deticafe.repository.CategoryRepo;
+import tqs_project.deticafe.repository.OrderDetailsRepo;
+import tqs_project.deticafe.repository.ProductRepo;
 
 import java.util.ArrayList;
 import java.util.HashMap;

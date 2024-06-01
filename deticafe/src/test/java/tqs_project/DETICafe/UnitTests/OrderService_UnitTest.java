@@ -1,4 +1,4 @@
-package tqs_project.DETICafe.UnitTests;
+package tqs_project.deticafe.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -17,12 +17,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import tqs_project.DETICafe.model.Order;
-import tqs_project.DETICafe.model.OrderDetails;
-import tqs_project.DETICafe.model.Product;
-import tqs_project.DETICafe.repository.OrderRepo;
-import tqs_project.DETICafe.repository.ProductRepo;
-import tqs_project.DETICafe.service.serviceImpl.OrderServiceImpl;
+import tqs_project.deticafe.model.Order;
+import tqs_project.deticafe.model.OrderDetails;
+import tqs_project.deticafe.model.Product;
+import tqs_project.deticafe.repository.OrderRepo;
+import tqs_project.deticafe.repository.ProductRepo;
+import tqs_project.deticafe.service.serviceImpl.OrderServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 class OrderService_UnitTest {

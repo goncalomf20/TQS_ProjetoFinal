@@ -1,4 +1,4 @@
-package tqs_project.DETICafe.controller;
+package tqs_project.deticafe.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,14 +11,14 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 
-import tqs_project.DETICafe.DTO.OrderDetailsDTO;
-import tqs_project.DETICafe.model.Order;
-import tqs_project.DETICafe.model.OrderDetails;
-import tqs_project.DETICafe.model.Product;
-import tqs_project.DETICafe.model.Status;
-import tqs_project.DETICafe.repository.OrderRepo;
-import tqs_project.DETICafe.service.OrderService;
-import tqs_project.DETICafe.service.ProductService;
+import tqs_project.deticafe.DTO.OrderDetailsDTO;
+import tqs_project.deticafe.model.Order;
+import tqs_project.deticafe.model.OrderDetails;
+import tqs_project.deticafe.model.Product;
+import tqs_project.deticafe.model.Status;
+import tqs_project.deticafe.repository.OrderRepo;
+import tqs_project.deticafe.service.OrderService;
+import tqs_project.deticafe.service.ProductService;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,9 @@
-package tqs_project.DETICafe.service;
+package tqs_project.deticafe.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
 
-import tqs_project.DETICafe.model.Product;
+import tqs_project.deticafe.model.Product;
 
 @Service
 public interface ProductService {

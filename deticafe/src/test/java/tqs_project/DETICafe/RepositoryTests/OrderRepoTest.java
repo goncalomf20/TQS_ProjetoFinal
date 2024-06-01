@@ -1,12 +1,12 @@
-package tqs_project.DETICafe.RepositoryTests;
+package tqs_project.deticafe.RepositoryTests;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
-import tqs_project.DETICafe.model.Order;
-import tqs_project.DETICafe.repository.OrderRepo;
+import tqs_project.deticafe.model.Order;
+import tqs_project.deticafe.repository.OrderRepo;
 
 import java.util.List;
 

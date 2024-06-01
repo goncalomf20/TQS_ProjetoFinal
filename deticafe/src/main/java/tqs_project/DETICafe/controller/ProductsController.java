@@ -1,4 +1,4 @@
-package tqs_project.DETICafe.controller;
+package tqs_project.deticafe.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import tqs_project.DETICafe.model.Product;
-import tqs_project.DETICafe.service.ProductService;
+import tqs_project.deticafe.model.Product;
+import tqs_project.deticafe.service.ProductService;
 
 @RestController
 @RequestMapping("/api/products")

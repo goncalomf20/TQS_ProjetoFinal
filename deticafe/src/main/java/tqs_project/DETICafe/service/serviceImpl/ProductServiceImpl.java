@@ -1,11 +1,11 @@
-package tqs_project.DETICafe.service.serviceImpl;
+package tqs_project.deticafe.service.serviceImpl;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
 
-import tqs_project.DETICafe.model.Product;
-import tqs_project.DETICafe.repository.ProductRepo;
-import tqs_project.DETICafe.service.ProductService;
+import tqs_project.deticafe.model.Product;
+import tqs_project.deticafe.repository.ProductRepo;
+import tqs_project.deticafe.service.ProductService;
 
 @Service
 public class ProductServiceImpl implements ProductService{

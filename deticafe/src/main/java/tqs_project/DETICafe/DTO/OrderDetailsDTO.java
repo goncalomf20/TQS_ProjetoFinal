@@ -1,4 +1,4 @@
-package tqs_project.DETICafe.DTO;
+package tqs_project.deticafe.DTO;
 
 import lombok.*;
 

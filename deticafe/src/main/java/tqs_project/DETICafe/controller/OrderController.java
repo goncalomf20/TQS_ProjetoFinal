@@ -1,6 +1,6 @@
-package tqs_project.DETICafe.controller;
+package tqs_project.deticafe.controller;
 
-import tqs_project.DETICafe.model.Order;
+import tqs_project.deticafe.model.Order;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;

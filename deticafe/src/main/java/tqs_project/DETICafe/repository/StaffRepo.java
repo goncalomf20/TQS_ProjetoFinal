@@ -1,8 +1,8 @@
-package tqs_project.DETICafe.repository;
+package tqs_project.deticafe.repository;
 
 import org.springframework.stereotype.Repository;
 
-import tqs_project.DETICafe.model.Staff;
+import tqs_project.deticafe.model.Staff;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

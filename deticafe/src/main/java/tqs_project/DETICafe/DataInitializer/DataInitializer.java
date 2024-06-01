@@ -1,11 +1,11 @@
-package tqs_project.DETICafe.DataInitializer;
+package tqs_project.deticafe.DataInitializer;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import tqs_project.DETICafe.model.Category;
-import tqs_project.DETICafe.model.Product;
-import tqs_project.DETICafe.repository.CategoryRepo;
-import tqs_project.DETICafe.repository.ProductRepo;
+import tqs_project.deticafe.model.Category;
+import tqs_project.deticafe.model.Product;
+import tqs_project.deticafe.repository.CategoryRepo;
+import tqs_project.deticafe.repository.ProductRepo;
 
 
 import java.util.ArrayList;

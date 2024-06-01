@@ -1,10 +1,10 @@
-package tqs_project.DETICafe.service.serviceImpl;
+package tqs_project.deticafe.service.serviceImpl;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-import tqs_project.DETICafe.service.CategoryService;
-import tqs_project.DETICafe.model.Category;
-import tqs_project.DETICafe.repository.CategoryRepo;
+import tqs_project.deticafe.service.CategoryService;
+import tqs_project.deticafe.model.Category;
+import tqs_project.deticafe.repository.CategoryRepo;
 
 
 @Service
@@ -22,8 +22,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category addCategory(Category category) {
-        return categoryRepo.save(category);
+    public Category addCategory(String categoryName) {
+        Category category = new Category(categoryName);
+        categoryRepo.save(category);
+        return category;
     }
 
 }

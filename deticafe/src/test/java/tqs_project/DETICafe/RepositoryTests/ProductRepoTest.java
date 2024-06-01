@@ -1,4 +1,4 @@
-package tqs_project.DETICafe.RepositoryTests;
+package tqs_project.deticafe.RepositoryTests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
-import tqs_project.DETICafe.model.Product;
-import tqs_project.DETICafe.repository.ProductRepo;
-import tqs_project.DETICafe.model.Category;
+import tqs_project.deticafe.model.Product;
+import tqs_project.deticafe.repository.ProductRepo;
+import tqs_project.deticafe.model.Category;
 
 import java.util.List;
 
