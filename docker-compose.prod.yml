@@ -21,7 +21,6 @@ services:
     container_name: spring-app
     build:
       context: ./deticafe
-      dockerfile: Dockerfile.prod
     image: ghcr.io/goncalomf20/spring-app:${TAG:-latest}
     depends_on:
       - db_mysql
