@@ -49,6 +49,7 @@ public class CheckoutController {
         for (OrderDetailsDTO orderDetailsDTO : orderDetailsList) {
             List<String> customizations = new ArrayList<>();
             Product product = productService.getProductById(orderDetailsDTO.getFoodId());
+            System.out.println(product);
 
 
             for (Entry<String, Boolean> entry : orderDetailsDTO.getOrderDetails().entrySet()) {
@@ -78,7 +79,12 @@ public class CheckoutController {
     @GetMapping("/getOrder")
     public ResponseEntity<Order> getOrder(@RequestParam Long id) {
         Order order = orderService.getOrder(id);
-        return new ResponseEntity<Order>(order, HttpStatus.OK);
+        System.out.println(order);
+        if (order != null) {
+            return new ResponseEntity<>(order, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/getAllOrders")
