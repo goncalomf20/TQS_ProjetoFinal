@@ -79,7 +79,6 @@ jobs:
       run: |
         sudo find ~/actions-runner/_work/TQS_ProjetoFinal -type f -exec chmod 644 {} \;
         sudo find ~/actions-runner/_work/TQS_ProjetoFinal -type d -exec chmod 755 {} \;
-        sudo chown -R $USER:$USER ~/actions-runner/_work/TQS_ProjetoFinal
 
     - name: Clean up old files
       run: |
