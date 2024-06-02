@@ -71,7 +71,3 @@ volumes:
 networks:
   deticafe-network:
     driver: bridge
-
-
-
-
