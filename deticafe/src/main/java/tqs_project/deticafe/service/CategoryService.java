@@ -13,5 +13,6 @@ public interface CategoryService {
 
     public Category addCategory(String categoryName);
 
+    public Category save(String category);
 }
 
