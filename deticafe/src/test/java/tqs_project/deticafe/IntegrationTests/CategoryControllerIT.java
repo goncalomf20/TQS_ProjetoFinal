@@ -13,11 +13,13 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import tqs_project.deticafe.model.Category;
+import tqs_project.deticafe.model.Product;
 import tqs_project.deticafe.repository.CategoryRepo;
 import tqs_project.deticafe.repository.ProductRepo;
 
@@ -42,25 +44,15 @@ class CategoryControllerIT {
     
     @BeforeEach
         void setUp() {
-
             // Clean up and initialize data
             productRepo.deleteAll();
-            categoryRepo.deleteAll();
-
-
-            Category savedCategory1 = new Category("test1");
-            Category savedCategory2 = new Category("test2");
-            Category savedCategory3 = new Category("test3");
-
-            categoryRepo.save(savedCategory1); 
-            categoryRepo.save(savedCategory2);
-            categoryRepo.save(savedCategory3);
-
-            
+            categoryRepo.deleteAll(); 
         }
+
 
         @Test
         void whenGetAllCategories_thenReturnAllCategories() {
+            test_configs();
             ResponseEntity<Category[]> response = restTemplate
                 .getForEntity("/api/category/getAllCategories", Category[].class);
 
@@ -83,6 +75,24 @@ class CategoryControllerIT {
 
             assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
             assertThat(response.getBody().getName()).isEqualTo("NewCategory");
+        }
+
+        @Test
+        void whenAddCategoryEmpty_thenReturnBadRequest(){
+            String categoryName = "";
+            ResponseEntity<Category> response = restTemplate.postForEntity("/addCategory?categoryName={categoryName}",
+                    null, Category.class, categoryName);
+            assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        }
+
+        void test_configs(){
+            Category savedCategory1 = new Category("test1");
+            Category savedCategory2 = new Category("test2");
+            Category savedCategory3 = new Category("test3");
+
+            categoryRepo.save(savedCategory1); 
+            categoryRepo.save(savedCategory2);
+            categoryRepo.save(savedCategory3);
         }
  
 }

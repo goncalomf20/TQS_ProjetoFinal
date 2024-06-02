@@ -298,7 +298,7 @@ class CheckoutControllerIT {
     }
 
     @Test
-    void whenOrdersEmpty_thenReturnError(){
+    void whenOrdersEmpty_thenReturnBadRequest(){
         List<OrderDetailsDTO> orderDetailsList = new ArrayList<>();
 
         ResponseEntity<ErrorResponse> response = restTemplate.postForEntity("/api/order/createOrder", orderDetailsList, ErrorResponse.class);

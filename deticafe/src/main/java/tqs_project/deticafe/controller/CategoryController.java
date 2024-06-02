@@ -3,6 +3,7 @@ package tqs_project.deticafe.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tqs_project.deticafe.model.Category;
+import tqs_project.deticafe.repository.CategoryRepo;
 import tqs_project.deticafe.service.CategoryService;
 
 @RestController
@@ -36,6 +38,9 @@ public class CategoryController {
 
     @PostMapping("/addCategory")
     public ResponseEntity<Category> addCategory(@RequestParam String categoryName) {
+        if(categoryName.isEmpty()){
+             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); 
+        }
         Category newCategory = categoryService.addCategory(categoryName);
         return ResponseEntity.ok(newCategory);
     }

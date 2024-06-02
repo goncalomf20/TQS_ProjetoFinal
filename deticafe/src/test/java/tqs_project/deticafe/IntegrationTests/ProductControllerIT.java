@@ -65,7 +65,7 @@ class ProductControllerIT {
     }
 
     @Test
-    void WhenGetAllProductsandProductsEmpty_ThenReturnError(){
+    void WhenGetAllProductsandProductsEmpty_ThenReturnBadRequest(){
 
         ResponseEntity<Product[]> response = restTemplate
             .getForEntity("/api/products/getAllProducts", Product[].class);
