@@ -1,5 +1,6 @@
 package tqs_project.deticafe.IntegrationTests;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +19,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
+import tqs_project.deticafe.controller.ProductsController;
 import tqs_project.deticafe.model.Category;
 import tqs_project.deticafe.model.Product;
 import tqs_project.deticafe.repository.CategoryRepo;
+import tqs_project.deticafe.repository.OrderRepo;
 import tqs_project.deticafe.repository.ProductRepo;
+import tqs_project.deticafe.service.ProductService;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -34,10 +41,16 @@ class ProductControllerIT {
     private int port;
 
     @Autowired
+    private ProductService productService;
+
+    @Autowired
     private ProductRepo productRepo;
 
     @Autowired
     private CategoryRepo categoryRepo;
+
+    @Autowired
+    private OrderRepo orderRepo;
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -47,27 +60,23 @@ class ProductControllerIT {
         // Clean up and initialize data
         productRepo.deleteAll();
         categoryRepo.deleteAll();
-
-        List<String> ingredients1 = List.of("cheese", "tomato sauce", "flour");
-        List<String> ingredients2 = List.of("cheese", "tomato sauce", "flour");
-        List<String> ingredients3 = List.of("cheese", "tomato sauce", "flour");
-
-        Category savedCategory = new Category("Foods");
-        categoryRepo.save(savedCategory);
-
-        Product savedProduct1 = new Product("Product1", ingredients1, 10.0, savedCategory);
-        Product savedProduct2 = new Product("Product2", ingredients2, 20.0, savedCategory);
-        Product savedProduct3 = new Product("Product3", ingredients3, 30.0, savedCategory);
-
-        productRepo.save(savedProduct1);
-        productRepo.save(savedProduct2);
-        productRepo.save(savedProduct3);
-
+        orderRepo.deleteAll();
 
     }
 
     @Test
+    void WhenGetAllProductsandProductsEmpty_ThenReturnError(){
+
+        ResponseEntity<Product[]> response = restTemplate
+            .getForEntity("/api/products/getAllProducts", Product[].class);
+
+        // Assert the response
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
     void whenGetAllProducts_thenReturnAllProducts() {
+        configFunction();
         ResponseEntity<Product[]> response = restTemplate
             .getForEntity("/api/products/getAllProducts", Product[].class);
 
@@ -80,6 +89,7 @@ class ProductControllerIT {
 
     @Test
     void whenAddProduct_thenReturnProduct() {
+        configFunction();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -98,6 +108,7 @@ class ProductControllerIT {
 
     @Test
     void whenAddProductWithWrongCategory_thenBadRequest() {
+        configFunction();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -110,5 +121,21 @@ class ProductControllerIT {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
+    }
+
+    void configFunction(){
+        List<String> ingredients1 = List.of("cheese", "tomato sauce", "flour");
+        List<String> ingredients2 = List.of("cheese", "tomato sauce", "flour");
+        List<String> ingredients3 = List.of("cheese", "tomato sauce", "flour");
+
+        Category savedCategory = new Category("Foods");
+        categoryRepo.save(savedCategory);
+        Product savedProduct1 = new Product("Product1", ingredients1, 10.0, savedCategory);
+        Product savedProduct2 = new Product("Product2", ingredients2, 20.0, savedCategory);
+        Product savedProduct3 = new Product("Product3", ingredients3, 30.0, savedCategory);
+
+        productRepo.save(savedProduct1);
+        productRepo.save(savedProduct2);
+        productRepo.save(savedProduct3);
     }
 }
