@@ -26,6 +26,8 @@ services:
       - db_mysql
     ports:
       - "8080:8080"
+    volumes:
+      - ./deticafe:/app
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db_mysql:3306/tqs_project
       SPRING_DATASOURCE_USERNAME: user
@@ -38,8 +40,25 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
     ports:
       - "5173:5173"
+    networks:
+      - deticafe-network
+
+
+  takeaway-app:
+    container_name: takeaway-app
+    build:
+      context: ./takeaway
+      dockerfile: Dockerfile
+    volumes:
+      - ./takeaway:/app
+    ports:
+      - "5174:5174"
+    depends_on:
+      - react-app
     networks:
       - deticafe-network
 
@@ -50,7 +69,6 @@ volumes:
 networks:
   deticafe-network:
     driver: bridge
-
 
 
 

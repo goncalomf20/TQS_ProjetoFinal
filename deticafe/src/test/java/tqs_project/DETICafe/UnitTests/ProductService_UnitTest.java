@@ -25,7 +25,7 @@ import tqs_project.DETICafe.model.Product;
 
 
 @ExtendWith(MockitoExtension.class)
-public class ProductService_UnitTest {
+class ProductService_UnitTest {
     
     @Mock(lenient = true)
     private ProductRepo product_repository;
@@ -66,10 +66,10 @@ public class ProductService_UnitTest {
         Product found = productService.getProductById(id);
         assertNotNull(found);
         assertEquals(id, found.getProductId());
-        assertEquals(found.getName(), "Large Coffee");
-        assertEquals(found.getIngredients(), Arrays.asList("coffee", "water", "sugar"));
-        assertEquals(found.getPrice(), 1.99);
-        assertEquals(found.getCategory().getName(), "Coffee");
+        assertEquals("Large Coffee", found.getName());
+        assertEquals(Arrays.asList("coffee", "water", "sugar"), found.getIngredients());
+        assertEquals(1.99, found.getPrice());
+        assertEquals("Coffee", found.getCategory().getName());
     }
 
     @Test
@@ -88,14 +88,18 @@ public class ProductService_UnitTest {
         Product found = productService.getProductByName(name);
         assertNotNull(found);
         assertEquals(name, found.getName());
-        assertEquals(found.getProductId(), 2L);
-        assertEquals(found.getIngredients(), Arrays.asList("croissant", "ham", "cheese"));
-        assertEquals(found.getPrice(), 3.99);
-        assertEquals(found.getCategory().getName(), "Pastry");
+        assertEquals(2L, found.getProductId());
+        assertEquals(Arrays.asList("croissant", "ham", "cheese"), found.getIngredients());
+        assertEquals(3.99, found.getPrice());
+        assertEquals("Pastry", found.getCategory().getName());
     }
 
-
-
-
-
+    @Test
+    @Disabled("Not implemented yet")
+    @DisplayName("Test getProductByName with invalid name")
+    void testGetProductByNameInvalidName() {
+        String name = "Invalid Product";
+        Product found = productService.getProductByName(name);
+        assertEquals(null, found);
+    }
 }

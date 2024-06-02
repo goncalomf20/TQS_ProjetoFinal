@@ -109,7 +109,6 @@ public class DataInitializer implements CommandLineRunner {
         List<String> ingredients24 = Arrays.asList("flour", "sugar", "butter", "cinnamon");
         products.add(new Product("Chocolate Chip Cookies", ingredients23, 2.99, categoryRepository.findByName("Snacks")));
         products.add(new Product("Cinnamon Rolls", ingredients24, 3.99, categoryRepository.findByName("Pastry")));
-
         List<String> ingredients25 = Arrays.asList("chocolate");
         products.add(new Product("Chocolate mousse", ingredients25, 1.50, categoryRepository.findByName("Desserts")));
 

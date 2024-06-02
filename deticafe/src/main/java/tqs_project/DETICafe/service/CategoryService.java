@@ -10,4 +10,8 @@ import tqs_project.DETICafe.model.Category;
 public interface CategoryService {
 
     public List<Category> getAllCategories();
+
+    public Category addCategory(Category category);
+
 }
+

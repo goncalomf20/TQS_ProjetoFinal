@@ -20,8 +20,8 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Product getProductById(int id) {
-        Long id_long = Long.valueOf(id);
-        return productRepo.findByProductId(id_long);
+        Long idLong = Long.valueOf(id);
+        return productRepo.findByProductId(idLong);
     }
 
     @Override
@@ -32,6 +32,11 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public List<Product> getAllProducts() {
         return productRepo.findAll();
+    }
+
+    @Override
+    public Product addProduct(Product product) {
+        return productRepo.save(product);
     }
 
 }  
