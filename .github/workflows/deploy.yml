@@ -66,6 +66,10 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
+    - name: Clean previous deploy
+      run: |
+        sudo rm -rf ~/actions-runner/_work/TQS_ProjetoFinal/
+      
     - uses: actions/checkout@v3
 
     - name: Login to Github Packages
