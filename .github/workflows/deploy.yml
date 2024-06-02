@@ -60,6 +60,9 @@ jobs:
           set: |
             *.cache-to=type=gha,scope=cached-stage,mode=max
             *.cache-from=type=gha,scope=cached-stage
+      - name: Clean dockers just in case
+        run: docker compose down -v
+        working-directory: .
 
   deploy:
     name: Deploy to UA VM
@@ -80,6 +83,20 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Fix permissions for problematic directory
+      run: |
+        sudo chown -R $USER:$USER /home/sarafalmeida/actions-runner/_work/TQS_ProjetoFinal/TQS_ProjetoFinal/deticafe/target/classes
+        sudo chmod -R 777 /home/sarafalmeida/actions-runner/_work/TQS_ProjetoFinal/TQS_ProjetoFinal/deticafe/target/classes
+
+    - name: Ensure directories are clean before deleting
+      run: |
+        sudo find /home/sarafalmeida/actions-runner/_work/TQS_ProjetoFinal/TQS_ProjetoFinal -type d -exec chmod 777 {} +
+
+    - name: Forcefully remove the problematic directory
+      run: |
+        sudo rm -rf /home/sarafalmeida/actions-runner/_work/TQS_ProjetoFinal/TQS_ProjetoFinal/deticafe/target/classes
+
 
     - name: Deploy with docker-compose
       working-directory: .
