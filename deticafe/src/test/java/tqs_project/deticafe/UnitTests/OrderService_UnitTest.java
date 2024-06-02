@@ -97,6 +97,21 @@ class OrderService_UnitTest {
     }
 
     @Test
+    void saveOrderTest() {
+
+        Order order = new Order();
+        order.setOrderId(123L); 
+
+        when(orderRepo.save(order)).thenReturn(order);
+
+        Order savedOrder = orderService.save(order);
+
+        verify(orderRepo, times(1)).save(order);
+
+        assertEquals(order, savedOrder);
+    }
+
+    @Test
     void createOrderTest() {
 
         OrderDetails orderDetails1 = new OrderDetails();
