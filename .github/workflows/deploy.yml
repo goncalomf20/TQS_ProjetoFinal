@@ -2,9 +2,9 @@ name: Deploy
 
 on:
   push:
-      branches:
-        - main
-        - TF-16-Set-Up-CD-Pipeline
+    branches:
+      - main
+      - TF-16-Set-Up-CD-Pipeline
 
   pull_request:
     branches:
@@ -75,6 +75,15 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Change permissions and ownership for files and directories
+      run: |
+        sudo find ~/actions-runner/_work/TQS_ProjetoFinal -type f -exec chmod 644 {} \;
+        sudo find ~/actions-runner/_work/TQS_ProjetoFinal -type d -exec chmod 755 {} \;
+        sudo chown -R $USER:$USER ~/actions-runner/_work/TQS_ProjetoFinal
+
+    - name: Clean up old files
+      run: |
+        sudo rm -rf ~/actions-runner/_work/TQS_ProjetoFinal/TQS_ProjetoFinal
 
     - name: Deploy with docker-compose
       working-directory: .
