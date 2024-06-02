@@ -34,16 +34,19 @@ public class ProductsController {
 
     @GetMapping("/getAllProducts")
     public ResponseEntity<List<Product>> getAllProducts() {
-        if(productRepository.findAll().isEmpty()){
+        List<Product> products = productService.getAllProducts();
+        if(products.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        List<Product> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
     }
 
     @PostMapping("/addProduct")
     public ResponseEntity<Product> addProduct(@RequestParam String productName, @RequestParam List<String> productDescription, @RequestParam double productPrice, @RequestParam String productCategory) {
         try {
+            if (productName.isEmpty() || productPrice <= 0 || productCategory.isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }
             Product newProduct = productService.addProduct(productName, productDescription, productPrice, productCategory);
             return ResponseEntity.ok(newProduct);
         } catch (IllegalArgumentException e) {
