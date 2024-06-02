@@ -60,9 +60,6 @@ jobs:
           set: |
             *.cache-to=type=gha,scope=cached-stage,mode=max
             *.cache-from=type=gha,scope=cached-stage
-      - name: Clean dockers just in case
-        run: docker compose down -v
-        working-directory: .
 
   deploy:
     name: Deploy to UA VM
