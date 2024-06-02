@@ -2,7 +2,10 @@ package tqs_project.deticafe.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.description;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,6 +21,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import tqs_project.deticafe.repository.CategoryRepo;
+import tqs_project.deticafe.repository.ProductRepo;
 import tqs_project.deticafe.repository.ProductRepo;
 import tqs_project.deticafe.service.serviceImpl.ProductServiceImpl;
 import tqs_project.deticafe.model.Category;
@@ -30,22 +36,31 @@ class ProductService_UnitTest {
     @Mock(lenient = true)
     private ProductRepo product_repository;
 
+    @Mock(lenient = true)
+    private CategoryRepo categoryRepo;
+
     @InjectMocks
     private ProductServiceImpl productService;
 
     @BeforeEach
     void setUp() {
-        Product product1 = new Product(1L,"Large Coffee", Arrays.asList("coffee", "water", "sugar"), 1.99, new Category("Coffee"));
-        Product product2 = new Product(2L,"Ham and Cheese Croissant", Arrays.asList("croissant", "ham", "cheese"), 3.99, new Category("Pastry"));
+        Category coffeeCategory = new Category("Coffee");
+        Category pastryCategory = new Category("Pastry");
+
+        Product product1 = new Product(1L, "Large Coffee", Arrays.asList("coffee", "water", "sugar"), 1.99, coffeeCategory);
+        Product product2 = new Product(2L, "Ham and Cheese Croissant", Arrays.asList("croissant", "ham", "cheese"), 3.99, pastryCategory);
 
         List<Product> products = Arrays.asList(product1, product2);
 
         when(product_repository.findByProductId(1L)).thenReturn(product1);
         when(product_repository.findByProductId(2L)).thenReturn(product2);
-        when(product_repository.findByProductId(0)).thenReturn(null);
+        when(product_repository.findByProductId(0L)).thenReturn(null);
         when(product_repository.findByName("Large Coffee")).thenReturn(product1);
         when(product_repository.findByName("Ham and Cheese Croissant")).thenReturn(product2);
         when(product_repository.findAll()).thenReturn(products);
+        when(categoryRepo.findByName("Coffee")).thenReturn(coffeeCategory);
+        when(categoryRepo.findByName("Pastry")).thenReturn(pastryCategory);
+        when(categoryRepo.findByName("Invalid Category")).thenReturn(null);
     }
 
 
@@ -98,5 +113,45 @@ class ProductService_UnitTest {
         String name = "Invalid Product";
         Product found = productService.getProductByName(name);
         assertEquals(null, found);
+    }
+
+    @Test
+    @DisplayName("Test addProduct with valid category")
+    void testAddProductValidCategory() {
+        String name = "Espresso";
+        List<String> description = Arrays.asList("coffee", "water");
+        double price = 2.99;
+        String categoryName = "Coffee";
+
+        when(product_repository.save(any(Product.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Product addedProduct = productService.addProduct(name, description, price, categoryName);
+
+        assertNotNull(addedProduct);
+        assertEquals(name, addedProduct.getName());
+        assertEquals(description, addedProduct.getIngredients());
+        assertEquals(price, addedProduct.getPrice());
+        assertEquals(categoryName, addedProduct.getCategory().getName());
+
+        verify(product_repository, times(1)).save(any(Product.class));
+    }
+
+    @Test
+    @DisplayName("Test addProduct with invalid category")
+    void testAddProductInvalidCategory() {
+        String name = "Green Tea";
+        List<String> description = Arrays.asList("tea", "water");
+        double price = 1.99;
+        String categoryName = "Invalid Category";
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            productService.addProduct(name, description, price, categoryName);
+        });
+
+        String expectedMessage = "Category not found";
+        String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
+
+        verify(product_repository, times(0)).save(any(Product.class));
     }
 }

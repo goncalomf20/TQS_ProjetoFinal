@@ -2,12 +2,14 @@ package tqs_project.deticafe.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -118,9 +120,51 @@ class OrderService_UnitTest {
 
     @Test
     void createOrderTestWithEmptyOrderDetails() {
-        Long orderId = orderService.createOrder(List.of());
-        assertEquals(null, orderId);
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            orderService.createOrder(List.of());
+        });
+
+        String expectedMessage = "Order details list cannot be null or empty";
+        String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
+
         verify(orderRepo, times(0)).save(any(Order.class));
+    }
+
+    @Test
+    void createOrderTestWithNullOrderDetails() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            orderService.createOrder(null);
+        });
+
+        String expectedMessage = "Order details list cannot be null or empty";
+        String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
+
+        verify(orderRepo, times(0)).save(any(Order.class));
+    }
+
+    @Test
+    void getAllOrdersTest() {
+        OrderDetails orderDetails1 = new OrderDetails();
+        OrderDetails orderDetails2 = new OrderDetails();
+
+        Order order1 = new Order(1L, List.of(orderDetails1));
+        Order order2 = new Order(2L, List.of(orderDetails2));
+
+        when(orderRepo.findAll()).thenReturn(Arrays.asList(order1, order2));
+
+        List<Order> orders = orderService.getAllOrders();
+
+        assertNotNull(orders);
+        assertEquals(2, orders.size());
+        verify(orderRepo, times(1)).findAll();
+    }
+
+    @Test
+    void deleteAllOrdersTest() {
+        orderService.deleteAllOrders();
+        verify(orderRepo, times(1)).deleteAll();
     }
     
 }

@@ -22,7 +22,7 @@ public class OrderServiceImpl implements OrderService {
 
     public Long createOrder(List<OrderDetails> orderDetailsList) {
         if (orderDetailsList == null || orderDetailsList.isEmpty()) {
-            return null;
+            throw new IllegalArgumentException("Order details list cannot be null or empty");
         }
         Order order = new Order(orderDetailsList);
         orderRepo.save(order);

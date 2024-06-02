@@ -26,6 +26,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category addCategory(String categoryName) {
+        if (categoryName == null || categoryName.isEmpty()) {
+            throw new IllegalArgumentException("Category name cannot be null or empty");
+        }
         Category category = new Category(categoryName);
         categoryRepo.save(category);
         return category;
@@ -33,6 +36,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category save(String categoryName) {
+        if (categoryName == null || categoryName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Category name cannot be null or empty");
+        }
         Category category = new Category(categoryName);
         return categoryRepo.save(category);
     }
