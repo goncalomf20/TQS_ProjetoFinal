@@ -14,5 +14,6 @@ public interface OrderService {
     public Order getOrder(Long id);
     public List<Order> getAllOrders();
     public void deleteAllOrders();
+    public Order save(Order order);
 }
 

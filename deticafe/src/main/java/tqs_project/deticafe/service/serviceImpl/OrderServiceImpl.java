@@ -41,5 +41,9 @@ public class OrderServiceImpl implements OrderService {
     public void deleteAllOrders() {
         orderRepo.deleteAll();
     }
+
+    public Order save(Order order) {
+        return orderRepo.save(order);
+    }
     
 }
