@@ -80,6 +80,14 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Change permissions for files
+      run: |
+        sudo chown -R $USER:$USER /home/sarafalmeida/actions-runner/_work/TQS_ProjetoFinal
+
+    - name: Clean up old files
+      run: |
+        sudo rm -rf /home/sarafalmeida/actions-runner/_work/TQS_ProjetoFinal
 
 
     - name: Deploy with docker-compose
