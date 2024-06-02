@@ -66,15 +66,6 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
-    - name: Change permissions and ownership for files and directories
-      run: |
-        sudo find ~/actions-runner/_work/TQS_ProjetoFinal -type f -exec chmod 644 {} \;
-        sudo find ~/actions-runner/_work/TQS_ProjetoFinal -type d -exec chmod 755 {} \;
-
-    - name: Clean up old files
-      run: |
-        sudo rm -rf ~/actions-runner/_work/TQS_ProjetoFinal/
-
     - uses: actions/checkout@v3
 
     - name: Login to Github Packages
