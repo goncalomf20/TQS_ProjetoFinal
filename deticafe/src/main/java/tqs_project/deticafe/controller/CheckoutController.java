@@ -46,7 +46,9 @@ public class CheckoutController {
     @PostMapping("/createOrder")
     public ResponseEntity<Long> createOrder(@RequestBody List<OrderDetailsDTO> orderDetailsList) {
         List<OrderDetails> orderDetails = new ArrayList<>();
-        
+        if(orderDetailsList == null || orderDetailsList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         for (OrderDetailsDTO orderDetailsDTO : orderDetailsList) {
             List<String> customizations = new ArrayList<>();
             
