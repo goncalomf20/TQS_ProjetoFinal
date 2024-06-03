@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-
   db_mysql:
     image: mysql:latest
     environment:
@@ -9,7 +8,6 @@ services:
       MYSQL_DATABASE: tqs_project
       MYSQL_USER: user
       MYSQL_PASSWORD: password
-
     ports:
       - "3306:3306"
     volumes:
@@ -21,7 +19,7 @@ services:
     container_name: spring-app
     build:
       context: ./deticafe
-      dockerfile: Dockerfile
+    image: ghcr.io/goncalomf20/spring-app:${TAG:-latest}
     depends_on:
       - db_mysql
     ports:
@@ -39,20 +37,23 @@ services:
     container_name: react-app
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
+    image: ghcr.io/goncalomf20/react-app:${TAG:-latest}
     volumes:
       - ./frontend:/app
     ports:
       - "5173:5173"
+    depends_on:
+      - spring-app
     networks:
       - deticafe-network
-
 
   takeaway-app:
     container_name: takeaway-app
     build:
       context: ./takeaway
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
+    image: ghcr.io/goncalomf20/takeaway-app:${TAG:-latest}
     volumes:
       - ./takeaway:/app
     ports:
@@ -65,11 +66,7 @@ services:
 volumes:
   data:
     driver: local
-      
+
 networks:
   deticafe-network:
     driver: bridge
-
-
-
-
