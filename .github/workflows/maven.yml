@@ -12,7 +12,7 @@ on:
   push:
     branches: [ "main", "development", "TF-37-Receive-Orders-Kitchen" ]
   pull_request:
-    branches: [ "main", "development", "TF-37-Receive-Orders-Kitchen"]
+    branches: [ "main", "development", "TF-37-Receive-Orders-Kitchen" ]
 
 jobs:
   build:
