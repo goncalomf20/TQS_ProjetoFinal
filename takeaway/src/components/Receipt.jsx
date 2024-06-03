@@ -22,6 +22,18 @@ const Receipt = ({ total_price, orderId }) => {
         <div className="survey bold">
           <p className="surveyID"></p>
         </div>
+        <div className="paymentDetails bold">
+          <div className="detail">PRODUCTS</div>
+          <div className="detail">{total_price}</div>
+        </div>
+        <div className="paymentDetails">
+          <div className="detail">TAXES</div>
+          <div className="detail">0.00</div>
+        </div>
+        <div className="paymentDetails">
+          <div className="detail">TOTAL</div>
+          <div className="detail">{total_price}</div>
+        </div>
         <div className="receiptBarcode">
           <div className="barcode">Order ID #{orderId}</div>
         </div>
