@@ -1,4 +1,4 @@
-package tqs_project.deticafe.DataInitializer;
+package tqs_project.deticafe.data.initializer;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

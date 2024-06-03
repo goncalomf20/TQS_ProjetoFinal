@@ -27,7 +27,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.ErrorResponse;
 
 import jakarta.transaction.Transactional;
-import tqs_project.deticafe.DTO.OrderDetailsDTO;
+import tqs_project.deticafe.dto.OrderDetailsDTO;
 import tqs_project.deticafe.model.Category;
 import tqs_project.deticafe.model.Order;
 import tqs_project.deticafe.model.OrderDetails;

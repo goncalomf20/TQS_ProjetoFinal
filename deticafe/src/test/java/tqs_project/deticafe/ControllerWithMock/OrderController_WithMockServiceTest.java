@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
@@ -21,7 +20,6 @@ import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.socket.WebSocketHttpHeaders;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -37,14 +35,11 @@ import tqs_project.deticafe.repository.CategoryRepo;
 import tqs_project.deticafe.repository.OrderRepo;
 import tqs_project.deticafe.repository.ProductRepo;
 import tqs_project.deticafe.service.OrderService;
-import tqs_project.deticafe.service.serviceImpl.OrderServiceImpl;
+import tqs_project.deticafe.service.impl.OrderServiceImpl;
 
 @ContextConfiguration(classes = { WebSocketConfig.class, OrderController.class })
 @WebMvcTest(OrderController.class)
 class OrderController_WithMockServiceTest {
-
-    @Autowired
-    private MockMvc mvc;
 
     @MockBean
     private OrderService service;
@@ -96,6 +91,7 @@ class OrderController_WithMockServiceTest {
     }
 
 
+    @SuppressWarnings("deprecation")
     @Test
     void whenWebSocketConnectionFails_thenHandleError() {
         WebSocketClient client = new StandardWebSocketClient();

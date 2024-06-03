@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import tqs_project.deticafe.DTO.OrderDetailsDTO;
+import tqs_project.deticafe.dto.OrderDetailsDTO;
 import tqs_project.deticafe.model.Order;
 import tqs_project.deticafe.model.OrderDetails;
 import tqs_project.deticafe.model.Product;
@@ -50,14 +49,14 @@ public class CheckoutController {
         for (OrderDetailsDTO orderDetailsDTO : orderDetailsList) {
             List<String> customizations = new ArrayList<>();
                         
-            Product product = productService.getProductById(Integer.valueOf(orderDetailsDTO.getFoodId()));
+            Product product = productService.getProductById(orderDetailsDTO.getFoodId());
     
             if (product == null) {
                 continue;
             }
     
             for (Entry<String, Boolean> entry : orderDetailsDTO.getOrderDetails().entrySet()) {
-                if (entry.getValue()) {
+                if (Boolean.TRUE.equals(entry.getValue())) {
                     customizations.add(entry.getKey());
                 }
             }
@@ -90,6 +89,6 @@ public class CheckoutController {
     @GetMapping("/getAllOrders")
     public ResponseEntity<List<Order>> getAllOrders() {
         List<Order> orders = orderService.getAllOrders();
-        return new ResponseEntity<List<Order>>(orders, HttpStatus.OK);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 }

@@ -37,7 +37,7 @@ import tqs_project.deticafe.repository.CategoryRepo;
 import tqs_project.deticafe.repository.OrderRepo;
 import tqs_project.deticafe.repository.ProductRepo;
 import tqs_project.deticafe.service.ProductService;
-import tqs_project.deticafe.service.serviceImpl.ProductServiceImpl;
+import tqs_project.deticafe.service.impl.ProductServiceImpl;
 
 @WebMvcTest(ProductsController.class)
 class ProductsController_WithMockServiceTest {

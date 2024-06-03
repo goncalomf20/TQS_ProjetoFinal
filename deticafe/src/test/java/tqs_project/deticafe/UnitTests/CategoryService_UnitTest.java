@@ -22,7 +22,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import tqs_project.deticafe.model.Category;
 import tqs_project.deticafe.repository.CategoryRepo;
-import tqs_project.deticafe.service.serviceImpl.CategoryServiceImpl;
+import tqs_project.deticafe.service.impl.CategoryServiceImpl;
 
 class CategoryService_UnitTest {
 

@@ -27,7 +27,7 @@ import tqs_project.deticafe.repository.CategoryRepo;
 import tqs_project.deticafe.repository.OrderRepo;
 import tqs_project.deticafe.repository.ProductRepo;
 import tqs_project.deticafe.service.OrderService;
-import tqs_project.deticafe.service.serviceImpl.CategoryServiceImpl;
+import tqs_project.deticafe.service.impl.CategoryServiceImpl;
 
 @WebMvcTest(CategoryController.class)
 class CategoryController_WithMockServiceTest {

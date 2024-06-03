@@ -24,7 +24,7 @@ import tqs_project.deticafe.model.OrderDetails;
 import tqs_project.deticafe.model.Product;
 import tqs_project.deticafe.repository.OrderRepo;
 import tqs_project.deticafe.repository.ProductRepo;
-import tqs_project.deticafe.service.serviceImpl.OrderServiceImpl;
+import tqs_project.deticafe.service.impl.OrderServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 class OrderService_UnitTest {

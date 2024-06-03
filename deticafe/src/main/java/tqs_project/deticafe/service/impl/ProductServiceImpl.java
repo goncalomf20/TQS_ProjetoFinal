@@ -1,4 +1,4 @@
-package tqs_project.deticafe.service.serviceImpl;
+package tqs_project.deticafe.service.impl;
 
 import java.util.List;
 

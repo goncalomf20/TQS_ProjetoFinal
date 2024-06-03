@@ -32,8 +32,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import tqs_project.deticafe.DTO.OrderDetailsDTO;
 import tqs_project.deticafe.controller.CheckoutController;
+import tqs_project.deticafe.dto.OrderDetailsDTO;
 import tqs_project.deticafe.model.Order;
 import tqs_project.deticafe.model.Product;
 import tqs_project.deticafe.model.Status;

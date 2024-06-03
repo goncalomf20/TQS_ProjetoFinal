@@ -23,7 +23,7 @@ import tqs_project.deticafe.model.Category;
 import tqs_project.deticafe.model.Product;
 import tqs_project.deticafe.repository.CategoryRepo;
 import tqs_project.deticafe.repository.ProductRepo;
-import tqs_project.deticafe.service.serviceImpl.ProductServiceImpl;
+import tqs_project.deticafe.service.impl.ProductServiceImpl;
 
 
 @ExtendWith(MockitoExtension.class)
