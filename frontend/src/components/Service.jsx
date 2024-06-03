@@ -1,18 +1,49 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
+
 
 const Service = () => {
-    const [orders, setOrders] = React.useState([]);
-    const dummyOrders = [
-        { order_id: 1, table_id: 1, status: 'in progress' },
-        { order_id: 2, table_id: 2, status: 'ready' },
-        { order_id: 3, table_id: 3, status: 'canceled' },
-        { order_id: 4, table_id: 4, status: 'ready' },
-        { order_id: 5, table_id: 5, status: 'unknown' },
-    ];
+    const [orders, setOrders] = useState([]);
+    const [client, setClient] = useState(null);
+    const [connected, setConnected] = useState(false);
 
-    React.useEffect(() => {
-        setOrders(dummyOrders);
-    }, []); // Ensure this effect only runs once to avoid infinite loops
+  useEffect(() => {
+    if (!connected) {
+      const socket = new SockJS('http://localhost:8080/ws');
+      const stompClient = Stomp.over(socket);
+
+      stompClient.connect({}, () => {
+        console.log('Connected to the WebSocket server');
+        stompClient.subscribe('/topic/orders', (message) => {
+          const order = JSON.parse(message.body);
+          console.log('Order received:', order);
+          setOrders((prev) => {
+            // Deduplicate orders based on orderId
+            if (!prev.some(existingOrder => existingOrder.orderId === order.orderId)) {
+              return [...prev, order];
+            }
+            return prev;
+          });
+        });
+        setClient(stompClient);
+        setConnected(true);
+      }, (error) => {
+        console.error('Error connecting to WebSocket', error);
+      });
+
+      return () => {
+        if (client) {
+          client.disconnect(() => {
+            console.log('Disconnected from WebSocket');
+          }, (error) => {
+            console.error('Error disconnecting from WebSocket', error);
+          });
+        }
+      };
+    }
+  }, [connected, client]);
 
     const getColorByStatus = (status) => {
         switch (status) {
@@ -26,6 +57,8 @@ const Service = () => {
                 return 'bg-white'; // Default for any unknown status
         }
     };
+
+    
 
     return (
         <>
@@ -42,9 +75,6 @@ const Service = () => {
                         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                             Order #{order.order_id}
                         </h5>
-                        <p className="font-normal text-gray-700 dark:text-gray-400">
-                            Table: {order.table_id}
-                        </p>
                         <p className="font-normal text-gray-700 dark:text-gray-400">
                             Status: {order.status}
                         </p>
