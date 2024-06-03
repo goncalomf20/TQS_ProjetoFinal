@@ -17,7 +17,7 @@ import tqs_project.deticafe.service.CategoryService;
 
 @RestController
 @RequestMapping("/api/category")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
 public class CategoryController {
 
     private final CategoryService categoryService;

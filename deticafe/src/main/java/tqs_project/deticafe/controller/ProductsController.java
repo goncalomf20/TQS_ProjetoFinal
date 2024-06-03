@@ -17,7 +17,7 @@ import tqs_project.deticafe.service.ProductService;
 
 @RestController
 @RequestMapping("/api/products")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
 public class ProductsController {
 
     private final ProductService productService;

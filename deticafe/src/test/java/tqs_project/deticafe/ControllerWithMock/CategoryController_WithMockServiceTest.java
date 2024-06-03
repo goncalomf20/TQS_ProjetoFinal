@@ -30,7 +30,7 @@ import tqs_project.deticafe.service.OrderService;
 import tqs_project.deticafe.service.serviceImpl.CategoryServiceImpl;
 
 @WebMvcTest(CategoryController.class)
-public class CategoryController_WithMockServiceTest {
+class CategoryController_WithMockServiceTest {
 
     @Autowired
     private MockMvc mvc;

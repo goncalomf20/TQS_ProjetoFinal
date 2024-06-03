@@ -15,7 +15,7 @@ import tqs_project.deticafe.model.Customer;
 import tqs_project.deticafe.repository.CustomerRepo;
 
 @DataJpaTest
-public class CustomerRepoTest {
+class CustomerRepoTest {
 
     @Autowired
     private TestEntityManager entityManager;

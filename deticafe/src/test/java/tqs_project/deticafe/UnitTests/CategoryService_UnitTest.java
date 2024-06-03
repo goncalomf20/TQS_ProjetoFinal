@@ -24,9 +24,9 @@ import tqs_project.deticafe.model.Category;
 import tqs_project.deticafe.repository.CategoryRepo;
 import tqs_project.deticafe.service.serviceImpl.CategoryServiceImpl;
 
-public class CategoryService_UnitTest {
+class CategoryService_UnitTest {
 
-    @Mock(lenient = true)
+    @Mock
     private CategoryRepo categoryRepo;
 
     @InjectMocks
@@ -38,7 +38,7 @@ public class CategoryService_UnitTest {
     }
 
     @Test
-    public void whenGetAllCategories_thenReturnCategoryList() {
+    void whenGetAllCategories_thenReturnCategoryList() {
         Category category1 = new Category();
         category1.setCategoryId(1L);
         category1.setName("Drinks");
@@ -52,14 +52,14 @@ public class CategoryService_UnitTest {
 
         List<Category> actualCategories = categoryService.getAllCategories();
 
-        assertThat(actualCategories).isEqualTo(expectedCategories);
+        assertEquals(expectedCategories, actualCategories);
         assertThat(actualCategories).hasSize(2);
         assertThat(actualCategories.get(0).getName()).isEqualTo("Drinks");
         assertThat(actualCategories.get(1).getName()).isEqualTo("Snacks");
     }
 
     @Test
-    public void whenAddCategory_thenReturnSavedCategory() {
+    void whenAddCategory_thenReturnSavedCategory() {
         Category savedCategory = categoryService.addCategory("Desserts");
 
         assertNotNull(savedCategory);
@@ -69,7 +69,7 @@ public class CategoryService_UnitTest {
     }
 
     @Test
-    public void whenSaveCategory_thenReturnSavedCategory() {
+    void whenSaveCategory_thenReturnSavedCategory() {
         String categoryName = "Drinks";
         Category category = new Category(categoryName);
         when(categoryRepo.save(any(Category.class))).thenReturn(category);
@@ -82,7 +82,7 @@ public class CategoryService_UnitTest {
 
 
     @Test
-    public void testSaveCategory_NullName() {
+    void testSaveCategory_NullName() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             categoryService.save(null);
         });
@@ -93,7 +93,7 @@ public class CategoryService_UnitTest {
     }
 
     @Test
-    public void testSaveCategory_EmptyName() {
+    void testSaveCategory_EmptyName() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             categoryService.save("");
         });
@@ -104,7 +104,7 @@ public class CategoryService_UnitTest {
     }
 
     @Test
-    public void whenAddCategoryWithNullName_thenThrowException() {
+    void whenAddCategoryWithNullName_thenThrowException() {
         String categoryName = null;
 
         assertThatThrownBy(() -> categoryService.addCategory(categoryName))
@@ -113,7 +113,7 @@ public class CategoryService_UnitTest {
     }
 
     @Test
-    public void whenAddCategoryWithEmptyName_thenThrowException() {
+    void whenAddCategoryWithEmptyName_thenThrowException() {
         String categoryName = "";
 
         assertThatThrownBy(() -> categoryService.addCategory(categoryName))

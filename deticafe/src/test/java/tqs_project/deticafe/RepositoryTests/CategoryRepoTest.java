@@ -15,7 +15,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-public class CategoryRepoTest {
+class CategoryRepoTest {
 
     @Autowired
     private TestEntityManager entityManager;

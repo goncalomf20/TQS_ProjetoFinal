@@ -29,10 +29,10 @@ import tqs_project.deticafe.service.serviceImpl.ProductServiceImpl;
 @ExtendWith(MockitoExtension.class)
 class ProductService_UnitTest {
     
-    @Mock(lenient = true)
+    @Mock(lenient=true)
     private ProductRepo product_repository;
 
-    @Mock(lenient = true)
+    @Mock(lenient=true)
     private CategoryRepo categoryRepo;
 
     @InjectMocks

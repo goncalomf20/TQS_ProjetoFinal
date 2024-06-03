@@ -16,7 +16,7 @@ import tqs_project.deticafe.model.Type;
 import tqs_project.deticafe.repository.StaffRepo;
 
 @DataJpaTest
-public class StaffRepoTest {
+class StaffRepoTest {
 
     @Autowired
     private TestEntityManager entityManager;

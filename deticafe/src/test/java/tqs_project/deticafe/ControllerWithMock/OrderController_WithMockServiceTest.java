@@ -41,7 +41,7 @@ import tqs_project.deticafe.service.serviceImpl.OrderServiceImpl;
 
 @ContextConfiguration(classes = { WebSocketConfig.class, OrderController.class })
 @WebMvcTest(OrderController.class)
-public class OrderController_WithMockServiceTest {
+class OrderController_WithMockServiceTest {
 
     @Autowired
     private MockMvc mvc;

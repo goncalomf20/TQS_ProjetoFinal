@@ -40,7 +40,7 @@ import tqs_project.deticafe.service.ProductService;
 import tqs_project.deticafe.service.serviceImpl.ProductServiceImpl;
 
 @WebMvcTest(ProductsController.class)
-public class ProductsController_WithMockServiceTest {
+class ProductsController_WithMockServiceTest {
 
     @Autowired
     private MockMvc mvc;
@@ -166,7 +166,7 @@ public class ProductsController_WithMockServiceTest {
 
      
     @Test
-    public void testAddProduct_Success() {
+    void testAddProduct_Success() {
         // Mocking necessary dependencies
         Category category = new Category("Test Category");
         ProductService mockProductService = mock(ProductService.class);
@@ -187,7 +187,7 @@ public class ProductsController_WithMockServiceTest {
     }
     
     @Test
-    public void testAddProduct_Failure() {
+    void testAddProduct_Failure() {
         Category category = new Category("");
         // Mocking necessary dependencies
         ProductService mockProductService = mock(ProductService.class);
