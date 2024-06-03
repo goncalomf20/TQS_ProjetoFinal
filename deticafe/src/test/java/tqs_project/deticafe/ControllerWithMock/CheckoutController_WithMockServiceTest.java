@@ -356,4 +356,15 @@ public class CheckoutController_WithMockServiceTest {
                 .content("[]")) // Sending an empty JSON array
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void testCreateOrder_NullOrderDetailsList2() throws Exception {
+        String nullOrderDetailsJson = "{ \"orderDetailsList\": null }"; 
+
+        mockMvc.perform(post("/api/order/createOrder")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(nullOrderDetailsJson))
+                .andExpect(status().isBadRequest());
+    }
+
 }
