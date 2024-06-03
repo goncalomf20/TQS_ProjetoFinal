@@ -2,18 +2,17 @@ package tqs_project.deticafe.service.serviceImpl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tqs_project.deticafe.service.CategoryService;
+
 import tqs_project.deticafe.model.Category;
 import tqs_project.deticafe.repository.CategoryRepo;
+import tqs_project.deticafe.service.CategoryService;
 
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
-    private CategoryRepo categoryRepo;
+    private final CategoryRepo categoryRepo;
 
     public CategoryServiceImpl(CategoryRepo categoryRepo) {
         this.categoryRepo = categoryRepo;
