@@ -13,8 +13,11 @@ RUN npm install
 # Copy the rest of the application files to the Docker image
 COPY . .
 
+# Build the application
+RUN npm run build
+
 # Expose the port that Vite uses
 EXPOSE 5173
 
 # Start the application
-CMD ["npm", "run", "build"]
+CMD ["npm", "run", "dev", "--", "--host"]
