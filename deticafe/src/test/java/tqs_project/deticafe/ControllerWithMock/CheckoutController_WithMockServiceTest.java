@@ -8,8 +8,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,25 +18,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.test.web.servlet.MockMvc;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import tqs_project.deticafe.DTO.OrderDetailsDTO;
 import tqs_project.deticafe.controller.CheckoutController;
 import tqs_project.deticafe.model.Order;
-import tqs_project.deticafe.model.OrderDetails;
 import tqs_project.deticafe.model.Product;
 import tqs_project.deticafe.model.Status;
 import tqs_project.deticafe.repository.CategoryRepo;
@@ -74,9 +69,6 @@ public class CheckoutController_WithMockServiceTest {
     private Product coffee;
     private Product tea;
     private Product pizza;
-    private Order order1;
-    private Order order2;
-    private Order order3;
     private OrderDetailsDTO dtoWithCustomization;
     private OrderDetailsDTO dtoWithoutCustomization;
 
@@ -98,15 +90,6 @@ public class CheckoutController_WithMockServiceTest {
         pizza.setName("Pizza");
         pizza.setPrice(5.99);
 
-        // Creating OrderDetails instances for each product
-        OrderDetails orderDetails1 = new OrderDetails(Arrays.asList("Extra Sugar"), coffee);
-        OrderDetails orderDetails2 = new OrderDetails(Arrays.asList("No Sugar"), tea);
-        OrderDetails orderDetails3 = new OrderDetails(Arrays.asList("Extra Cheese"), pizza);
-
-        // Creating Orders with the list of OrderDetails
-        order1 = new Order(Arrays.asList(orderDetails1));
-        order2 = new Order(Arrays.asList(orderDetails2));
-        order3 = new Order(Arrays.asList(orderDetails3));
 
         // Additional setup for testing entry.getValue()
         dtoWithCustomization = new OrderDetailsDTO(1, 2, "Pizza", new HashMap<String, Boolean>() {{

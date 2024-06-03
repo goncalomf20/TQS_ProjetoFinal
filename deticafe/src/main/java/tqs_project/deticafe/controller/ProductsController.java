@@ -1,6 +1,7 @@
 package tqs_project.deticafe.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tqs_project.deticafe.model.Product;
-import tqs_project.deticafe.repository.ProductRepo;
 import tqs_project.deticafe.service.ProductService;
 
 @RestController
@@ -22,13 +22,10 @@ public class ProductsController {
 
     private final ProductService productService;
 
-    private final ProductRepo productRepository;
-
 
     @Autowired
-    public ProductsController(ProductService productService, ProductRepo productRepository) {
+    public ProductsController(ProductService productService) {
         this.productService = productService;
-        this.productRepository=productRepository;
     }
 
 

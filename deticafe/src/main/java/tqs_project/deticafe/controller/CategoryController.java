@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tqs_project.deticafe.model.Category;
-import tqs_project.deticafe.repository.CategoryRepo;
 import tqs_project.deticafe.service.CategoryService;
 
 @RestController

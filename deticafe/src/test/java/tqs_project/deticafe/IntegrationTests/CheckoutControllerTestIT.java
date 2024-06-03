@@ -4,11 +4,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,16 +37,6 @@ import tqs_project.deticafe.repository.OrderDetailsRepo;
 import tqs_project.deticafe.repository.OrderRepo;
 import tqs_project.deticafe.repository.ProductRepo;
 import tqs_project.deticafe.service.OrderService;
-import tqs_project.deticafe.service.ProductService;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -61,9 +55,6 @@ class CheckoutControllerTestIT {
 
     @Autowired
     private CategoryRepo categoryRepo;
-
-    @Autowired
-    private ProductService productService;
 
     @Autowired
     private OrderRepo orderRepo;
@@ -185,8 +176,6 @@ class CheckoutControllerTestIT {
             }
         }
 
-        // assertEquals(3, returnedOrderList.size()); -> está a retornar todas as orders dos testes, mesmo limpando
-
     }
 
     @Test
@@ -237,10 +226,8 @@ class CheckoutControllerTestIT {
 
         orderDetailsList.add(dto);
 
-        // Act: Send request to create order
         ResponseEntity<Long> response = restTemplate.postForEntity("/api/order/createOrder", orderDetailsList, Long.class);
 
-        // Assert: Validate response and order creation
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         Long orderId = response.getBody();
         assertThat(orderId).isNotNull();
@@ -256,7 +243,7 @@ class CheckoutControllerTestIT {
 
     @Test
     void whenCreateOrder_thenShowOrdersIngredients() {
-        // Arrange
+        
         List<OrderDetailsDTO> orderDetailsList = new ArrayList<>();
         Map<String, Boolean> orderDetailsMap = new HashMap<>();
         orderDetailsMap.put("cheese", false);
@@ -271,17 +258,15 @@ class CheckoutControllerTestIT {
 
         orderDetailsList.add(dto);
 
-        // Act
+        
         ResponseEntity<Long> response = restTemplate.postForEntity("/api/order/createOrder", orderDetailsList, Long.class);
 
-        // Assert
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         Long orderId = response.getBody();
         assertThat(orderId).isNotNull();
 
         List<Order> orders = orderService.getAllOrders();
 
-        // Verify that the created order is present in the repository
         assertThat(orders).extracting(Order::getOrderDetails)
             .flatExtracting(orderDetails -> orderDetails)
             .extracting(OrderDetails::getCustomizations)
@@ -361,18 +346,14 @@ class CheckoutControllerTestIT {
 
         orderDetailsList.add(dto3);
         
-        // Act: Send request to create order
         ResponseEntity<Long> response = restTemplate.postForEntity("/api/order/createOrder", orderDetailsList, Long.class);
 
-        // Assert: Validate response and order creation
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         Long orderId = response.getBody();
         assertThat(orderId).isNotNull();
 
-        // Fetch the created order from the repository
         Order order = orderRepo.findById(orderId).orElseThrow();
 
-        // Verify that all products are present in the order details
         assertThat(order.getOrderDetails()).hasSize(4);
         Set<String> expectedProductNames = Set.of("Ham and Cheese Croissant", "Large Coffee", "Lemonade", "Cappuccino");
         for (OrderDetails orderDetail : order.getOrderDetails()) {

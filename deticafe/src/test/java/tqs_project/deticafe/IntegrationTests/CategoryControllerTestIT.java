@@ -1,6 +1,12 @@
 package tqs_project.deticafe.IntegrationTests;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import tqs_project.deticafe.model.Category;
-import tqs_project.deticafe.model.Product;
 import tqs_project.deticafe.repository.CategoryRepo;
 import tqs_project.deticafe.repository.ProductRepo;
 

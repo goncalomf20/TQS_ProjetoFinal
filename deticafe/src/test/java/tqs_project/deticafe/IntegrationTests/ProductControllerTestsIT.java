@@ -1,9 +1,9 @@
 package tqs_project.deticafe.IntegrationTests;
 
-import java.util.Collections;
-import java.util.HashMap;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,18 +19,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
-import tqs_project.deticafe.controller.ProductsController;
 import tqs_project.deticafe.model.Category;
 import tqs_project.deticafe.model.Product;
 import tqs_project.deticafe.repository.CategoryRepo;
 import tqs_project.deticafe.repository.OrderRepo;
 import tqs_project.deticafe.repository.ProductRepo;
-import tqs_project.deticafe.service.ProductService;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -39,9 +32,6 @@ class ProductControllerTestsIT {
 
     @LocalServerPort
     private int port;
-
-    @Autowired
-    private ProductService productService;
 
     @Autowired
     private ProductRepo productRepo;

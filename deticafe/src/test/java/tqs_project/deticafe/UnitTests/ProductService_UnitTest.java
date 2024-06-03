@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.description;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,7 +12,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,12 +19,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import tqs_project.deticafe.repository.CategoryRepo;
-import tqs_project.deticafe.repository.ProductRepo;
-import tqs_project.deticafe.repository.ProductRepo;
-import tqs_project.deticafe.service.serviceImpl.ProductServiceImpl;
 import tqs_project.deticafe.model.Category;
 import tqs_project.deticafe.model.Product;
+import tqs_project.deticafe.repository.CategoryRepo;
+import tqs_project.deticafe.repository.ProductRepo;
+import tqs_project.deticafe.service.serviceImpl.ProductServiceImpl;
 
 
 @ExtendWith(MockitoExtension.class)

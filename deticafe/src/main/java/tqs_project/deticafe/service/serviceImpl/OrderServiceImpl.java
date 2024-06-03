@@ -2,13 +2,12 @@ package tqs_project.deticafe.service.serviceImpl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import tqs_project.deticafe.model.OrderDetails;
-import tqs_project.deticafe.service.OrderService;
 import tqs_project.deticafe.model.Order;
+import tqs_project.deticafe.model.OrderDetails;
 import tqs_project.deticafe.repository.OrderRepo;
+import tqs_project.deticafe.service.OrderService;
 
 
 @Service
