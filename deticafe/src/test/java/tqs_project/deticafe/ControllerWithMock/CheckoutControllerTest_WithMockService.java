@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -23,6 +24,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -166,4 +168,59 @@ public class CheckoutControllerTest_WithMockService {
                 .param("id", "999"))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void testCreateOrder_NonexistentProduct() throws Exception {
+        List<OrderDetailsDTO> orderDetailsDTOList = new ArrayList<>();
+        Map<String, Boolean> details = new HashMap<>();
+        details.put("Extra cheese", true);
+        orderDetailsDTOList.add(new OrderDetailsDTO(999, 2, "Unknown Product", details)); // Nonexistent product ID
+
+        when(productService.getProductById(999)).thenReturn(null);
+
+        mockMvc.perform(post("/api/order/createOrder")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(orderDetailsDTOList)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").doesNotExist());
+    }
+
+    @Test
+    void testCreateOrder_EmptyOrderDetailsList() throws Exception {
+        List<OrderDetailsDTO> orderDetailsDTOList = new ArrayList<>();
+
+        mockMvc.perform(post("/api/order/createOrder")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(orderDetailsDTOList)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testCreateOrderWithoutRequestBody() throws Exception {
+        mockMvc.perform(post("/api/order/createOrder")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testCreateOrderWithoutOrderDetails() throws Exception {
+        List<OrderDetailsDTO> orderDetailsDTOList = new ArrayList<>();
+        Map<String, Boolean> details = new HashMap<>();
+        orderDetailsDTOList.add(new OrderDetailsDTO(1, -2, "Pizza", details)); // Invalid quantity
+
+        mockMvc.perform(post("/api/order/createOrder")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(orderDetailsDTOList)))
+                .andExpect(status().isOk());
+    }
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+
 }

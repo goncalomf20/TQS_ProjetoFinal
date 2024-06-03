@@ -2,6 +2,7 @@ package tqs_project.deticafe.UnitTests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -22,7 +23,7 @@ import tqs_project.deticafe.service.serviceImpl.CategoryServiceImpl;
 
 public class CategoryServiceIMPL_UnitTest {
 
-    @Mock
+    @Mock(lenient = true)
     private CategoryRepo categoryRepo;
 
     @InjectMocks
@@ -35,7 +36,6 @@ public class CategoryServiceIMPL_UnitTest {
 
     @Test
     public void whenGetAllCategories_thenReturnCategoryList() {
-        // Arrange
         Category category1 = new Category();
         category1.setCategoryId(1L);
         category1.setName("Drinks");
@@ -47,47 +47,40 @@ public class CategoryServiceIMPL_UnitTest {
         List<Category> expectedCategories = Arrays.asList(category1, category2);
         when(categoryRepo.findAll()).thenReturn(expectedCategories);
 
-        // Act
         List<Category> actualCategories = categoryService.getAllCategories();
 
-        // Assert
         assertThat(actualCategories).isEqualTo(expectedCategories);
+        assertThat(actualCategories).hasSize(2);
+        assertThat(actualCategories.get(0).getName()).isEqualTo("Drinks");
+        assertThat(actualCategories.get(1).getName()).isEqualTo("Snacks");
     }
 
     @Test
-    // test to add a category by inserting the category name and returning the saved category
     public void whenAddCategory_thenReturnSavedCategory() {
-        // Arrange
-        
-        // Act
         Category savedCategory = categoryService.addCategory("Desserts");
 
-        // Assert
+        assertNotNull(savedCategory);
         assertThat(savedCategory.getName()).isEqualTo("Desserts");
-        
+
+        verify(categoryRepo, times(1)).save(any(Category.class));
     }
 
     @Test
     public void whenSaveCategory_thenReturnSavedCategory() {
-        // Arrange
-        String categoryName = "Beverages";
+        String categoryName = "Drinks";
         Category category = new Category(categoryName);
         when(categoryRepo.save(any(Category.class))).thenReturn(category);
 
-        // Act
         Category savedCategory = categoryService.save(categoryName);
 
-        // Assert
         assertThat(savedCategory.getName()).isEqualTo(categoryName);
         verify(categoryRepo, times(1)).save(any(Category.class));
     }
 
     @Test
     public void whenAddCategoryWithNullName_thenThrowException() {
-        // Arrange
         String categoryName = null;
 
-        // Act & Assert
         assertThatThrownBy(() -> categoryService.addCategory(categoryName))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Category name cannot be null or empty");
@@ -95,10 +88,8 @@ public class CategoryServiceIMPL_UnitTest {
 
     @Test
     public void whenAddCategoryWithEmptyName_thenThrowException() {
-        // Arrange
         String categoryName = "";
 
-        // Act & Assert
         assertThatThrownBy(() -> categoryService.addCategory(categoryName))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Category name cannot be null or empty");

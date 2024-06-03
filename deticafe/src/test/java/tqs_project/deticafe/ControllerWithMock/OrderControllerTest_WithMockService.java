@@ -1,6 +1,7 @@
 package tqs_project.deticafe.ControllerWithMock;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -53,7 +54,6 @@ public class OrderControllerTest_WithMockService {
     @MockBean
     private OrderRepo orderRepo;
 
-
     @MockBean
     private ProductRepo productRepo;
 
@@ -85,15 +85,11 @@ public class OrderControllerTest_WithMockService {
         WebSocketClient client = new StandardWebSocketClient();
         WebSocketStompClient stompClient = new WebSocketStompClient(client);
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-    
+
         WebSocketHttpHeaders handshakeHeaders = new WebSocketHttpHeaders();
-        StompHeaders connectHeaders = new StompHeaders();
-        connectHeaders.add(StompHeaders.ACCEPT_VERSION, "1.1,1.2");
-        connectHeaders.add(StompHeaders.HOST, "ws://localhost:8080");
-    
         CountDownLatch latch = new CountDownLatch(1);
         final Order[] receivedOrder = new Order[1];
-    
+
         StompSessionHandlerAdapter sessionHandler = new StompSessionHandlerAdapter() {
             @Override
             public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
@@ -102,26 +98,144 @@ public class OrderControllerTest_WithMockService {
                     public Type getPayloadType(StompHeaders headers) {
                         return Order.class;
                     }
-    
+
                     @Override
                     public void handleFrame(StompHeaders headers, Object payload) {
                         receivedOrder[0] = (Order) payload;
                         latch.countDown();
                     }
                 });
-    
-                session.send("/api/wsorder", order);
+
+                session.send("/app/wsorder", order); // Ensure this endpoint matches your controller's endpoint
             }
         };
-    
-        StompSession stompSession = stompClient.connect("ws://localhost:8080/ws", handshakeHeaders, connectHeaders, sessionHandler).get(5, TimeUnit.SECONDS);
+
+        stompClient.connect("ws://localhost:8080/ws", handshakeHeaders, sessionHandler).get(5, TimeUnit.SECONDS);
         if (!latch.await(10, TimeUnit.SECONDS)) { // Extend the timeout for latch
             throw new AssertionError("Message not received in time");
         }
-    
+
         assertEquals(order.getOrderDetails().get(0).getProduct().getName(), receivedOrder[0].getOrderDetails().get(0).getProduct().getName());
-    
+
         verify(service, times(1)).createOrder(Mockito.anyList());
     }
-    
+
+    @Test
+    void whenSendInvalidOrderMessage_thenThrowException() throws Exception {
+        order = new Order(new ArrayList<>()); // Invalid order with no details
+
+        WebSocketClient client = new StandardWebSocketClient();
+        WebSocketStompClient stompClient = new WebSocketStompClient(client);
+        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+
+        WebSocketHttpHeaders handshakeHeaders = new WebSocketHttpHeaders();
+        CountDownLatch latch = new CountDownLatch(1);
+        final Order[] receivedOrder = new Order[1];
+
+        StompSessionHandlerAdapter sessionHandler = new StompSessionHandlerAdapter() {
+            @Override
+            public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
+                session.subscribe("/topic/orders", new StompSessionHandlerAdapter() {
+                    @Override
+                    public Type getPayloadType(StompHeaders headers) {
+                        return Order.class;
+                    }
+
+                    @Override
+                    public void handleFrame(StompHeaders headers, Object payload) {
+                        receivedOrder[0] = (Order) payload;
+                        latch.countDown();
+                    }
+                });
+
+                session.send("/app/wsorder", order);
+            }
+        };
+
+        stompClient.connect("ws://localhost:8080/ws", handshakeHeaders, sessionHandler).get(5, TimeUnit.SECONDS);
+
+        assertThrows(AssertionError.class, () -> {
+            if (!latch.await(10, TimeUnit.SECONDS)) {
+                throw new AssertionError("Message not received in time");
+            }
+        });
+
+        verify(service, times(0)).createOrder(Mockito.anyList());
+    }
+
+    @Test
+    void whenWebSocketConnectionFails_thenHandleError() {
+        WebSocketClient client = new StandardWebSocketClient();
+        WebSocketStompClient stompClient = new WebSocketStompClient(client);
+        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+
+        WebSocketHttpHeaders handshakeHeaders = new WebSocketHttpHeaders();
+
+        assertThrows(Exception.class, () -> {
+            CountDownLatch latch = new CountDownLatch(1);
+
+            StompSessionHandlerAdapter sessionHandler = new StompSessionHandlerAdapter() {
+                @Override
+                public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
+                    session.subscribe("/topic/orders", new StompSessionHandlerAdapter() {
+                        @Override
+                        public Type getPayloadType(StompHeaders headers) {
+                            return Order.class;
+                        }
+
+                        @Override
+                        public void handleFrame(StompHeaders headers, Object payload) {
+                            latch.countDown();
+                        }
+                    });
+
+                    session.send("/app/wsorder", order);
+                }
+            };
+
+            stompClient.connect("ws://invalidhost:8080/ws", handshakeHeaders, sessionHandler).get(5, TimeUnit.SECONDS);
+        });
+    }
+
+    @Test
+    void whenSendOrderMessageMultipleTimes_thenReceiveOrderMessages() throws Exception {
+        WebSocketClient client = new StandardWebSocketClient();
+        WebSocketStompClient stompClient = new WebSocketStompClient(client);
+        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+
+        WebSocketHttpHeaders handshakeHeaders = new WebSocketHttpHeaders();
+        CountDownLatch latch = new CountDownLatch(3);
+        final Order[] receivedOrder = new Order[1];
+
+        StompSessionHandlerAdapter sessionHandler = new StompSessionHandlerAdapter() {
+            @Override
+            public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
+                session.subscribe("/topic/orders", new StompSessionHandlerAdapter() {
+                    @Override
+                    public Type getPayloadType(StompHeaders headers) {
+                        return Order.class;
+                    }
+
+                    @Override
+                    public void handleFrame(StompHeaders headers, Object payload) {
+                        receivedOrder[0] = (Order) payload;
+                        latch.countDown();
+                    }
+                });
+
+                session.send("/app/wsorder", order);
+                session.send("/app/wsorder", order);
+                session.send("/app/wsorder", order);
+            }
+        };
+
+        stompClient.connect("ws://localhost:8080/ws", handshakeHeaders, sessionHandler).get(5, TimeUnit.SECONDS);
+        if (!latch.await(10, TimeUnit.SECONDS)) {
+            throw new AssertionError("Message not received in time");
+        }
+
+        assertEquals(order.getOrderDetails().get(0).getProduct().getName(), receivedOrder[0].getOrderDetails().get(0).getProduct().getName());
+
+        verify(service, times(3)).createOrder(Mockito.anyList());
+    }
 }
