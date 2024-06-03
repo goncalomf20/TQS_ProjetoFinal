@@ -21,7 +21,7 @@ services:
     container_name: spring-app
     build:
       context: ./deticafe
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
     image: ghcr.io/goncalomf20/spring-app:${TAG:-latest}
     depends_on:
       - db_mysql
@@ -40,7 +40,7 @@ services:
     container_name: react-app
     build:
       context: ./frontend
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
     image: ghcr.io/goncalomf20/react-app:${TAG:-latest}
     volumes:
       - ./frontend:/app
@@ -54,7 +54,7 @@ services:
     container_name: takeaway-app
     build:
       context: ./takeaway
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
     image: ghcr.io/goncalomf20/takeaway-app:${TAG:-latest}
     volumes:
       - ./takeaway:/app
