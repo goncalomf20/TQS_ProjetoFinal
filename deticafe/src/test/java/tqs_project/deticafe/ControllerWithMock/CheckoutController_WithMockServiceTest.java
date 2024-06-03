@@ -184,16 +184,16 @@ public class CheckoutController_WithMockServiceTest {
     }
 
     @Test
-void testCustomizationsWithMixedValues() {
-    Map<String, Boolean> orderDetails = new HashMap<>();
-    orderDetails.put("Extra cheese", true);
-    orderDetails.put("Extra sauce", false);
+    void testCustomizationsWithMixedValues() {
+        Map<String, Boolean> orderDetails = new HashMap<>();
+        orderDetails.put("Extra cheese", true);
+        orderDetails.put("Extra sauce", false);
 
-    for (Map.Entry<String, Boolean> entry : orderDetails.entrySet()) {
-        // Verifica se o valor é consistente com o esperado
-        assertEquals(entry.getKey().equals("Extra cheese"), entry.getValue());
+        for (Map.Entry<String, Boolean> entry : orderDetails.entrySet()) {
+            // Verifica se o valor é consistente com o esperado
+            assertEquals(entry.getKey().equals("Extra cheese"), entry.getValue());
+        }
     }
-}
 
     @Test
     void testCustomizationsWithEmptyMap() {
@@ -329,26 +329,32 @@ void testCustomizationsWithMixedValues() {
     }
 
     @Test
-void testCreateOrder_CustomizationPresent() throws Exception {
-    List<OrderDetailsDTO> orderDetailsDTOList = Arrays.asList(dtoWithCustomization);
-    when(productService.getProductById(1)).thenReturn(coffee);
+    void testCreateOrder_CustomizationPresent() throws Exception {
+        List<OrderDetailsDTO> orderDetailsDTOList = Arrays.asList(dtoWithCustomization);
+        when(productService.getProductById(1)).thenReturn(coffee);
 
-    mockMvc.perform(post("/api/order/createOrder")
-          .contentType(MediaType.APPLICATION_JSON)
-          .content(new ObjectMapper().writeValueAsString(orderDetailsDTOList)))
-          .andExpect(status().isOk());
-}
+        mockMvc.perform(post("/api/order/createOrder")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(orderDetailsDTOList)))
+            .andExpect(status().isOk());
+    }
 
-@Test
-void testCreateOrder_NoCustomization() throws Exception {
-    List<OrderDetailsDTO> orderDetailsDTOList = Arrays.asList(dtoWithoutCustomization);
-    when(productService.getProductById(2)).thenReturn(tea);
+    @Test
+    void testCreateOrder_NoCustomization() throws Exception {
+        List<OrderDetailsDTO> orderDetailsDTOList = Arrays.asList(dtoWithoutCustomization);
+        when(productService.getProductById(2)).thenReturn(tea);
 
-    mockMvc.perform(post("/api/order/createOrder")
-          .contentType(MediaType.APPLICATION_JSON)
-          .content(new ObjectMapper().writeValueAsString(orderDetailsDTOList)))
-          .andExpect(status().isOk());
-}
-    
-
+        mockMvc.perform(post("/api/order/createOrder")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(orderDetailsDTOList)))
+            .andExpect(status().isOk());
+    }
+        
+    @Test
+    void testCreateOrderWithNullOrEmptyOrderDetailsList() throws Exception {
+        mockMvc.perform(post("/api/order/createOrder")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content("{}")) 
+               .andExpect(status().isBadRequest()); 
+    }
 }
