@@ -3,6 +3,9 @@ package tqs_project.deticafe.ControllerWithMock;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -199,5 +202,18 @@ public class ProductsController_WithMockServiceTest {
         
         // Assertion
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void testAddProduct_ExceptionThrown() throws Exception {
+        when(service.addProduct(anyString(), anyList(), anyDouble(), anyString()))
+                .thenThrow(new IllegalArgumentException("Invalid product data"));
+
+        mvc.perform(post("/api/products/addProduct")
+                .param("productName", "Test Product")
+                .param("productDescription", "Test Description")
+                .param("productPrice", "10.0")
+                .param("productCategory", "Test Category"))
+                .andExpect(status().isBadRequest());
     }
 }

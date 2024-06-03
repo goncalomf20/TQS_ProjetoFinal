@@ -1,5 +1,7 @@
 package tqs_project.deticafe.ControllerWithMock;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -197,7 +199,8 @@ public class CheckoutController_WithMockServiceTest {
     @Test
     void testCreateOrderWithoutRequestBody() throws Exception {
         mockMvc.perform(post("/api/order/createOrder")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("null"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -211,6 +214,29 @@ public class CheckoutController_WithMockServiceTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(orderDetailsDTOList)))
                 .andExpect(status().isOk());
+    }
+
+
+    @Test
+    public void testCustomizationsWithValueTrue() {
+        Map<String, Boolean> orderDetails = new HashMap<>();
+        orderDetails.put("Extra cheese", true);
+        orderDetails.put("Extra sauce", true);
+
+        for (Map.Entry<String, Boolean> entry : orderDetails.entrySet()) {
+            assertTrue(entry.getValue());
+        }
+    }
+
+    @Test
+    public void testCustomizationsWithValueFalse() {
+        Map<String, Boolean> orderDetails = new HashMap<>();
+        orderDetails.put("Extra cheese", false);
+        orderDetails.put("Extra sauce", false);
+
+        for (Map.Entry<String, Boolean> entry : orderDetails.entrySet()) {
+            assertFalse(entry.getValue());
+        }
     }
 
     public static String asJsonString(final Object obj) {

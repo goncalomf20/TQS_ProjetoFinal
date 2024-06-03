@@ -41,6 +41,7 @@ import tqs_project.deticafe.repository.CategoryRepo;
 import tqs_project.deticafe.repository.OrderRepo;
 import tqs_project.deticafe.repository.ProductRepo;
 import tqs_project.deticafe.service.OrderService;
+import tqs_project.deticafe.service.serviceImpl.OrderServiceImpl;
 
 @ContextConfiguration(classes = { WebSocketConfig.class, OrderController.class })
 @WebMvcTest(OrderController.class)
@@ -60,6 +61,13 @@ public class OrderController_WithMockServiceTest {
 
     @MockBean
     private CategoryRepo categoryRepo;
+
+    @MockBean
+    private OrderServiceImpl orderService;
+
+    @MockBean
+    private OrderController orderController;
+
 
     private Category foodCategory;
     private Product pizza;
