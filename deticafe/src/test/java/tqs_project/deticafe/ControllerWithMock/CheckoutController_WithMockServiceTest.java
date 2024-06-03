@@ -340,4 +340,12 @@ public class CheckoutController_WithMockServiceTest {
                 .content("null"))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void testCreateOrder_NullOrderDetailsListByte() throws Exception {
+        mockMvc.perform(post("/api/order/createOrder")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content((byte[]) null)) 
+                .andExpect(status().isBadRequest());
+    }
 }
