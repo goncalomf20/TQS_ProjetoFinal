@@ -40,7 +40,7 @@ services:
     container_name: react-app
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     image: ghcr.io/goncalomf20/react-app:${TAG:-latest}
     volumes:
       - ./frontend:/app
