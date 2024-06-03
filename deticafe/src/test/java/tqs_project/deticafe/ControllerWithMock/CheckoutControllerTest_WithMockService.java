@@ -132,4 +132,29 @@ public class CheckoutControllerTest_WithMockService {
                 .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$[0].orderId").value(1));
     }
+
+    @Test
+    void testCreateOrder_ShowOk() throws Exception {
+        List<OrderDetailsDTO> orderDetailsDTOList = new ArrayList<>();
+        Map<String, Boolean> details = new HashMap<>();
+        details.put("Extra cheese", true);
+        orderDetailsDTOList.add(new OrderDetailsDTO(1, 2, "Pizza", details));
+
+        Product product = new Product();
+        product.setProductId(1L);
+        product.setName("Pizza");
+
+        when(productService.getProductById(1)).thenReturn(product);
+
+        Order order = new Order(new ArrayList<>());
+        order.setOrderId(1L);
+        order.setStatus(Status.PREPARING);
+
+        when(orderRepo.save(any(Order.class))).thenReturn(order);
+
+        mockMvc.perform(post("/api/order/createOrder")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(orderDetailsDTOList)))
+                .andExpect(status().isOk());
+    }
 }
