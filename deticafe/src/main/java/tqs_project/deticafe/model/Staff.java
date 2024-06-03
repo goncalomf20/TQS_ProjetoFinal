@@ -21,7 +21,7 @@ public class Staff{
     private String name;
 
     @Column(name = "phone_number", nullable = false)
-    private String phone_number;
+    private String phonenumber;
 
     @Column(name = "email", nullable = false)
     private String email;
@@ -30,9 +30,9 @@ public class Staff{
     @Enumerated(EnumType.STRING)
     private Type type;
 
-    public Staff(String name, String phone_number, String email, Type type) {
+    public Staff(String name, String phonenumber, String email, Type type) {
         this.name = name;
-        this.phone_number = phone_number;
+        this.phonenumber = phonenumber;
         this.email = email;
         this.type = type;
     }

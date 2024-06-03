@@ -81,7 +81,7 @@ class OrderController_WithMockServiceTest {
     }
 
     @Test
-    void testOrder() throws Exception {
+    void testOrder() {
         Order mockOrder = mock(Order.class);
 
         Order result = ((OrderController) new OrderController()).order(mockOrder);
