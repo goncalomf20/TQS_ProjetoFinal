@@ -348,4 +348,12 @@ public class CheckoutController_WithMockServiceTest {
                 .content((byte[]) null)) 
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void testCreateOrder_EmptyOrderDetailsListReto() throws Exception {
+        mockMvc.perform(post("/api/order/createOrder")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("[]")) // Sending an empty JSON array
+                .andExpect(status().isBadRequest());
+    }
 }
