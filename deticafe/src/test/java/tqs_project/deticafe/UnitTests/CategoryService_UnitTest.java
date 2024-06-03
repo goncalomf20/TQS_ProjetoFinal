@@ -2,8 +2,11 @@ package tqs_project.deticafe.UnitTests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -21,7 +24,7 @@ import tqs_project.deticafe.model.Category;
 import tqs_project.deticafe.repository.CategoryRepo;
 import tqs_project.deticafe.service.serviceImpl.CategoryServiceImpl;
 
-public class CategoryServiceIMPL_UnitTest {
+public class CategoryService_UnitTest {
 
     @Mock(lenient = true)
     private CategoryRepo categoryRepo;
@@ -75,6 +78,29 @@ public class CategoryServiceIMPL_UnitTest {
 
         assertThat(savedCategory.getName()).isEqualTo(categoryName);
         verify(categoryRepo, times(1)).save(any(Category.class));
+    }
+
+
+    @Test
+    public void testSaveCategory_NullName() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            categoryService.save(null);
+        });
+
+        assertEquals("Category name cannot be null or empty", exception.getMessage());
+
+        verify(categoryRepo, never()).save(any(Category.class));
+    }
+
+    @Test
+    public void testSaveCategory_EmptyName() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            categoryService.save("");
+        });
+
+        assertEquals("Category name cannot be null or empty", exception.getMessage());
+
+        verify(categoryRepo, never()).save(any(Category.class));
     }
 
     @Test
