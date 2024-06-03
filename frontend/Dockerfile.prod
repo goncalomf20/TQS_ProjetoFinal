@@ -10,6 +10,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Verify Vite installation
+RUN npx vite --version
+
 # Copy the rest of the application files to the Docker image
 COPY . .
 
