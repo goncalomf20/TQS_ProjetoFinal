@@ -51,18 +51,12 @@ public class CheckoutController {
         }
         for (OrderDetailsDTO orderDetailsDTO : orderDetailsList) {
             List<String> customizations = new ArrayList<>();
-            
-            // Adicione logs para depuração
-            System.out.println("Food ID: " + orderDetailsDTO.getFoodId());
-            
+                        
             Product product = productService.getProductById(Integer.valueOf(orderDetailsDTO.getFoodId()));
     
-            // Verifique se o produto é nulo
             if (product == null) {
-                System.out.println("Product not found for ID: " + orderDetailsDTO.getFoodId());
                 continue;
             }
-            System.out.println("Product" + product.getName());
     
             for (Entry<String, Boolean> entry : orderDetailsDTO.getOrderDetails().entrySet()) {
                 if (entry.getValue()) {
@@ -71,19 +65,14 @@ public class CheckoutController {
             }
     
             OrderDetails orderDetail = new OrderDetails(customizations, product);
-            
-            System.out.println("OrderDetail created: " + orderDetail.toString());
-            
+                        
             orderDetails.add(orderDetail);
         }
     
         Order order = new Order(orderDetails);
         order.setStatus(Status.PREPARING);
         orderRepo.save(order);
-        
-        // Adicione logs para depuração
-        System.out.println("Order created: " + order.getOrderId() + "with details: " + orderDetailsList.toString());
-    
+            
         template.convertAndSend("/topic/orders", order);
     
         return new ResponseEntity<>(order.getOrderId(), HttpStatus.OK);
@@ -93,7 +82,6 @@ public class CheckoutController {
     @GetMapping("/getOrder")
     public ResponseEntity<Order> getOrder(@RequestParam Long id) {
         Order order = orderService.getOrder(id);
-        System.out.println(order);
         if (order != null) {
             return new ResponseEntity<>(order, HttpStatus.OK);
         } else {

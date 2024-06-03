@@ -104,7 +104,6 @@ class CheckoutControllerTestIT {
     void tearDown() {
         // Clean up code after each test
         orderService.deleteAllOrders(); 
-        System.out.println("Number of orders after deletion: " + orderRepo.findAll().size());
     }
     
     @Test
@@ -168,14 +167,6 @@ class CheckoutControllerTestIT {
 
         List<Order> returnedOrderList = response.getBody();
         assertNotNull(returnedOrderList);
-
-        for (Order order : returnedOrderList) {
-            System.out.println("Order ID: " + order.getOrderId());
-            for (OrderDetails orderDetails : order.getOrderDetails()) {
-                System.out.println("Product: " + orderDetails.getProduct().getName());
-            }
-        }
-
     }
 
     @Test

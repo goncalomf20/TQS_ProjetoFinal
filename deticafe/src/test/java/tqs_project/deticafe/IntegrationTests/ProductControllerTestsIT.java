@@ -90,8 +90,6 @@ class ProductControllerTestsIT {
 
         ResponseEntity<Product> response = restTemplate.postForEntity("/api/products/addProduct", request, Product.class);
 
-        System.out.println(response.getStatusCode());
-
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody().getName()).isEqualTo("NewProduct");
     }
