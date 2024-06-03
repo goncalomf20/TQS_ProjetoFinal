@@ -142,4 +142,18 @@ public class ProductsController_WithMockServiceTest {
 
         verify(service, times(0)).addProduct(Mockito.anyString(), Mockito.anyList(), Mockito.anyDouble(), Mockito.anyString());
     }
+
+
+    @Test
+    void whenPostProductWithInvalidData_thenReturnBadRequest() throws Exception {
+        when(service.addProduct("invalid", null, -1.0, "invalid")).thenThrow(IllegalArgumentException.class);
+
+        mvc.perform(
+                post("/api/products/addProduct")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("productName", "invalid")
+                .param("productPrice", "-1.0")
+                .param("productCategory", "invalid"))
+                .andExpect(status().isBadRequest());
+    }
 }
