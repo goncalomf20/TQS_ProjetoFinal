@@ -77,6 +77,8 @@ public class CheckoutController_WithMockServiceTest {
     private Order order1;
     private Order order2;
     private Order order3;
+    private OrderDetailsDTO dtoWithCustomization;
+    private OrderDetailsDTO dtoWithoutCustomization;
 
     @BeforeEach
     void setUp() {
@@ -105,6 +107,15 @@ public class CheckoutController_WithMockServiceTest {
         order1 = new Order(Arrays.asList(orderDetails1));
         order2 = new Order(Arrays.asList(orderDetails2));
         order3 = new Order(Arrays.asList(orderDetails3));
+
+        // Additional setup for testing entry.getValue()
+        dtoWithCustomization = new OrderDetailsDTO(1, 2, "Pizza", new HashMap<String, Boolean>() {{
+            put("Extra cheese", true); // Customization present
+        }});
+
+        dtoWithoutCustomization = new OrderDetailsDTO(2, 2, "Tea", new HashMap<String, Boolean>() {{
+            put("Extra sugar", false); // No customization
+        }});
     }
 
 
@@ -317,6 +328,27 @@ void testCustomizationsWithMixedValues() {
                 .andExpect(status().isOk());
     }
 
+    @Test
+void testCreateOrder_CustomizationPresent() throws Exception {
+    List<OrderDetailsDTO> orderDetailsDTOList = Arrays.asList(dtoWithCustomization);
+    when(productService.getProductById(1)).thenReturn(coffee);
+
+    mockMvc.perform(post("/api/order/createOrder")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(new ObjectMapper().writeValueAsString(orderDetailsDTOList)))
+          .andExpect(status().isOk());
+}
+
+@Test
+void testCreateOrder_NoCustomization() throws Exception {
+    List<OrderDetailsDTO> orderDetailsDTOList = Arrays.asList(dtoWithoutCustomization);
+    when(productService.getProductById(2)).thenReturn(tea);
+
+    mockMvc.perform(post("/api/order/createOrder")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(new ObjectMapper().writeValueAsString(orderDetailsDTOList)))
+          .andExpect(status().isOk());
+}
     
 
 }
