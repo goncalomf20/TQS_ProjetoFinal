@@ -13,4 +13,4 @@ RUN mvn install -DskipTests
 EXPOSE 8080
 
 # Set the entry point
-ENTRYPOINT ["./mvnw", "spring-boot:run"]
+ENTRYPOINT ["mvn", "spring-boot:run"]
