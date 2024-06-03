@@ -33,7 +33,7 @@ import tqs_project.deticafe.service.ProductService;
 import tqs_project.deticafe.service.serviceImpl.ProductServiceImpl;
 
 @WebMvcTest(ProductsController.class)
-public class ProductsControllerTest_WithMockService {
+public class ProductsController_WithMockServiceTest {
 
     @Autowired
     private MockMvc mvc;

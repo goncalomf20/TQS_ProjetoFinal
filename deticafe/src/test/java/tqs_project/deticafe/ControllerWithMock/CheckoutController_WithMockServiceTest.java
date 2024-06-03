@@ -42,8 +42,7 @@ import tqs_project.deticafe.service.OrderService;
 import tqs_project.deticafe.service.ProductService;
 
 @WebMvcTest(CheckoutController.class)
-public class CheckoutControllerTest_WithMockService {
-
+public class CheckoutController_WithMockServiceTest {
     @Autowired
     private MockMvc mockMvc;
 

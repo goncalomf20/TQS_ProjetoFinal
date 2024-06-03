@@ -27,7 +27,7 @@ import tqs_project.deticafe.repository.ProductRepo;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
-class CategoryControllerIT {
+class CategoryControllerTestIT {
 
     @LocalServerPort
     private int port;

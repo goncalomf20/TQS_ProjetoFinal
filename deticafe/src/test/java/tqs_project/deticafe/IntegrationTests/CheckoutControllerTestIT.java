@@ -48,7 +48,7 @@ import java.util.stream.Collectors;
 @ActiveProfiles("test")
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
 @Transactional
-class CheckoutControllerIT {
+class CheckoutControllerTestIT {
 
     @LocalServerPort
     private int port;

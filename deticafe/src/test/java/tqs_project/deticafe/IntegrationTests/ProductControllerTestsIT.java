@@ -35,7 +35,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
-class ProductControllerIT {
+class ProductControllerTestsIT {
 
     @LocalServerPort
     private int port;
