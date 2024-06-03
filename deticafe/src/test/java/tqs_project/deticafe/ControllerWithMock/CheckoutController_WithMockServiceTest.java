@@ -289,14 +289,6 @@ public class CheckoutController_WithMockServiceTest {
     }
 
     @Test
-    void testCreateOrderWithEmptyOrderDetailsList() throws Exception {
-        mockMvc.perform(post("/api/order/createOrder")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(new ArrayList<>())))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
     void testCreateOrderWithNonEmptyOrderDetailsList() throws Exception {
         List<OrderDetailsDTO> orderDetailsDTOList = new ArrayList<>();
         Map<String, Boolean> details = new HashMap<>();
@@ -339,5 +331,13 @@ public class CheckoutController_WithMockServiceTest {
                .contentType(MediaType.APPLICATION_JSON)
                .content("{}")) 
                .andExpect(status().isBadRequest()); 
+    }
+
+    @Test
+    void testCreateOrder_NullOrderDetailsList() throws Exception {
+        mockMvc.perform(post("/api/order/createOrder")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("null"))
+                .andExpect(status().isBadRequest());
     }
 }
