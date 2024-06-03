@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,9 @@ import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -365,6 +368,28 @@ public class CheckoutController_WithMockServiceTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(nullOrderDetailsJson))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testCreateOrder_ExplicitEmptyOrderDetailsList() throws Exception {
+        String emptyOrderDetailsJson = "{ \"orderDetailsList\": [] }";  // Explicitly setting orderDetailsList to an empty array
+
+        mockMvc.perform(post("/api/order/createOrder")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(emptyOrderDetailsJson))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testCreateOrder_NullOrderDetailsListNull() {
+        ResponseEntity<Long> response = checkoutController.createOrder(null);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void testCreateOrder_EmptyOrderDetailsListCollections() {
+        ResponseEntity<Long> response = checkoutController.createOrder(Collections.emptyList());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
 }
