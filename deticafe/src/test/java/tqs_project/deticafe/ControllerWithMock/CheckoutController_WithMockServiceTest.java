@@ -254,7 +254,7 @@ public class CheckoutController_WithMockServiceTest {
 
 
     @Test
-    public void testCustomizationsWithValueTrue() {
+    void testCustomizationsWithValueTrue() {
         Map<String, Boolean> orderDetails = new HashMap<>();
         orderDetails.put("Extra cheese", true);
         orderDetails.put("Extra sauce", true);
@@ -265,7 +265,7 @@ public class CheckoutController_WithMockServiceTest {
     }
 
     @Test
-    public void testCustomizationsWithValueFalse() {
+    void testCustomizationsWithValueFalse() {
         Map<String, Boolean> orderDetails = new HashMap<>();
         orderDetails.put("Extra cheese", false);
         orderDetails.put("Extra sauce", false);
