@@ -157,4 +157,13 @@ public class CheckoutControllerTest_WithMockService {
                 .content(new ObjectMapper().writeValueAsString(orderDetailsDTOList)))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void testGetOrder_NotFound() throws Exception {
+        when(orderService.getOrder(999L)).thenReturn(null);
+
+        mockMvc.perform(get("/api/order/getOrder")
+                .param("id", "999"))
+                .andExpect(status().isNotFound());
+    }
 }
