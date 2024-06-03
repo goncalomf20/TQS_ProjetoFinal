@@ -2,6 +2,8 @@ package tqs_project.deticafe.ControllerWithMock;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -10,6 +12,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +23,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import tqs_project.deticafe.controller.ProductsController;
@@ -155,5 +160,44 @@ public class ProductsController_WithMockServiceTest {
                 .param("productPrice", "-1.0")
                 .param("productCategory", "invalid"))
                 .andExpect(status().isBadRequest());
+    }
+
+     
+    @Test
+    public void testAddProduct_Success() {
+        // Mocking necessary dependencies
+        Category category = new Category("Test Category");
+        ProductService mockProductService = mock(ProductService.class);
+        List<String> productDescription = new ArrayList<>();
+        productDescription.add("Description 1");
+        productDescription.add("Description 2");
+        
+        Product mockProduct = new Product("Test Product", productDescription, 10.0, category);
+        
+        when(mockProductService.addProduct("Test Product", productDescription, 10.0, "Test Category"))
+            .thenReturn(mockProduct);
+        
+        // Calling the method to be tested
+        Product responseProduct = mockProductService.addProduct("Test Product", productDescription, 10.0, "Test Category");
+        
+        // Assertion
+        assertEquals("Test Product", responseProduct.getName());
+    }
+    
+    @Test
+    public void testAddProduct_Failure() {
+        Category category = new Category("");
+        // Mocking necessary dependencies
+        ProductService mockProductService = mock(ProductService.class);
+        
+        when(mockProductService.addProduct("", new ArrayList<>(), 0.0, ""))
+            .thenThrow(IllegalArgumentException.class);
+        
+        // Calling the method to be tested
+        Product product = new Product("", new ArrayList<>(), 0.0, category);
+        ResponseEntity<Product> response = ResponseEntity.badRequest().body(product);
+        
+        // Assertion
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 }
