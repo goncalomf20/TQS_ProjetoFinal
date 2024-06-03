@@ -31,15 +31,13 @@ public class CheckoutController {
     private final OrderService orderService;
     private final ProductService productService;
     private final OrderRepo orderRepo;
+    private final SimpMessagingTemplate template;
 
-    @Autowired
-    private SimpMessagingTemplate template;
-
-    @Autowired
-    public CheckoutController(OrderService orderService, ProductService productService, OrderRepo orderRepo) {
+    public CheckoutController(OrderService orderService, ProductService productService, OrderRepo orderRepo, SimpMessagingTemplate template) {
         this.orderService = orderService;
         this.productService = productService;
         this.orderRepo = orderRepo;
+        this.template = template;
     }
 
 

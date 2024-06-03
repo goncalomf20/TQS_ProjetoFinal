@@ -7,7 +7,6 @@ import tqs_project.deticafe.model.Product;
 import tqs_project.deticafe.repository.CategoryRepo;
 import tqs_project.deticafe.repository.ProductRepo;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +16,25 @@ public class DataInitializer implements CommandLineRunner {
 
     private final CategoryRepo categoryRepository;
     private final ProductRepo productRepository;
+
+    // Constants for categories
+    private static final String DRINKS = "Drinks";
+    private static final String FOODS = "Foods";
+    private static final String SNACKS = "Snacks";
+    private static final String DESSERTS = "Desserts";
+    private static final String PASTRY = "Pastry";
+    private static final String COFFEE = "Coffee";
+    private static final String PROMOTIONS = "Promotions";
+
+    // Constants for ingredients
+    private static final String CHEESE = "cheese";
+    private static final String WATER = "water";
+    private static final String SUGAR = "sugar";
+    private static final String FLOUR = "flour";
+    private static final String LETTUCE = "lettuce";
+    private static final String CHOCOLATE = "chocolate";
+    private static final String BUTTER = "butter";
+    private static final String ESPRESSO = "espresso";
 
     public DataInitializer(CategoryRepo categoryRepository, ProductRepo productRepository) {
         this.categoryRepository = categoryRepository;
@@ -35,83 +53,65 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void initializeCategories() {
+        List<String> categoryNames = Arrays.asList(DRINKS, FOODS, SNACKS, DESSERTS, PASTRY, COFFEE, PROMOTIONS);
         List<Category> categories = new ArrayList<>();
-        categories.add(new Category("Drinks"));
-        categories.add(new Category("Foods"));
-        categories.add(new Category("Snacks"));
-        categories.add(new Category("Desserts"));
-        categories.add(new Category("Pastry"));
-        categories.add(new Category("Coffee"));
-        categories.add(new Category("Promotions"));
 
+        for (String name : categoryNames) {
+            categories.add(new Category(name));
+        }
 
         categoryRepository.saveAll(categories);
     }
 
     private void initializeProducts() {
+        List<ProductData> productDataList = Arrays.asList(
+            new ProductData("Ham and Cheese Croissant", Arrays.asList("croissant", "ham", CHEESE), 3.99, PASTRY),
+            new ProductData("Large Coffee", Arrays.asList("coffee", WATER, SUGAR), 1.99, COFFEE),
+            new ProductData("Pizza", Arrays.asList(CHEESE, "tomato sauce", FLOUR), 5.99, FOODS),
+            new ProductData("Salmon Sushi", Arrays.asList("salmon", "rice", "avocado"), 4.99, FOODS),
+            new ProductData("Cheeseburger", Arrays.asList(CHEESE, "tomato", LETTUCE), 3.99, FOODS),
+            new ProductData("Spaghetti and Meatballs", Arrays.asList("spaghetti", "tomato sauce", "meatballs"), 6.99, FOODS),
+            new ProductData("Tuna Sandwich", Arrays.asList(LETTUCE, "mayo", "tomato"), 4.99, FOODS),
+            new ProductData("Lemonade", Arrays.asList(WATER, "lemon", SUGAR), 2.50, DRINKS),
+            new ProductData("Cappuccino", Arrays.asList("milk", "coffee", "foam"), 2.99, COFFEE),
+            new ProductData("Fruit Smoothie", Arrays.asList("fruit mix", "yogurt", "honey"), 3.50, DRINKS),
+            new ProductData("Chocolate Cake", Arrays.asList(CHOCOLATE, "cream", SUGAR), 4.50, DESSERTS),
+            new ProductData("Peanut Butter Bars", Arrays.asList("peanuts", CHOCOLATE, "honey"), 2.99, SNACKS),
+            new ProductData("Butter Croissant", Arrays.asList("croissant", BUTTER, SUGAR), 2.99, PASTRY),
+            new ProductData("Shortbread Cookies", Arrays.asList(FLOUR, SUGAR, BUTTER), 3.99, SNACKS),
+            new ProductData("Ham and Cheese Baguette", Arrays.asList(CHEESE, "ham", "baguette"), 4.99, FOODS),
+            new ProductData("Turkey Sandwich", Arrays.asList("turkey", LETTUCE, "whole grain bread"), 4.50, FOODS),
+            new ProductData("Latte", Arrays.asList(ESPRESSO, "milk", "foam"), 3.99, COFFEE),
+            new ProductData("Americano", Arrays.asList(ESPRESSO, WATER), 2.50, COFFEE),
+            new ProductData("Mint Lemonade", Arrays.asList(WATER, "mint", "lemon"), 3.00, DRINKS),
+            new ProductData("Sparkling Lime Water", Arrays.asList("sparkling water", "lime", "mint"), 2.75, DRINKS),
+            new ProductData("Mocha", Arrays.asList(ESPRESSO, CHOCOLATE, "milk"), 3.50, COFFEE),
+            new ProductData("Caramel Macchiato", Arrays.asList(ESPRESSO, "milk", "caramel"), 3.99, COFFEE),
+            new ProductData("Chocolate Chip Cookies", Arrays.asList(FLOUR, "chocolate chips", BUTTER), 2.99, SNACKS),
+            new ProductData("Cinnamon Rolls", Arrays.asList(FLOUR, SUGAR, BUTTER, "cinnamon"), 3.99, PASTRY),
+            new ProductData("Chocolate Mousse", Arrays.asList(CHOCOLATE), 1.50, DESSERTS)
+        );
 
         List<Product> products = new ArrayList<>();
-
-        List<String> ingredients1 = Arrays.asList("croissant", "ham", "cheese");
-        List<String> ingredients2 = Arrays.asList("coffee", "water", "sugar");
-        List<String> ingredients3 = Arrays.asList("cheese", "tomato sauce", "flour");
-        List<String> ingredients4 = Arrays.asList("salmon", "rice", "avocado");
-        List<String> ingredients5 = Arrays.asList("cheese", "tomato", "lettuce");
-        List<String> ingredients6 = Arrays.asList("spaghetti", "tomato sauce", "meatballs");
-        List<String> ingredients7 = Arrays.asList("lettuce", "mayo", "tomato");
-        List<String> ingredients8 = Arrays.asList("water", "lemon", "sugar");
-        List<String> ingredients9 = Arrays.asList("milk", "coffee", "foam");
-        List<String> ingredients10 = Arrays.asList("fruit mix", "yogurt", "honey");
-        
-        products.add(new Product("Ham and Cheese Croissant", ingredients1, 3.99, categoryRepository.findByName("Pastry")));
-        products.add(new Product("Large Coffee", ingredients2, 1.99, categoryRepository.findByName("Coffee")));
-        products.add(new Product("Pizza", ingredients3, 5.99, categoryRepository.findByName("Foods")));
-        products.add(new Product("Salmon Sushi", ingredients4, 4.99, categoryRepository.findByName("Foods")));
-        products.add(new Product("Cheeseburger", ingredients5, 3.99, categoryRepository.findByName("Foods")));
-        products.add(new Product("Spaghetti and Meatballs", ingredients6, 6.99, categoryRepository.findByName("Foods")));
-        products.add(new Product("Tuna Sandwich", ingredients7, 4.99, categoryRepository.findByName("Foods")));
-
-        products.add(new Product("Lemonade", ingredients8, 2.50, categoryRepository.findByName("Drinks")));
-        products.add(new Product("Cappuccino", ingredients9, 2.99, categoryRepository.findByName("Coffee")));
-        products.add(new Product("Fruit Smoothie", ingredients10, 3.50, categoryRepository.findByName("Drinks")));
-
-        List<String> ingredients11 = Arrays.asList("chocolate", "cream", "sugar");
-        List<String> ingredients12 = Arrays.asList("peanuts", "chocolate", "honey");
-        products.add(new Product("Chocolate Cake", ingredients11, 4.50, categoryRepository.findByName("Desserts")));
-        products.add(new Product("Peanut Butter Bars", ingredients12, 2.99, categoryRepository.findByName("Snacks")));
-
-        List<String> ingredients13 = Arrays.asList("croissant", "butter", "sugar");
-        List<String> ingredients14 = Arrays.asList("flour", "sugar", "butter");
-        products.add(new Product("Butter Croissant", ingredients13, 2.99, categoryRepository.findByName("Pastry")));
-        products.add(new Product("Shortbread Cookies", ingredients14, 3.99, categoryRepository.findByName("Snacks")));
-
-        List<String> ingredients15 = Arrays.asList("cheese", "ham", "baguette");
-        List<String> ingredients16 = Arrays.asList("turkey", "lettuce", "whole grain bread");
-        products.add(new Product("Ham and Cheese Baguette", ingredients15, 4.99, categoryRepository.findByName("Foods")));
-        products.add(new Product("Turkey Sandwich", ingredients16, 4.50, categoryRepository.findByName("Foods")));
-
-        List<String> ingredients17 = Arrays.asList("espresso", "milk", "foam");
-        List<String> ingredients18 = Arrays.asList("espresso", "water");
-        products.add(new Product("Latte", ingredients17, 3.99, categoryRepository.findByName("Coffee")));
-        products.add(new Product("Americano", ingredients18, 2.50, categoryRepository.findByName("Coffee")));
-
-        List<String> ingredients19 = Arrays.asList("water", "mint", "lemon");
-        List<String> ingredients20 = Arrays.asList("sparkling water", "lime", "mint");
-        products.add(new Product("Mint Lemonade", ingredients19, 3.00, categoryRepository.findByName("Drinks")));
-        products.add(new Product("Sparkling Lime Water", ingredients20, 2.75, categoryRepository.findByName("Drinks")));
-
-        List<String> ingredients21 = Arrays.asList("espresso", "chocolate", "milk");
-        List<String> ingredients22 = Arrays.asList("espresso", "milk", "caramel");
-        products.add(new Product("Mocha", ingredients21, 3.50, categoryRepository.findByName("Coffee")));
-        products.add(new Product("Caramel Macchiato", ingredients22, 3.99, categoryRepository.findByName("Coffee")));
-
-        List<String> ingredients23 = Arrays.asList("flour", "chocolate chips", "butter");
-        List<String> ingredients24 = Arrays.asList("flour", "sugar", "butter", "cinnamon");
-        products.add(new Product("Chocolate Chip Cookies", ingredients23, 2.99, categoryRepository.findByName("Snacks")));
-        products.add(new Product("Cinnamon Rolls", ingredients24, 3.99, categoryRepository.findByName("Pastry")));
-        List<String> ingredients25 = Arrays.asList("chocolate");
-        products.add(new Product("Chocolate mousse", ingredients25, 1.50, categoryRepository.findByName("Desserts")));
+        for (ProductData data : productDataList) {
+            Category category = categoryRepository.findByName(data.categoryName);
+            products.add(new Product(data.name, data.ingredients, data.price, category));
+        }
 
         productRepository.saveAll(products);
+    }
+
+    private static class ProductData {
+        String name;
+        List<String> ingredients;
+        double price;
+        String categoryName;
+
+        ProductData(String name, List<String> ingredients, double price, String categoryName) {
+            this.name = name;
+            this.ingredients = ingredients;
+            this.price = price;
+            this.categoryName = categoryName;
+        }
     }
 }

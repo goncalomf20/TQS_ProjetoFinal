@@ -135,16 +135,18 @@ class OrderService_UnitTest {
 
     @Test
     void createOrderTestWithEmptyOrderDetails() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            orderService.createOrder(List.of());
-        });
-
-        String expectedMessage = "Order details list cannot be null or empty";
-        String actualMessage = exception.getMessage();
-        assertEquals(expectedMessage, actualMessage);
-
+        List<OrderDetails> emptyOrderDetails = List.of();
+    
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> 
+            orderService.createOrder(emptyOrderDetails)
+        );
+    
+        assertEquals("Order details list cannot be null or empty", exception.getMessage());
+    
         verify(orderRepo, times(0)).save(any(Order.class));
     }
+    
+    
 
     @Test
     void createOrderTestWithNullOrderDetails() {
