@@ -32,7 +32,7 @@ function App() {
       <Routes> 
         <Route path="/" element={<KioskSide cart={cart} addOnCart={handleAddToCart}/>} />
         <Route path="/waiting-screen" element={<WaitingScreen />} />
-        <Route path="/checkout" element={<Checkout cart={cart} />} />
+        <Route path="/checkout" element={<Checkout cart={cart} sCart={setCart}/>} />
         <Route path="/payment-choice" element={<PaymentChoice />} />
         <Route path="/pay-with-card" element={<CardPayment />} />
         <Route path="/kitchen" element={<Kitchen />} />
