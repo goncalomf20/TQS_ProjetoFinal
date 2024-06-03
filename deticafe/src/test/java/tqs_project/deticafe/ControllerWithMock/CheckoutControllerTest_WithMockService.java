@@ -116,4 +116,20 @@ public class CheckoutControllerTest_WithMockService {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.orderId").value(1));
     }
+
+    @Test
+    void testGetAllOrders() throws Exception {
+        List<Order> orders = new ArrayList<>();
+        Order order = new Order(new ArrayList<>());
+        order.setOrderId(1L);
+        order.setStatus(Status.PREPARING);
+        orders.add(order);
+
+        when(orderService.getAllOrders()).thenReturn(orders);
+
+        mockMvc.perform(get("/api/order/getAllOrders"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].orderId").value(1));
+    }
 }
