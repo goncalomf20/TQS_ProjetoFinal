@@ -29,76 +29,64 @@ import tqs_project.deticafe.service.impl.OrderServiceImpl;
 @ExtendWith(MockitoExtension.class)
 class OrderService_UnitTest {
 
-    @Mock(lenient=true)
-    private ProductRepo ProductRepo;
+    @Mock
+    private ProductRepo productRepo;
 
-    @Mock(lenient=true)
+    @Mock
     private OrderRepo orderRepo;
 
     @InjectMocks
     private OrderServiceImpl orderService;
 
+    private Product product1;
+    private Product product2;
+    private OrderDetails orderDetails1;
+    private OrderDetails orderDetails2;
+    private Order expectedOrder;
+
     @BeforeEach
     void setUp() {
-        long orderId = 456L;
-        Product product1 = new Product();
+        product1 = new Product();
         product1.setName("Cappuccino");
         product1.setPrice(2.5f);
         product1.setIngredients(List.of("Coffee", "Milk", "Sugar"));
 
-        Product product2 = new Product();
+        product2 = new Product();
         product2.setName("Tuna Sandwich");
         product2.setPrice(3.5f);
         product2.setIngredients(List.of("Tuna", "Bread", "Lettuce", "Tomato"));
 
-        OrderDetails orderDetails1 = new OrderDetails();
-        OrderDetails orderDetails2 = new OrderDetails();
+        orderDetails1 = new OrderDetails();
+        orderDetails2 = new OrderDetails();
         orderDetails1.setProduct(product1);
         orderDetails2.setProduct(product2);
 
-        Order expectedOrder = new Order(orderId, List.of(orderDetails1, orderDetails2));
-
-        when(orderRepo.findByOrderId(orderId)).thenReturn(expectedOrder);
-        when(orderRepo.findByOrderId(45L)).thenReturn(null);
+        expectedOrder = new Order(456L, List.of(orderDetails1, orderDetails2));
     }
 
     @Test
     void getOrderTest() {
-        long orderId = 456L;
+        when(orderRepo.findByOrderId(456L)).thenReturn(expectedOrder);
 
-        Product product1 = new Product();
-        product1.setName("Cappuccino");
-        product1.setPrice(2.5f);
-        product1.setIngredients(List.of("Coffee", "Milk", "Sugar"));
-
-        Product product2 = new Product();
-        product2.setName("Tuna Sandwich");
-        product2.setPrice(3.5f);
-        product2.setIngredients(List.of("Tuna", "Bread", "Lettuce", "Tomato"));
-
-        OrderDetails orderDetails1 = new OrderDetails();
-        OrderDetails orderDetails2 = new OrderDetails();
-        orderDetails1.setProduct(product1);
-        orderDetails2.setProduct(product2);
-
-        Order expectedOrder = new Order(orderId, List.of(orderDetails1, orderDetails2));
-
-        when(orderRepo.findByOrderId(orderId)).thenReturn(expectedOrder);
-
-        Order retrievedOrder = orderService.getOrder(orderId);
+        Order retrievedOrder = orderService.getOrder(456L);
         assertNotNull(retrievedOrder);
         assertEquals(456L, retrievedOrder.getOrderId());
+
+        verify(orderRepo, times(1)).findByOrderId(456L);
     }
 
     @Test
     void getOrderTestWithInvalidId() {
+        when(orderRepo.findByOrderId(45L)).thenReturn(null);
+
         Order retrievedOrder = orderService.getOrder(45L);
         assertEquals(null, retrievedOrder);
+
+        verify(orderRepo, times(1)).findByOrderId(45L);
     }
 
     @Test
     void saveOrderTest() {
-
         Order order = new Order();
         order.setOrderId(123L); 
 
@@ -113,12 +101,8 @@ class OrderService_UnitTest {
 
     @Test
     void createOrderTest() {
-
-        OrderDetails orderDetails1 = new OrderDetails();
-        OrderDetails orderDetails2 = new OrderDetails();
         List<OrderDetails> orderDetailsList = List.of(orderDetails1, orderDetails2);
 
-        
         doAnswer(invocation -> {
             Order order = invocation.getArgument(0);
             order.setOrderId(123L);
@@ -132,7 +116,6 @@ class OrderService_UnitTest {
         verify(orderRepo, times(1)).save(any(Order.class));
     }
 
-
     @Test
     void createOrderTestWithEmptyOrderDetails() {
         List<OrderDetails> emptyOrderDetails = List.of();
@@ -145,8 +128,6 @@ class OrderService_UnitTest {
     
         verify(orderRepo, times(0)).save(any(Order.class));
     }
-    
-    
 
     @Test
     void createOrderTestWithNullOrderDetails() {
@@ -163,9 +144,6 @@ class OrderService_UnitTest {
 
     @Test
     void getAllOrdersTest() {
-        OrderDetails orderDetails1 = new OrderDetails();
-        OrderDetails orderDetails2 = new OrderDetails();
-
         Order order1 = new Order(1L, List.of(orderDetails1));
         Order order2 = new Order(2L, List.of(orderDetails2));
 
@@ -183,5 +161,4 @@ class OrderService_UnitTest {
         orderService.deleteAllOrders();
         verify(orderRepo, times(1)).deleteAll();
     }
-    
 }

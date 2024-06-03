@@ -25,54 +25,53 @@ import tqs_project.deticafe.repository.CategoryRepo;
 import tqs_project.deticafe.repository.ProductRepo;
 import tqs_project.deticafe.service.impl.ProductServiceImpl;
 
-
 @ExtendWith(MockitoExtension.class)
 class ProductService_UnitTest {
     
-    @Mock(lenient=true)
+    @Mock
     private ProductRepo product_repository;
 
-    @Mock(lenient=true)
+    @Mock
     private CategoryRepo categoryRepo;
 
     @InjectMocks
     private ProductServiceImpl productService;
 
+    private Category coffeeCategory;
+    private Category pastryCategory;
+    private Product product1;
+    private Product product2;
+    private List<Product> products;
+
     @BeforeEach
     void setUp() {
-        Category coffeeCategory = new Category("Coffee");
-        Category pastryCategory = new Category("Pastry");
+        coffeeCategory = new Category("Coffee");
+        pastryCategory = new Category("Pastry");
 
-        Product product1 = new Product(1L, "Large Coffee", Arrays.asList("coffee", "water", "sugar"), 1.99, coffeeCategory);
-        Product product2 = new Product(2L, "Ham and Cheese Croissant", Arrays.asList("croissant", "ham", "cheese"), 3.99, pastryCategory);
+        product1 = new Product(1L, "Large Coffee", Arrays.asList("coffee", "water", "sugar"), 1.99, coffeeCategory);
+        product2 = new Product(2L, "Ham and Cheese Croissant", Arrays.asList("croissant", "ham", "cheese"), 3.99, pastryCategory);
 
-        List<Product> products = Arrays.asList(product1, product2);
-
-        when(product_repository.findByProductId(1L)).thenReturn(product1);
-        when(product_repository.findByProductId(2L)).thenReturn(product2);
-        when(product_repository.findByProductId(0L)).thenReturn(null);
-        when(product_repository.findByName("Large Coffee")).thenReturn(product1);
-        when(product_repository.findByName("Ham and Cheese Croissant")).thenReturn(product2);
-        when(product_repository.findAll()).thenReturn(products);
-        when(categoryRepo.findByName("Coffee")).thenReturn(coffeeCategory);
-        when(categoryRepo.findByName("Pastry")).thenReturn(pastryCategory);
-        when(categoryRepo.findByName("Invalid Category")).thenReturn(null);
+        products = Arrays.asList(product1, product2);
     }
-
 
     @Test
     @DisplayName("Test getProducts")
     void testGetProducts() {
+        when(product_repository.findAll()).thenReturn(products);
+
         List<Product> found = productService.getAllProducts();
         assertNotNull(found);
         assertEquals(2, found.size());
-    }
 
+        verify(product_repository, times(1)).findAll();
+    }
 
     @Test
     @DisplayName("Test getProductById with valid id")
     void testGetProductByIdValidId() {
         int id = 1;
+        when(product_repository.findByProductId(1L)).thenReturn(product1);
+
         Product found = productService.getProductById(id);
         assertNotNull(found);
         assertEquals(id, found.getProductId());
@@ -80,20 +79,28 @@ class ProductService_UnitTest {
         assertEquals(Arrays.asList("coffee", "water", "sugar"), found.getIngredients());
         assertEquals(1.99, found.getPrice());
         assertEquals("Coffee", found.getCategory().getName());
+
+        verify(product_repository, times(1)).findByProductId(1L);
     }
 
     @Test
     @DisplayName("Test getProductById with invalid id")
     void testGetProductByIdInvalidId() {
         int id = 0;
+        when(product_repository.findByProductId(0L)).thenReturn(null);
+
         Product found = productService.getProductById(id);
         assertEquals(null, found);
+
+        verify(product_repository, times(1)).findByProductId(0L);
     }
 
     @Test
     @DisplayName("Test getProductByName with valid name")
     void testGetProductByNameValidName() {
         String name = "Ham and Cheese Croissant";
+        when(product_repository.findByName(name)).thenReturn(product2);
+
         Product found = productService.getProductByName(name);
         assertNotNull(found);
         assertEquals(name, found.getName());
@@ -101,14 +108,20 @@ class ProductService_UnitTest {
         assertEquals(Arrays.asList("croissant", "ham", "cheese"), found.getIngredients());
         assertEquals(3.99, found.getPrice());
         assertEquals("Pastry", found.getCategory().getName());
+
+        verify(product_repository, times(1)).findByName(name);
     }
 
     @Test
     @DisplayName("Test getProductByName with invalid name")
     void testGetProductByNameInvalidName() {
         String name = "Invalid Product";
+        when(product_repository.findByName(name)).thenReturn(null);
+
         Product found = productService.getProductByName(name);
         assertEquals(null, found);
+
+        verify(product_repository, times(1)).findByName(name);
     }
 
     @Test
@@ -119,6 +132,7 @@ class ProductService_UnitTest {
         double price = 2.99;
         String categoryName = "Coffee";
 
+        when(categoryRepo.findByName(categoryName)).thenReturn(coffeeCategory);
         when(product_repository.save(any(Product.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         Product addedProduct = productService.addProduct(name, description, price, categoryName);
@@ -129,6 +143,7 @@ class ProductService_UnitTest {
         assertEquals(price, addedProduct.getPrice());
         assertEquals(categoryName, addedProduct.getCategory().getName());
 
+        verify(categoryRepo, times(1)).findByName(categoryName);
         verify(product_repository, times(1)).save(any(Product.class));
     }
 
@@ -140,6 +155,8 @@ class ProductService_UnitTest {
         double price = 1.99;
         String categoryName = "Invalid Category";
 
+        when(categoryRepo.findByName(categoryName)).thenReturn(null);
+
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             productService.addProduct(name, description, price, categoryName);
         });
@@ -148,6 +165,7 @@ class ProductService_UnitTest {
         String actualMessage = exception.getMessage();
         assertEquals(expectedMessage, actualMessage);
 
+        verify(categoryRepo, times(1)).findByName(categoryName);
         verify(product_repository, times(0)).save(any(Product.class));
     }
 }
