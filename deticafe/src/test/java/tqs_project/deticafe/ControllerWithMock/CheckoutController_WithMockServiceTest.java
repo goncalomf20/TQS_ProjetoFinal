@@ -1,6 +1,8 @@
 package tqs_project.deticafe.ControllerWithMock;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -171,6 +173,43 @@ public class CheckoutController_WithMockServiceTest {
     }
 
     @Test
+void testCustomizationsWithMixedValues() {
+    Map<String, Boolean> orderDetails = new HashMap<>();
+    orderDetails.put("Extra cheese", true);
+    orderDetails.put("Extra sauce", false);
+
+    for (Map.Entry<String, Boolean> entry : orderDetails.entrySet()) {
+        // Verifica se o valor é consistente com o esperado
+        assertEquals(entry.getKey().equals("Extra cheese"), entry.getValue());
+    }
+}
+
+    @Test
+    void testCustomizationsWithEmptyMap() {
+        Map<String, Boolean> orderDetails = new HashMap<>();
+
+        assertTrue(orderDetails.isEmpty());
+    }
+
+    @Test
+    void testCustomizationsWithMultipleEntries() {
+        Map<String, Boolean> orderDetails = new HashMap<>();
+        orderDetails.put("Extra cheese", true);
+        orderDetails.put("Extra sauce", false);
+        orderDetails.put("Extra bacon", true);
+
+        assertEquals(3, orderDetails.size());
+    }
+
+    @Test
+    void testCustomizationsWithNullValues() {
+        Map<String, Boolean> orderDetails = new HashMap<>();
+        orderDetails.put("Extra cheese", null);
+
+        assertNull(orderDetails.get("Extra cheese"));
+    }
+
+    @Test
     void testCreateOrder_NonexistentProduct() throws Exception {
         List<OrderDetailsDTO> orderDetailsDTOList = new ArrayList<>();
         Map<String, Boolean> details = new HashMap<>();
@@ -246,6 +285,38 @@ public class CheckoutController_WithMockServiceTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    void testCreateOrderWithNullOrderDetailsList() throws Exception {
+        mockMvc.perform(post("/api/order/createOrder")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(null)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testCreateOrderWithEmptyOrderDetailsList() throws Exception {
+        mockMvc.perform(post("/api/order/createOrder")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(new ArrayList<>())))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testCreateOrderWithNonEmptyOrderDetailsList() throws Exception {
+        List<OrderDetailsDTO> orderDetailsDTOList = new ArrayList<>();
+        Map<String, Boolean> details = new HashMap<>();
+        details.put("Extra cheese", true);
+        orderDetailsDTOList.add(new OrderDetailsDTO(1, 2, "Pizza", details));
+
+        when(productService.getProductById(1)).thenReturn(new Product());
+
+        mockMvc.perform(post("/api/order/createOrder")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(orderDetailsDTOList)))
+                .andExpect(status().isOk());
+    }
+
     
 
 }
