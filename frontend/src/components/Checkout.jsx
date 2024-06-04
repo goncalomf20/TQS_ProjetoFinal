@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import PaymentChoice from './PaymentChoice'; // Import the PaymentChoice component
 
-export function Checkout({ cart }) {
+export function Checkout({ cart , sCart }) {
   const [cartState, setCart] = useState(cart);
   const [showPayment, setShowPayment] = useState(false);
   const [orderId, setOrderId] = useState(null);
@@ -41,6 +41,7 @@ export function Checkout({ cart }) {
         console.log('Cart posted successfully');
         setOrderId(await response.json());
         setShowPayment(true); // Show PaymentChoice component after successful post
+        ;
       } else {
         // Error posting cart
         console.error('Error posting cart');
@@ -52,6 +53,7 @@ export function Checkout({ cart }) {
 
   const handleClick = () => {
     postCart();
+    sCart([]);
   };
 
   return (
@@ -125,7 +127,7 @@ export function Checkout({ cart }) {
           </button>
         </>
       ) : (
-        <PaymentChoice total_price={calculateTotal()} orderId={orderId} /> // Pass the cart state to PaymentChoice component
+        <PaymentChoice setCart={setCart} total_price={calculateTotal()} orderId={orderId} /> // Pass the cart state to PaymentChoice component
       )}
     </div>
   );

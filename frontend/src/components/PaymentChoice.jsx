@@ -5,7 +5,7 @@ import cardImage from '../assets/credit-card.jpg'; // Correct the path based on 
 import Receipt from './Receipt';
 import CardPayment from './CardPayment';
 
-export function PaymentChoice({ total_price , orderId }) {
+export function PaymentChoice({ total_price , orderId , setCart}) {
   const navigate = useNavigate();
   const [showReceipt, setShowReceipt] = React.useState(false);
   const [showCardPayment, setShowCardPayment] = React.useState(false);
@@ -14,6 +14,7 @@ export function PaymentChoice({ total_price , orderId }) {
     setShowReceipt(true);
     setTimeout(() => {
       setShowReceipt(false);
+      setCart([]); // Clear the cart after payment
       navigate('/');
     }, 15000);
   };
@@ -63,7 +64,7 @@ export function PaymentChoice({ total_price , orderId }) {
         <Receipt total_price={total_price} orderId={orderId}></Receipt>
       )}
       {showCardPayment && (
-        <CardPayment total_price={total_price} orderId={orderId}></CardPayment>  
+        <CardPayment setCart={setCart} total_price={total_price} orderId={orderId}></CardPayment>  
       )}
     </div>
   );

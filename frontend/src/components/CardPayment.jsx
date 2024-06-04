@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Receipt from './Receipt';
 
-const CardPayment = ({ total_price , orderId}) => {
+const CardPayment = ({ total_price , orderId , setCart}) => {
   const [cardDetails, setCardDetails] = useState({
     cardholderName: '',
     cardNumber: '',
@@ -27,6 +27,7 @@ const CardPayment = ({ total_price , orderId}) => {
     setShowReceipt(true);
     setTimeout(() => {
       setShowReceipt(false);
+      setCart([]);
       navigate('/');
     }, 15000);
 
