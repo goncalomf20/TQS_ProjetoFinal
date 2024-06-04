@@ -66,9 +66,6 @@ const Kitchen = () => {
           <div key={order.orderId} className="bg-white rounded-lg shadow-md p-4 m-4 w-72">
             <div style={{ color: 'black' }} className="text-lg mb-2">{order.orderId}</div>
             <div style={{ color: 'black' }} className="text-sm mb-2">
-              {order.orderDetails.map((item) => (
-                <div key={item.name}>{item.name} x {item.quantity}</div>
-              ))}
             </div>
             <button className="bg-gray-200 text-black py-2 px-4 rounded-md hover:bg-gray-300" onClick={() => handleOrderReady(order.orderId)}>Mark as Ready</button>
           </div>

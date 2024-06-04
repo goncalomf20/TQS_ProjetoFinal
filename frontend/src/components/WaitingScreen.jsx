@@ -21,6 +21,7 @@ export function WaitingScreen() {
           console.log('Order received:', order);
 
           if (order.status === 'PREPARING') {
+            setReadyOrders((prev) => prev.filter(o => o.orderId !== order.orderId));
             setPendingOrders((prev) => {
               if (!prev.some(o => o.orderId === order.orderId)) {
                 return [...prev, order];
@@ -35,6 +36,10 @@ export function WaitingScreen() {
               }
               return prev;
             });
+          }
+          else if (order.status === 'DELIVERED') {
+            setPendingOrders((prev) => prev.filter(o => o.orderId !== order.orderId));
+            setReadyOrders((prev) => prev.filter(o => o.orderId !== order.orderId));
           }
         });
         setClient(stompClient);
