@@ -12,6 +12,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.JavascriptExecutor;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.*;
 
 class TestcreateOrderSelenium {
@@ -39,6 +41,8 @@ class TestcreateOrderSelenium {
     vars.put("newWindow", driver.getWindowHandle());
     vars.put("win_ser_2", driver.getWindowHandle());
     driver.switchTo().window(vars.get("firstWindow").toString());
+    String pageTitle = driver.getTitle();
+    assertEquals("Deti cafe", pageTitle);
     driver.findElement(By.linkText("Drinks")).click();
     driver.findElement(By.cssSelector(".max-w-sm:nth-child(1) .mt-4")).click();
     {
