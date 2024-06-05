@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.*;
 
-class createOrderSelenium {
+class createOrderSeleniumTest {
   private WebDriver driver;
   private Map<String, Object> vars;
   JavascriptExecutor js;
